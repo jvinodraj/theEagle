@@ -3,7 +3,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 # Path to the .fit file
-fit_file_path = r"C:\Users\a717631\Downloads\fit_files\18076803329_ACTIVITY.fit"
+fit_file_path = r"C:\Users\username\Downloads\fit_files\18076803329_ACTIVITY.fit"
 
 # Parse the .fit file
 fitfile = fitparse.FitFile(fit_file_path)
