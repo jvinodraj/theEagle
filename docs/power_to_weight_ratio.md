@@ -10,17 +10,12 @@ The **Power-to-Weight Ratio (PWR)** is a measure of how much power you can gener
 
 The formula to calculate PWR is:
 
-\[
-\text{PWR} = \frac{\text{Average Power (in watts)}}{\text{Body Weight (in kg)}}
-\]
+`PWR = Average Power (watts) / Body Weight (kg)`
 
 ### Example:
 If your average power is **300 watts** and your body weight is **70 kg**, the calculation would be:
 
-\[
-\text{PWR} = \frac{300}{70} = 4.29 \, \text{watts per kilogram (W/kg)}
-\]
-
+PWR = 300 watts / 70 kg = 4.29 watts per kg
 ---
 
 ## Why is PWR Important?
