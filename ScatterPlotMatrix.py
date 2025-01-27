@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 from fitparse import FitFile
 
 # Load the FIT file
-fit_file_path =  r"C:\Users\a717631\Downloads\18111378159_ACTIVITY.fit"  # Replace with your FIT file path
+fit_file_path =  r"C:\Users\username\Downloads\18111378159_ACTIVITY.fit"  # Replace with your FIT file path
 fit_file = FitFile(fit_file_path)
 
 # User's weight in kilograms
