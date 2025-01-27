@@ -58,9 +58,6 @@ You can adjust:
 ## Contributing
 Contributions are welcome! Feel free to fork the repository and submit a pull request for enhancements or bug fixes.
 
-## License
-This project is licensed under the MIT License. See the `LICENSE` file for details.
-
 ## Questions?
-If you have any questions or suggestions, feel free to open an issue or reach out via [your contact information or email].
+If you have any questions or suggestions, feel free to open an issue or reach out via [vinodraj.j@gmail.com].
 
