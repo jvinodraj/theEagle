@@ -2,35 +2,38 @@
 
 ## What is Power-to-Weight Ratio?
 
-The **Power-to-Weight Ratio (PWR)** is a key metric used in endurance sports, especially running and cycling. It measures how much power you can generate relative to your body weight. The higher your PWR, the more efficient you are at converting energy into movement.
+The **Power-to-Weight Ratio (PWR)** is a measure of how much power you can generate relative to your body weight. It’s widely used in endurance sports like running and cycling to assess efficiency and performance.
 
-## Why is it Important?
+---
 
-A high Power-to-Weight Ratio allows athletes to perform better, particularly in endurance activities that involve hills or long distances. It indicates that you are lighter while still maintaining good power output, which leads to improved speed and efficiency.
+## Formula
 
-## How is it Calculated?
+The formula to calculate PWR is:
 
-Power-to-Weight Ratio is calculated by dividing your **average power output** by your **body weight**.
-
-### Formula:  
 \[
 \text{PWR} = \frac{\text{Average Power (in watts)}}{\text{Body Weight (in kg)}}
 \]
 
-For example:  
-If you generate an average power of **300 watts** and your body weight is **70 kg**, the calculation would be:  
+### Example:
+If your average power is **300 watts** and your body weight is **70 kg**, the calculation would be:
+
 \[
-\text{PWR} = \frac{300 \, \text{watts}}{70 \, \text{kg}} = 4.29 \, \text{watts per kg}
+\text{PWR} = \frac{300}{70} = 4.29 \, \text{watts per kilogram (W/kg)}
 \]
 
-### What Does This Tell You?
+---
 
-- A **higher PWR** means you are producing more power relative to your body weight, which is often a sign of better performance.
-- **Lower PWR** means more effort may be required for the same activity.
+## Why is PWR Important?
 
-## How to Improve Power-to-Weight Ratio?
+A higher Power-to-Weight Ratio means you are more efficient and better at converting power into performance, which is especially important when climbing hills or running long distances.
 
-To improve your Power-to-Weight Ratio, you can:
-1. **Increase Power Output** – This can be done through strength training and sports-specific workouts.
-2. **Reduce Weight** – By focusing on a healthy diet and training, you can lose excess weight and improve your ratio.
+---
 
+## How to Improve PWR?
+
+- **Increase Power Output:** Through strength training and focused workouts.
+- **Reduce Body Weight:** In a healthy way, without compromising performance.
+
+---
+
+Check out more insights in the [main repository](../README.md).
