@@ -52,7 +52,7 @@ def export_to_excel(fit_files_dir, weight_kg, output_excel):
 
 # Example usage
 if __name__ == "__main__":
-    fit_files_directory = r"C:\Users\a717631\Downloads\fit_files"  # Replace with your .fit file directory
+    fit_files_directory = r"C:\Users\username\Downloads\fit_files"  # Replace with your .fit file directory
     body_weight_kg = 72  # Replace with your weight in kilograms
     output_file = "garmin_data.xlsx"
 
