@@ -43,3 +43,52 @@ This document provides detailed metrics, purposes, intensity levels, and formula
    - Zone 5: 90-100% of Max HR  
 
    **Example Max HR Formula:**  
+
+   `Max HR = 220 - Age`
+
+
+---
+
+### 3. **Cadence (SPM):**
+Higher cadence reduces overstriding and improves efficiency. Aim for 160–180 spm depending on the run type.
+
+---
+
+### 4. **Vertical Oscillation (VO):**
+Reduce VO for more efficient running:
+- Easy Runs: ~7-10 cm  
+- Speed Work: ~6-8 cm  
+
+---
+
+### 5. **Ground Contact Time (GCT):**
+Lower GCT indicates faster leg turnover and efficiency:
+- Easy Runs: ~250–300 ms  
+- Speed Work: ~180–220 ms  
+
+---
+
+### 6. **Stride Length (SL):**
+Adjust stride length naturally with speed and cadence:
+
+`Stride Length (m) = (Speed (m/s) / Cadence (spm)) × 60`
+
+
+---
+
+## Order of Focus for Improvement
+
+1. **Cadence:** A cornerstone metric for all run types; improves form and reduces overstriding.  
+2. **Pace Control:** Key for progression runs, tempo, and race simulations.  
+3. **HR Zones:** Maintain proper intensity to target aerobic or anaerobic systems.  
+4. **Stride Efficiency:** Combine cadence and stride length for optimal forward motion.  
+5. **VO and GCT:** Advanced metrics to refine form and minimize energy waste.  
+
+---
+
+Feel free to use this document to track your training progress and make data-driven improvements in your running. If you have suggestions or improvements, feel free to contribute!  
+
+---
+
+**Contributions welcome!**  
+Check out other running-related resources and tools on this repository. Happy running! 🏃‍♂️
