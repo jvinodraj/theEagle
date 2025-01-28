@@ -64,27 +64,26 @@ If your **HRmax = 190 BPM**, the target heart rate for intervals is:
 1. Start with 4×4 intervals and gradually increase the number of intervals as your fitness improves.
 2. You can also reduce recovery time (e.g., from 3 minutes to 2 minutes) as your endurance builds.
 
-- Week 1–2: 4×4 minutes (3-minute recovery).
-- Week 3–4: 5×4 minutes (3-minute recovery).
-- Week 5–6: 6×4 minutes (2.5-minute recovery).
+   - Week 1–2: 4×4 minutes (3-minute recovery).
+   - Week 3–4: 5×4 minutes (3-minute recovery).
+   - Week 5–6: 6×4 minutes (2.5-minute recovery).
 
 ---
 
 ## **Alternative HIIT Variations**
 1. **Short Intervals:**
-
-- 10×1 minute at 95–100% HRmax with 1-minute recovery jogs.
-- Ideal for building speed and anaerobic capacity.
+   - 10×1 minute at 95–100% HRmax with 1-minute recovery jogs.
+   - Ideal for building speed and anaerobic capacity.
 
 2. **Pyramid Intervals:**
 
-- Run intervals of 1, 2, 3, 4, 3, 2, 1 minutes at 90–95% HRmax, with equal recovery time.
-- Great for adding variety and challenge.
+   - Run intervals of 1, 2, 3, 4, 3, 2, 1 minutes at 90–95% HRmax, with equal recovery time.
+   - Great for adding variety and challenge.
 
 3. **Hill Intervals:**
 
-- Run 6–8×60 seconds up a moderate hill at Zone 5 effort, with an easy jog back down for recovery.
-- Builds power and strength in the legs.
+   - Run 6–8×60 seconds up a moderate hill at Zone 5 effort, with an easy jog back down for recovery.
+   - Builds power and strength in the legs.
 
 ---
 ## **When to Schedule HIIT**
@@ -106,5 +105,12 @@ If your **HRmax = 190 BPM**, the target heart rate for intervals is:
 
 ---
 
+## **Things to Watch Out For**
+1. **Signs of Overtraining:**
+   - Persistent fatigue, higher resting HR, or poor recovery indicate it's time to scale back.
+2. **Hydration and Nutrition:**
+   - Ensure you're adequately hydrated before the session and consume a carb-rich snack ~30 minutes prior for energy.
+
+---
 **For More Running Insights:**  
 Explore additional running analysis tools and workouts on my GitHub repository: [TheEagle](https://github.com/jvinodraj/theEagle)
