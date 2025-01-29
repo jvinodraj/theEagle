@@ -47,6 +47,42 @@ If this individual engages in the following activities over a week:
 
 This total falls within the optimal range for a VO₂ Max of 60, indicating a balanced training load.
 
+---
+### **Another Calculation Example for VO2 Max of 70: Running + Body Weight Training**  
+
+Let's consider an individual with the following profile:  
+
+- **VO₂ Max:** 70  
+- **Optimal Acute Load Range:** 1,800 – 2,500  
+- **Body Weight:** 72 kg  
+- **Training Schedule for 7 Days:**  
+
+| **Workout Type**     | **Sessions** | **Load per Session** | **Total Load Contribution** |
+|----------------------|-------------|----------------------|-----------------------------|
+| **Long Run (15 km, Zone 2)**  | 1 | 450 | 450 |
+| **Tempo Run (8 km, Zone 3-4)** | 1 | 350 | 350 |
+| **Intervals (4×4 min at 90-95% HRmax)** | 1 | 400 | 400 |
+| **Hill Repeats (8×30s steep hills)** | 1 | 300 | 300 |
+| **Bodyweight Strength Training (Calisthenics, 45 min)** | 2 | 150 | 300 |
+| **Recovery Run (6 km, Zone 1-2)** | 1 | 150 | 150 |
+| **Total Training Load for 7 Days** | - | - | **1,950** |
+
+### **Explanation:**  
+
+- **Long Runs** contribute more load due to duration but are lower in intensity (Zone 2).  
+- **Tempo & Interval Workouts** add significant load due to higher intensity (Zones 3-4).  
+- **Hill Repeats** induce additional muscular and cardiovascular stress, adding to the load.  
+- **Strength Training** (Bodyweight exercises like push-ups, squats, lunges) also contribute to training load but at a lower level.  
+- **Recovery Runs** help in active recovery while still contributing to overall load.  
+
+### **Final Assessment:**  
+
+- **Total Acute Load (1,950) is within the optimal range (1,800 – 2,500) for a VO₂ Max of 70.**  
+- The training distribution balances endurance, speed, strength, and recovery well.  
+- This ensures progressive overload without overtraining, helping VO₂ Max improvement.  
+
+---
+
 ### Studies on Training Load and VO₂ Max
 
 Research has explored the relationship between training intensity, load, and VO₂ Max improvements. For instance:
