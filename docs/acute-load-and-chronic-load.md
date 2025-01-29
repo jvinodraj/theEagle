@@ -1,6 +1,6 @@
 ### Understanding Acute Load and Chronic Load
 
-**Acute Load** refers to the short-term training load, typically calculated over a recent period (e.g., 7 days). It represents the sum of the training stress from your workouts during this timeframe. ([support.garmin.com](https://support.garmin.com/en-US/?faq=C6iHdy0SS05RkoSVbFz066&utm_source=chatgpt.com))
+**Acute Load** refers to the short-term training load, typically calculated over a recent period (e.g., 7 days). It represents the sum of the training stress from your workouts during this timeframe. ([support.garmin.com](https://support.garmin.com/en-US/?faq=C6iHdy0SS05RkoSVbFz066))
 
 **Chronic Load**, on the other hand, represents the long-term training load, often calculated over an extended period (e.g., 28 days). It reflects the cumulative training stress over this longer duration, providing insight into your overall fitness and adaptation levels.
 
@@ -51,9 +51,9 @@ This total falls within the optimal range for a VO₂ Max of 60, indicating a ba
 
 Research has explored the relationship between training intensity, load, and VO₂ Max improvements. For instance:
 
-- A systematic review found that exercise training at various intensities increases VO₂ Max, which is a strong predictor of cardiovascular and all-cause mortality. ([pmc.ncbi.nlm.nih.gov](https://pmc.ncbi.nlm.nih.gov/articles/PMC4836566/?utm_source=chatgpt.com))
+- A systematic review found that exercise training at various intensities increases VO₂ Max, which is a strong predictor of cardiovascular and all-cause mortality. ([pmc.ncbi.nlm.nih.gov](https://pmc.ncbi.nlm.nih.gov/articles/PMC4836566/))
 
-- Another study examined the effects of high-intensity interval training (HIIT) on VO₂ Max and found significant improvements, highlighting the importance of training intensity in enhancing aerobic capacity. ([journals.plos.org](https://journals.plos.org/plosone/article?id=10.1371%2Fjournal.pone.0073182&utm_source=chatgpt.com))
+- Another study examined the effects of high-intensity interval training (HIIT) on VO₂ Max and found significant improvements, highlighting the importance of training intensity in enhancing aerobic capacity. ([journals.plos.org](https://journals.plos.org/plosone/article?id=10.1371%2Fjournal.pone.0073182))
 
 These studies underscore the importance of appropriately managing both Acute and Chronic Loads to optimize VO₂ Max and overall fitness.
 
