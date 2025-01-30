@@ -37,6 +37,23 @@
 - **Your Current LTHR:** check yours from fitness app (ex: 175 bpm)
 - **Goal:** Improve pace at LTHR with Zone 2 & tempo runs
 
+The **optimal range for Lactate Threshold Heart Rate (LTHR)** varies based on fitness level and training background. It is typically:  
+
+  - **Untrained Individuals**: 70–80% of Max Heart Rate (HRmax)  
+  - **Recreational Runners**: 80–85% of HRmax  
+  - **Elite Endurance Athletes**: 85–90% of HRmax  
+
+#### **Formula to Estimate LTHR**  
+A common way to estimate LTHR is:  
+`LTHR = HRmax * (0.80 to 0.90)`
+
+Where **HRmax** is your maximum heart rate.
+
+#### **Example Calculation**
+If your **HRmax is 190 bpm**:
+
+`LTHR = 190 * 0.85 = 161.5 bpm`
+
 ### **8. VO2 Max (Aerobic Capacity)**
 - **Your Current VO2 Max:** check your fitness app (ex: 50 ml/kg/min)
 - **Target:** 60+ ml/kg/min (Elite Level)
