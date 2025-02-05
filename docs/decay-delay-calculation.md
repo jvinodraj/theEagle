@@ -1,6 +1,8 @@
 ### **Formula for Load Focus Points Regression**  
 
-Your **training load focus points** (anaerobic, high aerobic, and low aerobic) **decay over time** due to fitness detraining. Garmin typically follows an **exponential decay model**, meaning older training sessions contribute less to your load score.  
+Your **training load focus points** (anaerobic, high aerobic, and low aerobic) **decay over time** due to fitness detraining. Garmin typically follows an **exponential decay model**, meaning older training sessions contribute less to your load score. 
+
+`Note: This is a single case study, and the findings may not be universally applicable. Further validation is needed to confirm if this pattern holds consistently.`
 
 The **exponential decay formula** is:  
 
@@ -54,7 +56,7 @@ $$L_3 = L_0 \times e^{-k(3)}$$
 
 ## **Training Zone Decay Table**
 
-| **Training Type**  | **Decay Delay (Days)** | **Decay Rate (% per day)** | **Initial Points** | **Activated Muscle Groups** | **Key Hormones** |
+| **Training Type**  | **Decay Delay (Days)** | **Decay Rate (% per day)** | **Initial Load** | **Activated Muscle Groups** | **Key Hormones** |
 |-------------------|------------------|------------------|----------------|-------------------------|----------------|
 | **Low Aerobic**  | 3                | 2.45%            | 918            | Slow-twitch (Type I) fibers, Core, Calves, Hamstrings | Cortisol (stress regulation), Endorphins (mood boost), Insulin (energy balance) |
 | **High Aerobic** | 3                | 10.6%            | 840            | Slow-twitch & Fast-twitch (Type I & Type IIa) fibers, Quads, Glutes, Hip flexors | Growth Hormone (muscle repair), Adrenaline (energy mobilization), Cortisol |
