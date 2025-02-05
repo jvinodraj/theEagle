@@ -20,11 +20,11 @@ Where:
 
 Here are the screenshots from Garmin illustrating the Load Focus data:
 
-![Garmin Screenshot 1](images/Feb1.png)
+![Garmin Screenshot 1](../images/Feb1.png)
 
-![Garmin Screenshot 2](images/Feb3.jpg)
+![Garmin Screenshot 2](../images/Feb3.jpg)
 
-![Decay-Rate](images/Decay-rate.png)
+![Decay-Rate](../images/Decay-rate.png)
 
 ## Calculated Values
 
