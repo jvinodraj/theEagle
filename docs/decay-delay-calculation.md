@@ -2,7 +2,7 @@
 
 Your **training load focus points** (anaerobic, high aerobic, and low aerobic) **decay over time** due to fitness detraining. Garmin typically follows an **exponential decay model**, meaning older training sessions contribute less to your load score. 
 
-`Note: This is a single case study, and the findings may not be universally applicable. Further validation is needed to confirm if this pattern holds consistently.`
+`Note: This is a single case study, and the findings may not be universally applicable. Further validation is needed to confirm if this pattern holds consistency.`
 
 The **exponential decay formula** is:  
 
