@@ -6,16 +6,6 @@ Python-based tool to analyze Garmin FIT files for running performance metrics. I
 
 This repository contains a Python script to analyze running data from Garmin FIT files and visualize the relationship between power and heart rate zones using a box plot. The script leverages the FIT file format to extract performance metrics such as heart rate, power, cadence, and more.
 
-## Features
-- Parse Garmin FIT file data using `fitparse`.
-- Classify heart rate values into predefined zones:
-  - **Zone 1**: 97-115 bpm
-  - **Zone 2**: 116-134 bpm
-  - **Zone 3**: 135-153 bpm
-  - **Zone 4**: 154-173 bpm
-  - **Zone 5**: >173 bpm
-- Create a box plot to visualize the distribution of power across heart rate zones.
-
 ## Installation
 1. Clone this repository:
     ```bash
