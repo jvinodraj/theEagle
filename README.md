@@ -33,7 +33,7 @@ The box plot visualizes the power (Watts) distribution for each heart rate zone:
 - **X-Axis**: Heart rate zones (Zone 1 to Zone 5).
 - **Y-Axis**: Power output (Watts).
 
-![Sample Box Plot](path/to/sample_plot.png)  
+![Sample Box Plot](images/BoxPlot.png)  
 
 ## Data Fields Used
 - **Heart Rate**: Recorded heart rate (bpm).
