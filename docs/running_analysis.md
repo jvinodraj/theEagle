@@ -57,9 +57,17 @@ A **bar chart** showing **HRR per run** (x-axis: run index, y-axis: HRR in bpm).
 RE evaluates **energy efficiency in running**, linking power, pace, and oxygen consumption.  
 
 ### **Formula:**  
+Running Economy is typically calculated as:
+
 $$
-RE = \text{Power (W)} \times \text{Pace (min/km)}
+RE = \frac{\text{Power Output (W)}}{\text{Pace (m/s)}}
 $$
+
+where:
+- **Power Output (W):** The energy output measured in watts.  
+- **Pace (m/s):** The speed of running in meters per second (converted from GPS speed). 
+
+
 
 ### **Benchmark Values:**  
 | Runner Type  | RE (W·min/km)  |
@@ -69,9 +77,25 @@ $$
 | Advanced   | 100 - 150     |
 | Elite      | < 100         |
 
-### **Interpreting Trends:**  
-✔ **Lower RE** → More efficient running.  
-❌ **Higher RE** → Inefficiency, excessive energy use.  
+### **Changes & Features Added:**
+✅ **Boxplot Chart for Running Economy:**  
+- Shows **variation in RE** per date.
+- Helps **identify outliers** and trends.
+
+✅ **Efficiency Factor (EF) Remains Unchanged:**  
+- Plotted as a **line chart** over time.
+
+✅ **File Names for Charts:**  
+- `efficiency_factor_easy_runs.png`
+- `running_economy_easy_runs.png`
+
+### **How to Interpret the Running Economy Chart:**
+📌 **Lower RE:** More efficient running (less power used for given speed).  
+📌 **Higher RE:** Less efficient running (more power needed).  
+📌 **Tight Boxplot:** Consistent efficiency across a day.  
+📌 **Wider Boxplot:** Large variability in efficiency across a day.  
+
+This will give you deeper insights into how efficient you are running **at different speeds and power levels** over time. 
 
 ### **Graph:**  
 A **scatter plot** of **RE vs. run index** to track efficiency changes.  
