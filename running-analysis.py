@@ -12,6 +12,12 @@ easy_run_folder = "easy_runs/"
 save_chart_folder = "charts/"
 os.makedirs(save_chart_folder, exist_ok=True)
 
+# Change the font to one that supports more characters (like 'Arial')
+# plt.rcParams["font.family"] = "Arial"
+# plt.rcParams["font.family"] = "Arial Unicode MS"
+# Reset to default font settings
+plt.rcParams["font.family"] = plt.rcParamsDefault["font.family"]
+
 class RunningAnalysis:
     def __init__(self, folder_path, run_type):
         self.folder_path = folder_path
@@ -77,25 +83,81 @@ class RunningAnalysis:
         ef_values = [np.mean(date_ef_map[date]) for date in sorted_dates]  # Mean EF for each date
         ef_min = [np.min(date_ef_map[date]) for date in sorted_dates]
         ef_max = [np.max(date_ef_map[date]) for date in sorted_dates]
-
-        plt.figure(figsize=(10, 6))
+    
+        plt.figure(figsize=(12, 7))
+        
+        # Plot EF values and shaded region for min-max range
         plt.plot(sorted_dates, ef_values, marker="o", linestyle="-", color="b", label="Avg Efficiency Factor")
         plt.fill_between(sorted_dates, ef_min, ef_max, color="blue", alpha=0.2, label="Min-Max Range")
+    
+        # Add grid and labels
         plt.xticks(rotation=45)
-        plt.title(title)
-        plt.xlabel(xlabel)
-        plt.ylabel(ylabel)
+        plt.title(title, fontsize=14, fontweight="bold")
+        plt.xlabel(xlabel, fontsize=12)
+        plt.ylabel(ylabel, fontsize=12)
         plt.legend()
-        plt.grid(True)
-        plt.savefig(os.path.join(save_chart_folder, filename))
+        plt.grid(True, linestyle="--", alpha=0.6)
+    
+        # Legend 1: Interpreting Trends
+        trend_text = "✔ Increasing EF → Improved aerobic efficiency.\n ❌ Decreasing EF → Overtraining, fatigue, or inefficiency."
+        plt.text(1.02, 0.7, trend_text, fontsize=10, color="black", transform=plt.gca().transAxes, bbox=dict(facecolor="white", edgecolor="black", boxstyle="round,pad=0.5"))
+    
+        # Legend 2: Benchmark Values as Table
+        benchmark_values = [
+            ["Adaptation", "0.8 - 1.2"],
+            ["Development", "1.2 - 1.6"],
+            ["Performance", "1.6 - 2.0"],
+            ["Peak Efficiency", "2.0+"],
+        ]
+    
+        table = plt.table(cellText=benchmark_values,
+                          colLabels=["Runner Phase", "EF (W/bpm)"],
+                          cellLoc="center",
+                          loc="right",
+                          bbox=[1.02, 0.3, 0.3, 0.3])  # Positioning the table outside the plot
+    
+        table.auto_set_font_size(False)
+        table.set_fontsize(10)
+    
+        # Save and show the plot
+        plt.savefig(os.path.join(save_chart_folder, filename), bbox_inches="tight")
         plt.show()
         plt.close()
+
 
     def _plot_box_chart(self, date_re_map, title, xlabel, ylabel, filename):
         sorted_dates = sorted(date_re_map.keys(), key=lambda d: datetime.datetime.strptime(d, "%Y-%m-%d"))
         re_values = [date_re_map[date] for date in sorted_dates]  # List of lists for boxplot
 
-        plt.figure(figsize=(10, 6))
+        plt.figure(figsize=(15, 7))
+
+
+        # Legend 1: Interpreting Trends
+        trend_text = """
+        ☆ Lower RE: More efficient running (less power used for given speed). 
+        ☆ Higher RE: Less efficient running (more power needed).
+        ☆ Tight Boxplot: Consistent efficiency across a day.
+        ☆ Wider Boxplot: Large variability in efficiency across a day.
+        """
+        plt.text(1.02, 0.7, trend_text, fontsize=10, color="black", transform=plt.gca().transAxes, bbox=dict(facecolor="white", edgecolor="black", boxstyle="round,pad=0.5"))
+    
+        # Legend 2: Benchmark Values as Table
+        benchmark_values = [
+            ["Adaptation", "200+"],
+            ["Development", "150 - 200"],
+            ["Performance", "100 - 150"],
+            ["Peak Efficiency", "< 100"],
+        ]
+    
+        table = plt.table(cellText=benchmark_values,
+                          colLabels=["Runner Phase", "RE (W·min/km)"],
+                          cellLoc="center",
+                          loc="right",
+                          bbox=[1.02, 0.3, 0.3, 0.3])  # Positioning the table outside the plot
+    
+        table.auto_set_font_size(False)
+        table.set_fontsize(10)
+        
         # plt.boxplot(re_values, labels=sorted_dates, vert=True, patch_artist=True)
         plt.boxplot(re_values, tick_labels=sorted_dates, vert=True, patch_artist=True)
         plt.xticks(rotation=45)
@@ -109,5 +171,5 @@ class RunningAnalysis:
 
 # Example usage
 easy_run_analysis = RunningAnalysis(easy_run_folder, "Easy Runs")
-easy_run_analysis.efficiency_factor_chart()
+# easy_run_analysis.efficiency_factor_chart()
 easy_run_analysis.running_economy_chart()
