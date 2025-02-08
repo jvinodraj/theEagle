@@ -86,9 +86,5 @@ Adjust stride length naturally with speed and cadence:
 
 ---
 
-Feel free to use this document to track your training progress and make data-driven improvements in your running. If you have suggestions or improvements, feel free to contribute!  
-
----
-
 **Contributions welcome!**  
 Check out other running-related resources and tools on this repository. Happy running! 🏃‍♂️
