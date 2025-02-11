@@ -21,6 +21,8 @@ os.makedirs(save_chart_folder, exist_ok=True)
 # plt.rcParams["font.family"] = "Arial Unicode MS"
 # Reset to default font settings
 plt.rcParams["font.family"] = plt.rcParamsDefault["font.family"]
+# Normalize RE to W/kg using weight (assuming 72 kg)
+weight_kg = 72  # Adjust based on your weight
 
 class RunningAnalysis:
     def __init__(self, folder_path, run_type):
@@ -51,23 +53,12 @@ class RunningAnalysis:
 
     def efficiency_factor_chart(self):
         date_ef_map = {}
-        date_wise_df = pd.DataFrame()
 
         for file in self.fit_files:
             df = self._fit_parse_file(file)
             df["timezone_ist"] = df["timestamp"].dt.tz_localize("UTC").dt.tz_convert(self.ist)
             
-            # Convert date column to datetime format and keep only date
-            # df["date"] = pd.to_datetime(df["timezone_ist"]).dt.date.astype(str)
-            # pdb.set_trace()
             date = df["timezone_ist"][0].strftime("%Y-%m-%d")
-
-            # Store each date's records as a separate DataFrame inside a dictionary
-            # date_wise_df = {date: df[df["date"] == date].drop(columns=["date"]) for date in df["date"].unique()}
-
-            # date_wise_df = date_wise_df[date_wise_df["power"] > 0] # filtering out zero power
-
-            # pdb.set_trace()
 
             df        = df[df['power'] > 0]
             avg_hr    = np.mean(df["heart_rate"])
@@ -82,6 +73,34 @@ class RunningAnalysis:
         self._plot_line_chart(date_ef_map, f"{self.run_type} - Efficiency Factor Over Time", "Date", "Efficiency Factor", f"efficiency_factor_{self.run_type}.png")
         
         return
+
+    def running_economy_chart(self):
+        date_re_map = {}
+
+        for file in self.fit_files:
+            df                 = self._fit_parse_file(file)
+            df["timezone_ist"] = df["timestamp"].dt.tz_localize("UTC").dt.tz_convert(self.ist)
+            date               = df["timezone_ist"][0].strftime("%Y-%m-%d")
+            # pdb.set_trace()
+            df                 = df[df['power'] > 0]
+
+            sel_cols = ['timezone_ist', 'enhanced_speed', 'power']
+            print (df[sel_cols])
+
+            # Compute Running Economy (W/m/s)
+            df["running_economy"] = df["power"] / df["enhanced_speed"]
+
+            # Normalize RE to W/kg using weight (assuming 72 kg)
+            # weight_kg = 72  # Adjust based on your weight
+            df["running_economy_wkg"] = df["running_economy"] / weight_kg
+
+            # pdb.set_trace()
+    
+            if date not in date_re_map:
+                date_re_map[date] = []
+            date_re_map[date].extend(df["running_economy_wkg"])
+
+        self._plot_box_chart(date_re_map, f"{self.run_type} - Running Economy Over Time", "Date", "Running Economy", f"running_economy_{self.run_type}.png")
 
 
     def _plot_line_chart(self, date_ef_map, title, xlabel, ylabel, filename):
@@ -136,9 +155,50 @@ class RunningAnalysis:
         plt.savefig(os.path.join(save_chart_folder, filename), bbox_inches="tight")
         plt.show()
         plt.close()
+
+
+    def _plot_box_chart(self, date_re_map, title, xlabel, ylabel, filename):
+        sorted_dates = sorted(date_re_map.keys(), key=lambda d: datetime.datetime.strptime(d, "%Y-%m-%d"))
+        re_values = [date_re_map[date] for date in sorted_dates]  # List of lists for boxplot
+
+        plt.figure(figsize=(10, 9))
+        # plt.boxplot(re_values, labels=sorted_dates, vert=True, patch_artist=True)
+        plt.boxplot(re_values, tick_labels=sorted_dates, vert=True, patch_artist=True)
+        plt.xticks(rotation=45)
+        plt.title(title)
+        plt.xlabel(xlabel)
+        plt.ylabel(ylabel)
+        plt.grid(True)
+
+        # 📌 Legend 1: Interpreting Trends
+        trend_text = "✔ Lower RE → More efficient running.\n✖ Higher RE →  inefficient running (wasting energy)."
+        plt.text(1.02, 0.7, trend_text, fontsize=10, color="black", transform=plt.gca().transAxes, 
+                 bbox=dict(facecolor="white", edgecolor="black", boxstyle="round,pad=0.5"))
+    
+        # 📌 Legend 2: Benchmark Values as Table
+        benchmark_values = [
+            ["Elite", "≤ 0.9 W/kg"],
+            ["Efficient", "0.9 - 1.1 W/kg"],
+            ["Average", "1.1 - 1.3 W/kg"],
+            ["Inefficient", "≥ 1.3 W/kg"]
+        ]
+    
+        table = plt.table(cellText=benchmark_values,
+                          colLabels=["Runner Category", "Running Economy"],
+                          cellLoc="center",
+                          loc="right",
+                          bbox=[1.02, 0.3, 0.4, 0.3])  # Adjust position
+    
+        table.auto_set_font_size(False)
+        table.set_fontsize(10)
+        
+        plt.savefig(os.path.join(save_chart_folder, filename), bbox_inches="tight")
+        plt.show()
+        # plt.close()
         
 # run_analysis = RunningAnalysis(easy_run_folder, "Easy Runs")
 # run_analysis.efficiency_factor_chart()
 # easy_run_analysis.running_economy_chart()
 run_analysis = RunningAnalysis(aerobic_run_folder, "Aerobic Runs")
-run_analysis.efficiency_factor_chart()
+# run_analysis.efficiency_factor_chart()
+run_analysis.running_economy_chart()
