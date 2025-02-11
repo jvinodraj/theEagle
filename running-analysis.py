@@ -5,6 +5,10 @@ import matplotlib.pyplot as plt
 import datetime
 from collections import defaultdict
 from pytz import timezone
+import pandas as pd
+import sys, pdb
+
+sys.displayhook = print  # Ensures all statements are printed
 
 # General variables for folders
 aerobic_run_folder = "aerobic_runs/"
@@ -24,59 +28,61 @@ class RunningAnalysis:
         self.run_type = run_type
         self.fit_files = [os.path.join(folder_path, f) for f in os.listdir(folder_path) if f.endswith(".fit")]
         self.ist = timezone("Asia/Kolkata")
-    
-    def _parse_fit_file(self, file_path):
-        fitfile = fitparse.FitFile(file_path)
-        data = defaultdict(lambda: {"heart_rate": [], "power": [], "pace": []})
-        
-        for record in fitfile.get_messages("record"):
-            fields = {field.name: field.value for field in record}
-            if "heart_rate" in fields and fields["heart_rate"] and "power" in fields and fields["power"] and "enhanced_speed" in fields and fields["enhanced_speed"] > 0:
-                timestamp_ist = fields["timestamp"].replace(tzinfo=timezone("UTC")).astimezone(self.ist)
-                date_str = timestamp_ist.strftime("%Y-%m-%d")  # Group by date
-                
-                data[date_str]["heart_rate"].append(fields["heart_rate"])
-                data[date_str]["power"].append(fields["power"])
-                data[date_str]["pace"].append(fields["enhanced_speed"])  # Speed in m/s
 
-        return data
-    
+    def _fit_parse_file(self, file_name):
+        try:
+            fitfile = fitparse.FitFile(file_name)
+        except:
+            print("Error at parsing fit file")
+
+        # print(fitfile)
+        # return 0
+
+        data = []
+        for record in fitfile.get_messages("record"):
+            record_data = {}
+            for field in record.fields:
+                record_data[field.name] = field.value
+            data.append(record_data)
+
+        df = pd.DataFrame(data) if data else pd.DataFrame()
+        return df
+            
+
     def efficiency_factor_chart(self):
         date_ef_map = {}
+        date_wise_df = pd.DataFrame()
 
         for file in self.fit_files:
-            data = self._parse_fit_file(file)
-            for date, values in data.items():
-                if values["heart_rate"] and values["power"]:
-                    avg_hr = np.mean(values["heart_rate"])
-                    avg_power = np.mean(values["power"])
-                    ef = avg_power / avg_hr if avg_hr > 0 else None
-                    
-                    if ef:
-                        if date not in date_ef_map:
-                            date_ef_map[date] = []
-                        date_ef_map[date].append(ef)
+            df = self._fit_parse_file(file)
+            df["timezone_ist"] = df["timestamp"].dt.tz_localize("UTC").dt.tz_convert(self.ist)
+            
+            # Convert date column to datetime format and keep only date
+            # df["date"] = pd.to_datetime(df["timezone_ist"]).dt.date.astype(str)
+            # pdb.set_trace()
+            date = df["timezone_ist"][0].strftime("%Y-%m-%d")
+
+            # Store each date's records as a separate DataFrame inside a dictionary
+            # date_wise_df = {date: df[df["date"] == date].drop(columns=["date"]) for date in df["date"].unique()}
+
+            # date_wise_df = date_wise_df[date_wise_df["power"] > 0] # filtering out zero power
+
+            # pdb.set_trace()
+
+            df        = df[df['power'] > 0]
+            avg_hr    = np.mean(df["heart_rate"])
+            avg_power = np.mean(df["power"])
+            ef        = avg_power / avg_hr if avg_hr > 0 else None
+            
+            if ef:
+                if date not in date_ef_map:
+                    date_ef_map[date] = []
+                date_ef_map[date].append(ef)
 
         self._plot_line_chart(date_ef_map, f"{self.run_type} - Efficiency Factor Over Time", "Date", "Efficiency Factor", f"efficiency_factor_{self.run_type}.png")
+        
+        return
 
-    def running_economy_chart(self):
-        date_re_map = {}
-
-        for file in self.fit_files:
-            data = self._parse_fit_file(file)
-            for date, values in data.items():
-                if values["power"] and values["pace"]:
-                    power_array = np.array(values["power"])
-                    pace_array = np.array(values["pace"])
-                    
-                    # Running Economy: Power / Pace (W per m/s)
-                    re_values = power_array / pace_array  # Element-wise division
-                    
-                    if date not in date_re_map:
-                        date_re_map[date] = []
-                    date_re_map[date].extend(re_values.tolist())
-
-        self._plot_box_chart(date_re_map, f"{self.run_type} - Running Economy Over Time", "Date", "Running Economy", f"running_economy_{self.run_type}.png")
 
     def _plot_line_chart(self, date_ef_map, title, xlabel, ylabel, filename):
         sorted_dates = sorted(date_ef_map.keys(), key=lambda d: datetime.datetime.strptime(d, "%Y-%m-%d"))
@@ -97,10 +103,16 @@ class RunningAnalysis:
         plt.ylabel(ylabel, fontsize=12)
         plt.legend()
         plt.grid(True, linestyle="--", alpha=0.6)
+
+        # Adjust layout to make space for the table
+        # plt.subplots_adjust(bottom=0.25)  # Reserve space below for the table
     
         # Legend 1: Interpreting Trends
-        trend_text = "✔ Increasing EF → Improved aerobic efficiency.\n ❌ Decreasing EF → Overtraining, fatigue, or inefficiency."
-        plt.text(1.02, 0.7, trend_text, fontsize=10, color="black", transform=plt.gca().transAxes, bbox=dict(facecolor="white", edgecolor="black", boxstyle="round,pad=0.5"))
+        trend_text = "✔ Increasing EF → Improved aerobic efficiency.\n X Decreasing EF → Overtraining, fatigue, or inefficiency."
+        plt.text(1.02, 0.7, trend_text, fontsize=10, color="black", transform=plt.gca().transAxes, 
+                 bbox=dict(facecolor="white", edgecolor="black", boxstyle="round,pad=0.5"))
+                 # bbox=dict(facecolor="white", edgecolor="black", boxstyle="round,pad=0.5"), ha="center")
+
     
         # Legend 2: Benchmark Values as Table
         benchmark_values = [
@@ -115,6 +127,7 @@ class RunningAnalysis:
                           cellLoc="center",
                           loc="right",
                           bbox=[1.02, 0.3, 0.3, 0.3])  # Positioning the table outside the plot
+                           # bbox=[0.15, -0.6, 0.7, 0.2])  # Adjusted bbox to position the table below
     
         table.auto_set_font_size(False)
         table.set_fontsize(10)
@@ -123,53 +136,9 @@ class RunningAnalysis:
         plt.savefig(os.path.join(save_chart_folder, filename), bbox_inches="tight")
         plt.show()
         plt.close()
-
-
-    def _plot_box_chart(self, date_re_map, title, xlabel, ylabel, filename):
-        sorted_dates = sorted(date_re_map.keys(), key=lambda d: datetime.datetime.strptime(d, "%Y-%m-%d"))
-        re_values = [date_re_map[date] for date in sorted_dates]  # List of lists for boxplot
-
-        plt.figure(figsize=(15, 7))
-
-
-        # Legend 1: Interpreting Trends
-        trend_text = """
-        ☆ Lower RE: More efficient running (less power used for given speed). 
-        ☆ Higher RE: Less efficient running (more power needed).
-        ☆ Tight Boxplot: Consistent efficiency across a day.
-        ☆ Wider Boxplot: Large variability in efficiency across a day.
-        """
-        plt.text(1.02, 0.7, trend_text, fontsize=10, color="black", transform=plt.gca().transAxes, bbox=dict(facecolor="white", edgecolor="black", boxstyle="round,pad=0.5"))
-    
-        # Legend 2: Benchmark Values as Table
-        benchmark_values = [
-            ["Adaptation", "200+"],
-            ["Development", "150 - 200"],
-            ["Performance", "100 - 150"],
-            ["Peak Efficiency", "< 100"],
-        ]
-    
-        table = plt.table(cellText=benchmark_values,
-                          colLabels=["Runner Phase", "RE (W·min/km)"],
-                          cellLoc="center",
-                          loc="right",
-                          bbox=[1.02, 0.3, 0.3, 0.3])  # Positioning the table outside the plot
-    
-        table.auto_set_font_size(False)
-        table.set_fontsize(10)
         
-        # plt.boxplot(re_values, labels=sorted_dates, vert=True, patch_artist=True)
-        plt.boxplot(re_values, tick_labels=sorted_dates, vert=True, patch_artist=True)
-        plt.xticks(rotation=45)
-        plt.title(title)
-        plt.xlabel(xlabel)
-        plt.ylabel(ylabel)
-        plt.grid(True)
-        plt.savefig(os.path.join(save_chart_folder, filename))
-        plt.show()
-        # plt.close()
-
-# Example usage
-easy_run_analysis = RunningAnalysis(easy_run_folder, "Easy Runs")
-# easy_run_analysis.efficiency_factor_chart()
-easy_run_analysis.running_economy_chart()
+# run_analysis = RunningAnalysis(easy_run_folder, "Easy Runs")
+# run_analysis.efficiency_factor_chart()
+# easy_run_analysis.running_economy_chart()
+run_analysis = RunningAnalysis(aerobic_run_folder, "Aerobic Runs")
+run_analysis.efficiency_factor_chart()
