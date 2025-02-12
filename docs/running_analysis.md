@@ -127,3 +127,5 @@ $$
 ### **Graph:**  
 A **line chart** of **HRDI per run** (x-axis: run index, y-axis: HRDI %).  
 
+![Heart Rate Drift Index over time](/images/hr_drift_index_aerobic_runs.png)
+
