@@ -22,7 +22,7 @@ $$
 ### **Graph:**  
 A line chart showing **EF trend over multiple runs** (x-axis: run index, y-axis: EF).  
 
-![Easy Runs - Efficiency Factor Over Time](/images/efficiency_factor_Easy_Runs.png)
+![Efficiency Factor Over Time](/images/efficiency_factor_easy_runs.png)
 
 ---
 
@@ -67,8 +67,6 @@ where:
 - **Power Output (W):** The energy output measured in watts.  
 - **Pace (m/s):** The speed of running in meters per second (converted from GPS speed). 
 
-
-
 ### **Benchmark Values:**  
 | Runner Type  | RE (W·min/km)  |
 |-------------|---------------|
@@ -99,6 +97,9 @@ This will give you deeper insights into how efficient you are running **at diffe
 
 ### **Graph:**  
 A **scatter plot** of **RE vs. run index** to track efficiency changes.  
+
+
+![Running Economy over time](/images/running_economy_aerobic_runs.png)
 
 ---
 
