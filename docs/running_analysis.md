@@ -107,8 +107,9 @@ A **scatter plot** of **RE vs. run index** to track efficiency changes.
 HRDI quantifies **how heart rate increases relative to power over time**, indicating aerobic efficiency.  
 
 ### **Formula:**  
+
 $$
-HRDI = \frac{\text{Average HR (last half)}}{\text{Average HR (first half)}} - 1
+HRDI = \frac{\left( \text{Avg HR (2nd Half)} - \text{Avg HR (1st Half)} \right)}{\text{Avg HR (1st Half)}} \times 100
 $$
 
 ### **Benchmark Values:**  
