@@ -33,7 +33,7 @@ class RunningAnalysis:
 
     def _fit_parse_file(self, file_name):
         try:
-            print("Parsing the fit file :", file_name)
+            # print("Parsing the fit file :", file_name)
             fitfile = fitparse.FitFile(file_name)
         except:
             print("Error at parsing fit file")
