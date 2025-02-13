@@ -33,6 +33,7 @@ class RunningAnalysis:
 
     def _fit_parse_file(self, file_name):
         try:
+            print("Parsing the fit file :", file_name)
             fitfile = fitparse.FitFile(file_name)
         except:
             print("Error at parsing fit file")
@@ -48,6 +49,11 @@ class RunningAnalysis:
             data.append(record_data)
 
         df = pd.DataFrame(data) if data else pd.DataFrame()
+        return df
+
+    def getDF(self):
+        for file in self.fit_files:
+            df = self._fit_parse_file(file)
         return df
             
 
@@ -134,23 +140,19 @@ class RunningAnalysis:
     def running_hr_drift_index(self):
 
         # Legend 1: Interpreting Trends
-        trend_text = """Why HRDI Matters in Endurance Training ?
-✔ Indicates Aerobic Efficiency: 
-A lower HRDI suggests better cardiovascular endurance and fatigue resistance.
+        trend_text = """
+✔ Lower HRDI → Stable endurance.
 
-✔ Helps in Hydration & Fatigue Management: 
-High HRDI can indicate dehydration or excessive fatigue.
-
-✔ Guides Pacing Strategies: 
-Monitoring HRDI can prevent early burnout in long runs or races."""
+✖ High HRDI → Dehydration, overexertion, poor pacing.
+"""
     
         # Legend 2: Benchmark Values as Table
-        benchmark_header = ["HR Drift (%)", "Interpretation"]
+        benchmark_header = ["HR Drift (%)", "Interpretation", "Possible Causes & Actions"]
         benchmark_values = [
-            ["0% – 3%", "Good endurance, minimal drift"],
-            ["3% – 6%", "Normal drift, sustainable."],
-            ["6% – 10%", "Fatigue, possible dehydration."],
-            ["> 10%","Severe drift, may indicate overtraining"]
+            ["0% – 3%",  "Minimal Drift",   "Excellent Efficiency"],
+            ["3% – 6%",  "Moderate drift",  "Normal Aerobic Response"],
+            ["6% – 10%", "Hight HR Drift",  "Fatigue or dehydration"],
+            ["> 10%",    "Severe HR Drift", "Inefficient or Overtraining"]
         ]
         
         date_hrdi_map = {}
@@ -221,14 +223,19 @@ Monitoring HRDI can prevent early burnout in long runs or races."""
         benchmark_values = benchmark
     
         table = plt.table(cellText=benchmark_values,
-                          colLabels=[benchmark_header[0], benchmark_header[1]],
+                          colLabels=benchmark_header,
                           cellLoc="center",
                           loc="right",
-                          bbox=[1.02, 0.3, 0.5, 0.3])  # Positioning the table outside the plot
+                          bbox=[1.02, 0.3, 0.75, 0.3])  # Positioning the table outside the plot
                            # bbox=[0.15, -0.6, 0.7, 0.2])  # Adjusted bbox to position the table below
     
         table.auto_set_font_size(False)
         table.set_fontsize(10)
+
+        # # Add formula as a text box below the chart
+        # formula_text = r"$HRDI = \left( \frac{HR_{2nd} - HR_{1st}}{HR_{1st}} \right) \times 100$"
+        # plt.text(0.5, -15, formula_text, fontsize=12, ha="center", transform=plt.gca().transAxes, bbox=dict(facecolor="white", alpha=0.5))
+
     
         # Save and show the plot
         plt.savefig(os.path.join(save_chart_folder, filename), bbox_inches="tight")
@@ -268,12 +275,16 @@ Monitoring HRDI can prevent early burnout in long runs or races."""
         
         plt.savefig(os.path.join(save_chart_folder, filename), bbox_inches="tight")
         plt.show()
-        # plt.close()
-        
-# run_analysis = RunningAnalysis(easy_run_folder, "Easy Runs")
-# run_analysis.efficiency_factor_chart()
-# easy_run_analysis.running_economy_chart()
-run_analysis = RunningAnalysis(aerobic_run_folder, "Aerobic Runs")
+        plt.close()
+
+# Easy Runs
+run_analysis = RunningAnalysis(easy_run_folder, "Easy Runs")
 run_analysis.efficiency_factor_chart()
 run_analysis.running_economy_chart()
 run_analysis.running_hr_drift_index()
+
+#Aerobic Runs
+# run_analysis = RunningAnalysis(aerobic_run_folder, "Aerobic Runs")
+# run_analysis.efficiency_factor_chart()
+# run_analysis.running_economy_chart()
+# run_analysis.running_hr_drift_index()
