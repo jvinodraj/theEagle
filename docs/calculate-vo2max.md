@@ -54,21 +54,26 @@ Alternatively, some structured lab tests involve treadmill ramp protocols under 
 If you don’t perform a field test, you can estimate Max HR using formulas:
 
 ### **1. Age-Based Formula** (Less Accurate)
+
 $$
 Max HR = 220 - \text{Age}
 $$
+
 Example: For a **30-year-old**, Max HR ≈ 190 bpm.
 
 ### **2. Gulati Formula** (For trained individuals)
+
 $$
 Max HR = 206.9 - (0.67 \times \text{Age})
 $$
+
 Example: For a **30-year-old**, Max HR ≈ 187 bpm.
 
 ### **3. Tanaka Formula** (More accurate for athletes)
 $$
 Max HR = 208 - (0.7 \times \text{Age})
 $$
+
 Example: For a **30-year-old**, Max HR ≈ 187 bpm.
 
 ---
