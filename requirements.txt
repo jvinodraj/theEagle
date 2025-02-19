@@ -1,0 +1,6 @@
+fitparse==1.2.0
+matplotlib==3.10.0
+numpy==2.2.3
+pandas==2.2.3
+pytz==2024.1
+seaborn==0.13.2
