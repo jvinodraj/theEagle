@@ -27,22 +27,28 @@ def analyze_sprint_intervals(df, power_threshold=200, discard_interval_sec=30):
     :discard_interval_sec:  distacard any interval that is less than with partcular
                             seconds
     """
-    sprint_intervals   = []
     in_sprint          = False
-    current_sprint     = []
     timerange_interval = []
+    
+    sprint_intervals   = []
+    current_sprint     = []
+    
     # pace
     current_pace       = []
     pace_interval      = []
+    
     # Cadence
     current_cadence    = []
     cadence_interval   = []
+    
     # Heart Rate
     current_hr         = []
     hr_interval        = []    
+    
     # stance_time
     current_gct         = []
     gct_interval        = []
+    
     # vertical_ratio
     current_vr          = []
     vr_interval         = []
