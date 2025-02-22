@@ -432,7 +432,7 @@ run_analysis = RunningAnalysis(easy_run_folder, "Easy Runs")
 # run_analysis.efficiency_factor_chart()
 # run_analysis.running_economy_chart()
 # run_analysis.running_hr_drift_index()
-run_analysis.pace_hr_power_chart(0)
+run_analysis.pace_hr_power_chart(n_dates=2)
 
 #Aerobic Runs
 # run_analysis = RunningAnalysis(aerobic_run_folder, "Aerobic Runs")
