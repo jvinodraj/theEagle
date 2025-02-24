@@ -12,8 +12,9 @@ sys.displayhook = print  # Ensures all statements are printed
 
 # General variables for folders
 aerobic_run_folder = "aerobic_runs/"
-easy_run_folder = "easy_runs/"
-save_chart_folder = "charts/"
+easy_run_folder    = "easy_runs/"
+lsd_run_folder     = "LSD/"
+save_chart_folder  = "charts/"
 os.makedirs(save_chart_folder, exist_ok=True)
 
 # Change the font to one that supports more characters (like 'Arial')
@@ -206,7 +207,7 @@ class RunningAnalysis:
         # df['pace'] = 1 / df['enhanced_speed_rolling']  # Convert speed to pace (min/km-like metric)
         df['pace'] = 1000 / df['enhanced_speed_rolling'] / 60 # Convert speed to pace (min/km-like metric)
         df['efficiency'] = df['heart_rate_rolling'] / df['power_rolling']  # Lower is better
-        pdb.set_trace()
+        # pdb.set_trace()
 
         #Find the Efficient pace
         # filtered_df = df[(df['power'] >= 210) & (df['power'] <= 250) & (df['heart_rate'] > 130)]  # Filter power range
@@ -219,7 +220,7 @@ class RunningAnalysis:
 
         # Step 2: Filter data where Power is between 210 and 250
         
-        print(['heart_rate', 'cadence', 'power', 'pace'])
+        # print(['heart_rate', 'cadence', 'power', 'pace'])
         for i in range(120, 136):
             filtered_df = df[(df['power'] >= 200) & (df['power'] <= 250) & (df['heart_rate'] >= i)]
 
@@ -283,7 +284,8 @@ class RunningAnalysis:
 
 
     def _plot_line_chart(self, date_ef_map, title, xlabel, ylabel, interpretation, benchmark, benchmark_header, filename):
-        sorted_dates = sorted(date_ef_map.keys(), key=lambda d: datetime.datetime.strptime(d, "%Y-%m-%d"))
+        # pdb.set_trace()
+        sorted_dates = sorted(date_ef_map.keys(), key=lambda d: dt.datetime.strptime(d, "%Y-%m-%d"))
         ef_values = [np.mean(date_ef_map[date]) for date in sorted_dates]  # Mean EF for each date
         ef_min = [np.min(date_ef_map[date]) for date in sorted_dates]
         ef_max = [np.max(date_ef_map[date]) for date in sorted_dates]
@@ -428,14 +430,21 @@ class RunningAnalysis:
 
 
 # Easy Runs
-run_analysis = RunningAnalysis(easy_run_folder, "Easy Runs")
+# run_analysis = RunningAnalysis(easy_run_folder, "Easy Runs")
 # run_analysis.efficiency_factor_chart()
 # run_analysis.running_economy_chart()
 # run_analysis.running_hr_drift_index()
-run_analysis.pace_hr_power_chart(n_dates=2)
+# run_analysis.pace_hr_power_chart(n_dates=2)
 
 #Aerobic Runs
 # run_analysis = RunningAnalysis(aerobic_run_folder, "Aerobic Runs")
 # run_analysis.efficiency_factor_chart()
 # run_analysis.running_economy_chart()
 # run_analysis.running_hr_drift_index()
+
+# LSD Runs
+run_analysis = RunningAnalysis(lsd_run_folder, "LSD Runs")
+run_analysis.efficiency_factor_chart()
+# run_analysis.running_economy_chart()
+run_analysis.running_hr_drift_index()
+# run_analysis.pace_hr_power_chart(n_dates=-20)
