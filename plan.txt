@@ -1,0 +1,40 @@
+Phase 1: Data Exploration & Preparation  
+1. Read the FIT file: We’ll extract heart rate, cadence, stride length, power, speed, and timestamps.  
+2. Resample to 1-minute intervals: Calculate the moving average to smooth out the data.  
+3. Visualize the data: Let’s understand how these features behave — time series plots and correlation heatmaps will help here.  
+
+Phase 2: Build a Baseline Model  
+4. Choose a target metric: For efficiency, let’s start by predicting pace (min/km) or running power.  
+5. Feature selection: Heart rate, cadence, stride length, power, and speed — maybe derived metrics like power-to-speed ratio.  
+6. Train a simple model: Start with a Random Forest or Gradient Boosting model — they’re good at showing feature importance.  
+
+Phase 3: Interpret Results  
+7. Feature importance: Identify which features most influence efficiency.  
+8. Check interactions: See if a combination of cadence + power, or heart rate + speed, stands out.  
+9. Make it repeatable: Once we have this, we’ll set up the workflow so you can upload a new FIT file and get a report on the most efficient metrics.  
+
+
+========================
+Model Building Structure
+========================
+
+theEagle/
+│
+├── data/                     # Raw and processed FIT files
+│   ├── raw/                  # Original FIT files
+│   ├── processed/            # Cleaned and resampled data
+│
+├── notebooks/                # Jupyter notebooks for exploration (optional)
+│
+├── src/                      # Source code for the project
+│   ├── __init__.py           # Makes src a package
+│   ├── data_loader.py        # Class for reading and processing FIT files
+│   ├── feature_engineering.py # Class for transforming and preparing data
+│   ├── model.py              # Class for model building and evaluation
+│   ├── visualization.py      # Class for plotting and analysis
+│
+├── tests/                    # Unit tests for the project
+│
+├── requirements.txt          # Python dependencies
+│
+└── main.py                   # Script to run the pipeline
