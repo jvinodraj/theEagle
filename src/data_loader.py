@@ -29,6 +29,8 @@ class DataLoader:
                         # pdb.set_trace()
                         # pass
                         data[field.name] = field.value.replace(tzinfo=self.utc).astimezone(self.ist) 
+            # pdb.set_trace()
+            data["speed"] = data.pop("enhanced_speed")
             records.append(data)
 
         self.data = pd.DataFrame(records)
@@ -38,7 +40,7 @@ class DataLoader:
         if self.data is None:
             raise ValueError("No data to preprocess. Please read the FIT file first.")
 
-        columns_to_keep = ['timestamp', 'heart_rate', 'cadence', 'enhanced_speed', 'power', 'step_length']
+        columns_to_keep = ['timestamp', 'heart_rate', 'cadence', 'speed', 'power', 'step_length']
         # pdb.set_trace()
         self.data = self.data[[col for col in columns_to_keep if col in self.data.columns]]
 
@@ -58,7 +60,7 @@ class DataLoader:
 
 # Example usage
 if __name__ == "__main__":
-    loader = DataLoader('../LSD/15-Feb-2025.fit')
+    loader = DataLoader('LSD/15-Feb-2025.fit')
     loader.read_fit_file()
     loader.preprocess_data()
     loader.save_clean_data('data/processed/cleaned_fit_data.csv')

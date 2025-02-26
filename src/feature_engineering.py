@@ -1,4 +1,17 @@
+"""
+This is feature engineering! This is to transform and prepare the data so we 
+can start analyzing which metrics (like heart rate, cadence, power, etc.) are 
+most efficient for your running performance.
+
+This is to create a new feature_engineering.py module inside src/, and this will:
+
+1. Add new features like pace, power-to-weight ratio, and cadence-to-speed ratio.
+2. Normalize or scale data if needed for consistency.
+3. Handle any missing or outlier values.
+
+"""
 import pandas as pd
+import pdb
 
 class FeatureEngineer:
     def __init__(self, data_path):
@@ -26,6 +39,7 @@ class FeatureEngineer:
 
     def save_transformed_data(self, output_path):
         """Saves the enhanced dataset to a CSV."""
+        # pdb.set_trace()
         self.data.to_csv(output_path)
         print(f"Enhanced data saved to {output_path}")
 
