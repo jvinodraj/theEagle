@@ -1,7 +1,8 @@
 import pandas as pd
 import fitparse
 from pytz import timezone
-import datetime
+# import datetime
+from datetime import datetime, time
 import pdb
 
 def load_df_fitparse(file_name):
@@ -116,17 +117,27 @@ def analyze_sprint_intervals(df, power_threshold=200, discard_interval_sec=30):
         #vertical ration 
         avg_vr = sum(vr_interval[i]) / len(vr_interval[i])
 
-        print(f"Sprint {i+1}: [{start_time} - {end_time}] Avg Pace = {pace_min_per_km:.2f} min/km; \
+        # Convert to datetime by adding a common date
+        start_dt = datetime.combine(datetime.today(), start_time)
+        end_dt = datetime.combine(datetime.today(), end_time)
+
+        # Calculate the difference
+        delta = end_dt - start_dt
+        # print(delta)
+        # print(f"Total seconds: {delta.total_seconds()}")
+
+        print(f"Sprint {i+1}: [{start_time} - {end_time}] delta {delta}; Avg Pace = {pace_min_per_km:.2f} min/km; \
 Avg Pow = {avg_power:.2f}w; GCT = {avg_gct:.2f} ms; Avg Cad = {avg_cad:.0f} SPM; \
 Avg HR = {avg_hr:.0f}; avg VR = {avg_vr:.2f} cm")
 
 
 
-if __name__ == "__main__":
-    file_name = r"C:\Users\a717631\fits\interval\18-Feb-2025.fit"
+if __name__ == "__main__": 
+    file_name = r"C:\Users\a717631\fits\interval\17-Mar-2025.fit"
     df = load_df_fitparse(file_name)
+    print(file_name)
 
     # Run analysis
-    analyze_sprint_intervals(df, power_threshold=350, discard_interval_sec=45)
+    analyze_sprint_intervals(df, power_threshold=300, discard_interval_sec=150)
 
 
