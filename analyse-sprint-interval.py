@@ -133,7 +133,7 @@ Avg HR = {avg_hr:.0f}; avg VR = {avg_vr:.2f} cm")
 
 
 if __name__ == "__main__": 
-    file_name = r"C:\Users\a717631\fits\interval\17-Mar-2025.fit"
+    file_name = r"C:\Users\a717631\fits\interval\24-Mar-2025.fit"
     df = load_df_fitparse(file_name)
     print(file_name)
 
