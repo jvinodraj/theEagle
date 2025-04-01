@@ -1,7 +1,6 @@
 ### **Strength Training Plan Full Marathon**  
 
-Since a **full marathon (42.2 km)** demands **more endurance, resilience, and fatigue resistance**, your strength routine should focus on **muscular endurance, power, and injury-proofing**. 
-Unlike a half marathon, where speed is a bigger factor, a full marathon requires **long-term muscular durability** to maintain good running form for **3+ hours**.  
+Since a **full marathon (42.2 km)** demands **more endurance, resilience, and fatigue resistance**, strength routine should focus on **muscular endurance, power, and injury-proofing**. 
 
 ---
 
@@ -75,7 +74,7 @@ Unlike a half marathon, where speed is a bigger factor, a full marathon requires
 
 ---
 
-## ** Key Differences from Half Marathon Strength Plan**
+## Key Differences from Half Marathon Strength Plan**
 ✅ **More total reps (~2,000 per week vs. ~1,500 for half marathon)**  
 ✅ **Higher core work volume** (because marathon fatigue affects posture more)  
 ✅ **More calf & foot strength focus** (to handle high mileage efficiently)  
