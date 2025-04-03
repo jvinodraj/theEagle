@@ -2,7 +2,16 @@
 
 **Warm-up (10–15 min):**  
 - **5–10 min easy jog** (~8:00–9:00/km pace — Zone 1-2)  
-- **3 x 20 sec strides** (~5:00/km pace with 1 min walk/jog recovery between) — to activate fast-twitch muscles  
+- **3 x 20 sec strides** (~5:00/km pace with 1 min walk/jog recovery between) — to activate fast-twitch muscles
+  - **Focus on Form, Not Just Speed**  
+    - Quick, **relaxed turnover** (cadence around 180+ steps per minute).  
+    - Powerful but **smooth strides**—not overstriding.  
+    - Land **midfoot** with an upright posture.  
+  - **Effort Level:** ~**85–90% of max speed** (not an all-out sprint).  
+  - **Gradual Build-Up:**  
+    - First 10 sec: Ease into speed  
+    - Middle 10 sec: Hit peak controlled speed  
+    - Last 10 sec: Gradually slow down  
 - **1–2 min easy jog** to settle your heart rate  
 
 **Main Workout:**  
