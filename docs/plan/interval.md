@@ -24,13 +24,14 @@
 
 ---
 
-**Phase 1: Build Tolerance (Weeks 1–3)**  
+**Phase 1: Build Tolerance (Weeks 1–3)**  - ✅ Done
 - **Main Workout:** 4 x 3 min @ 4:30/km  
   - **Recovery:** 3 min jog  
 - **Warm-up:** 10–15 min easy jog + 3 x 20 sec strides  
 - **Cool-down:** 10–15 min easy jog + 5 min static stretching  
 
-**Phase 2: Extend Time (Weeks 4–6)**  
+**Phase 2: Extend Time (Weeks 4–6)**  - ![IonosWartenGIF](https://github.com/user-attachments/assets/803029cf-abb5-40c3-95c6-5a3a9cdf312d) 
+
 - **Main Workout:** 3 x 4 min @ 4:30/km  
   - **Recovery:** 3 min jog  
 - **Warm-up:** 10–15 min easy jog + 3 x 20 sec strides  
