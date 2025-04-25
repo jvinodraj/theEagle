@@ -60,7 +60,7 @@ class DataLoader:
 
 # Example usage
 if __name__ == "__main__":
-    loader = DataLoader('LSD/15-Feb-2025.fit')
+    loader = DataLoader('   LSD/15-Feb-2025.fit')
     loader.read_fit_file()
     loader.preprocess_data()
     loader.save_clean_data('data/processed/cleaned_fit_data.csv')

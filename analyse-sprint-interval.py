@@ -133,11 +133,14 @@ Avg HR = {avg_hr:.0f}; avg VR = {avg_vr:.2f} cm")
 
 
 if __name__ == "__main__": 
-    file_name = r"C:\Users\a717631\fits\interval\24-Mar-2025.fit"
+    file_name = r"C:\Users\a717631\fits\interval\10-Apr-2025.fit"
     df = load_df_fitparse(file_name)
     print(file_name)
 
     # Run analysis
-    analyze_sprint_intervals(df, power_threshold=300, discard_interval_sec=150)
+    running_power = 250
+    interval_sec = 10
+    print("When running power is > ", running_power, " and interval is > ", interval_sec, "sec")
+    analyze_sprint_intervals(df, power_threshold=running_power, discard_interval_sec=interval_sec)
 
 
