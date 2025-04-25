@@ -84,6 +84,24 @@ The macronutrient distribution can vary based on activity level:
 - **Pre-Workout**: High-carb, moderate-protein snack (e.g., banana with peanut butter).
 - **Post-Workout**: High-protein, moderate-carb meal (e.g., grilled chicken with quinoa).
 
+### 🔥 **1 kilogram of body fat ≈ 7,700 calories (kcal)**
+
+This means:
+
+- To **lose** 1 kg of body weight, you need a **caloric deficit** of about **7,700 kcal**.
+- To **gain** 1 kg, you need a **caloric surplus** of about **7,700 kcal**.
+
+### 📉 For Fat Loss:
+If you aim to lose 1 kg in a week:
+- You’d need a **daily deficit** of ~1,100 kcal (`7,700 ÷ 7 = 1,100`).
+
+Realistically though, most people target:
+- **500 kcal/day deficit** → ~0.5 kg fat loss per week.
+
+### 📈 For Weight Gain:
+To gain lean mass:
+- **300–500 kcal/day surplus** is usually ideal (to minimize fat gain).
+
 ---
 
 ## 3. **Tracking and Adjustments**
