@@ -86,6 +86,7 @@ The body's ability to switch between fuel sources based on availability and dema
 
 Below is a simplified representation of the molecular interactions during exercise:
 
+
 ```
 [Exercise]
      |
@@ -101,6 +102,7 @@ Below is a simplified representation of the molecular interactions during exerci
 [Stress Signals] --> [↑ Sestrins] --> [Activation of AMPK] & [Inhibition of mTORC1]
 
 [PPARα/δ Activation] --> [↑ Fatty Acid Oxidation] & [↑ Oxidative Muscle Fibers]
+```
 
 ---
 
