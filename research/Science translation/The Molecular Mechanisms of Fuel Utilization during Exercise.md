@@ -7,6 +7,7 @@
 * The introduction sets the stage for examining how and when the body **prefers one fuel over the other**, especially during different **exercise intensities and durations**.
 
 During physical activity, our muscles require energy, which they derive from various fuel sources. The body primarily utilizes carbohydrates and fats, with the choice depending on factors like exercise intensity, duration, and individual metabolic state. Understanding how our bodies select and switch between these fuels is crucial for optimizing performance and health.
+
 ---
 
 ## 1. **Energy Substrates During Exercise**
