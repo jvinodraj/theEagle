@@ -41,47 +41,6 @@ During physical activity, the body utilizes various energy substrates to meet th
 
 ---
 
-## 🔄 Metabolic Flexibility
-
-The body's ability to switch between fuel sources based on availability and demand is termed **metabolic flexibility**. This adaptability is vital for maintaining energy balance and performance. However, conditions like obesity and type 2 diabetes can impair this flexibility, leading to less efficient energy utilization.
-
----
-
-## 🧪 Key Molecular Regulators
-
-### 1. **AMP-Activated Protein Kinase (AMPK)**
-
-* Acts as an energy sensor; activated during energy deficits.
-* Enhances glucose uptake and fatty acid oxidation.
-* Promotes mitochondrial biogenesis.
-
-### 2. **Peroxisome Proliferator-Activated Receptors (PPARs)**
-
-* **PPARα**: Regulates lipid metabolism; its activation enhances fatty acid oxidation.
-* **PPARδ**: Promotes oxidative muscle fiber type and increases endurance capacity.
-
-### 3. **Peroxisome Proliferator-Activated Receptor Gamma Coactivator 1-alpha (PGC-1α)**
-
-* Master regulator of mitochondrial biogenesis.
-* Induced by exercise; coactivates transcription factors to enhance oxidative metabolism.
-
-### 4. **Sestrins**
-
-* Stress-inducible proteins that regulate metabolic homeostasis.
-* Activate AMPK and inhibit mTORC1, promoting autophagy and mitochondrial function.
-
-### 5. **Hypoxia-Inducible Factor 1-alpha (HIF-1α)**
-
-* Regulates gene expression in response to low oxygen levels.
-* Enhances glycolytic enzyme expression, facilitating anaerobic metabolism during intense exercise.
-
-### 6. **Interleukin-6 (IL-6)**
-
-* A cytokine released by muscles during exercise.
-* Stimulates lipolysis and improves insulin sensitivity, aiding in substrate utilization.
-
----
-
 ### 3. **Conceptual Diagram: Fuel Utilization During Exercise**
 
 Below is a simplified representation of the molecular interactions during exercise:
