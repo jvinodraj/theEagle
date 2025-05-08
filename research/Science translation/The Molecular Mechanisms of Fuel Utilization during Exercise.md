@@ -27,6 +27,9 @@ Here's a more user-friendly and readable version of the text:
 
 Our bodies use two main types of metabolism to produce energy: **anaerobic** and **aerobic**.
 
+<img width="512" alt="An and Ae Metabolism" src="https://github.com/user-attachments/assets/4cc01ef1-4c5b-40a9-837a-a13b30efe4ec" />
+
+
 **Anaerobic metabolism** happens in the cytosol, the fluid part of muscle cells. It doesn’t need oxygen and uses **only glucose** to create energy. This process produces a small amount of **ATP** (the body’s energy currency), along with by-products like **pyruvate** and **lactic acid**. Even though it’s quick, it’s not very efficient.
 
 On the other hand, **aerobic metabolism** takes place in the **mitochondria**, the powerhouse of the cell and **requires oxygen**. It’s a slower process, but it can use **carbohydrates, fats, and proteins** as fuel and generates **much more ATP** compared to anaerobic metabolism. Interestingly, the pyruvate created during anaerobic metabolism can be further used in aerobic metabolism to produce even more energy.
