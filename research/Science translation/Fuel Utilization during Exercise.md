@@ -19,10 +19,6 @@ On the otherhand, during physical activity, your muscles require energy, which t
 
 ---
 
-Here's a more user-friendly and readable version of the text:
-
----
-
 ## **Understanding Anaerobic and Aerobic Metabolism**
 
 Our bodies use two main types of metabolism to produce energy: **anaerobic** and **aerobic**.
