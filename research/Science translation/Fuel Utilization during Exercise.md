@@ -23,7 +23,7 @@ On the otherhand, during physical activity, your muscles require energy, which t
 
 Our bodies use two main types of metabolism to produce energy: **anaerobic** and **aerobic**.
 
-<img width="512" alt="An and Ae Metabolism" src="https://github.com/user-attachments/assets/4cc01ef1-4c5b-40a9-837a-a13b30efe4ec" />
+<img width="512" alt="Anaerobic vs Aerobic Metabolism Breakdown" src="https://github.com/user-attachments/assets/91ba6e25-122c-4907-9144-e65ab4fe516c" />
 
 
 **Anaerobic metabolism** happens in the cytosol, the fluid part of muscle cells. It doesn’t need oxygen and uses **only glucose** to create energy. This process produces a small amount of **ATP** (the body’s energy currency), along with by-products like **pyruvate** and **lactic acid**. Even though it’s quick, it’s not very efficient.
