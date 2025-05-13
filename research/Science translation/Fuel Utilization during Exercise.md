@@ -23,7 +23,8 @@ On the otherhand, during physical activity, your muscles require energy, which t
 
 Our bodies use two main types of metabolism to produce energy: **anaerobic** and **aerobic**.
 
-<img width="512" alt="Anaerobic vs Aerobic Metabolism Breakdown" src="https://github.com/user-attachments/assets/91ba6e25-122c-4907-9144-e65ab4fe516c" />
+<img width="512" alt="Anaerobic vs Aerobic Metabolism Breakdown" src="https://github.com/user-attachments/assets/ceedb5b0-c5e5-47a6-b8e8-8b28953f2238" />
+
 
 
 **Anaerobic metabolism** happens in the cytosol, the fluid part of muscle cells. It doesn’t need oxygen and uses **only glucose** to create energy. This process produces a small amount of **ATP** (the body’s energy currency), along with by-products like **pyruvate** and **lactic acid**. Even though it’s quick, it’s not very efficient.
@@ -155,7 +156,7 @@ During running, the recruitment of muscle fibers follows the **size principle**:
 
 1. **Type I fibers** are activated first during low-intensity efforts.
 
-2. As intensity increases, **Type IIa fibers** are recruited.([Sport Science Insider][2])
+2. As intensity increases, **Type IIa fibers** are recruited.
 
 3. For maximal efforts, **Type IIx fibers** are engaged.
 
