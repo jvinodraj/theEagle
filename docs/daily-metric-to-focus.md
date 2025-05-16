@@ -30,9 +30,31 @@
 
 ### **5. Sleep Duration & Quality**
 - **Total Sleep:** 7-9 hours per night
-- **REM Sleep:** 1.5-2 hours
-- **Deep Sleep:** 1-2 hours
-- **Impact:** Poor sleep leads to higher RHR and reduced performance
+- **REM Sleep:** 1.5-2 hours <br>
+  This is the **dreaming stage** of sleep. It typically occurs **90 minutes after you fall asleep** and recurs several times throughout the night, getting longer in later cycles.
+  * **What happens in REM**:
+    * Brain is highly active (like you're awake!)
+    * Dreams occur
+    * Memory consolidation and emotional processing
+  * **REM is vital for**:
+    * Learning
+    * Creativity
+    * Mental recovery
+    
+- **Deep Sleep:** 1-2 hours <br>
+  This is the **most physically restorative** stage of sleep. It typically happens more in the **first half of the night**.
+
+  * **What happens in Deep Sleep**:
+  
+    * Muscles repair
+    * Growth hormone is released
+    * Immune system strengthens
+    * HR and breathing slow down
+  * **Deep sleep is essential for**:
+  
+    * Physical recovery (especially for athletes)
+    * Tissue repair
+    * Energy restoration
 
 ### **6. Running Cadence (Steps per Minute)**
 - **Optimal Range:** 175-185 spm
