@@ -21,8 +21,10 @@
 - **Your Goal:** Improve from 4.59 W/kg towards 5 W/kg
 
 ### **4. Heart Rate Variability (HRV)**
-- **Optimal Range:** 60-100 ms (higher is better)
-- **Warning Sign:** A drop of >15-20 ms may indicate poor recovery
+- **Excellent Recovery:** 70-100 ms (higher is better)
+- **Good Recovery:** 50-70 ms (healthy)
+- **Fatigue:** 30-50 ms (under mild stress)
+- **Warning Sign:** A drop of >30 ms may indicate poor recovery, high stress, over training or poor sleep
 
 ### **5. Sleep Duration & Quality**
 - **Total Sleep:** 7-9 hours per night
