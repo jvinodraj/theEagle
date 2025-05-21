@@ -30,19 +30,19 @@
 - **Warm-up:** 10–15 min easy jog + 3 x 20 sec strides  
 - **Cool-down:** 10–15 min easy jog + 5 min static stretching  
 
-**Phase 2: Extend Time (Weeks 4–6)**  - In progress
+**Phase 2: Extend Time (Weeks 4–6)**  - ✅ Done
 - **Main Workout:** 3 x 4 min @ 4:30/km  
   - **Recovery:** 3 min jog  
 - **Warm-up:** 10–15 min easy jog + 3 x 20 sec strides  
 - **Cool-down:** 10–15 min easy jog + 5 min static stretching  
 
-**Phase 3: Near-Threshold Training (Weeks 7–9)**  
+**Phase 3: Near-Threshold Training (Weeks 7–9)**  - ✅ Done
 - **Main Workout:** 2 x 6 min @ 4:30/km  
   - **Recovery:** 4 min jog  
 - **Warm-up:** 10–15 min easy jog + 3 x 20 sec strides  
 - **Cool-down:** 10–15 min easy jog + 5 min static stretching  
 
-**Phase 4: Race Simulation (Weeks 10–12)**  
+**Phase 4: Race Simulation (Weeks 10–12)**  - In Progress
 - **Main Workout:**  
   - 1 x 8 min @ 4:30/km  
   - **Recovery:** 4 min jog  
