@@ -29,6 +29,8 @@ When we factor in metabolic inefficiencies (more on that in a sec), **1 kg of hu
 Here’s how fat burning actually goes:
 
 1️⃣ **Lipolysis** – fat cells break triglycerides into fatty acids + glycerol <br>
+![image](https://github.com/user-attachments/assets/f4e3eb6f-f54b-4cc6-8798-fa41c28f318e)
+<br>
 2️⃣ **Transport** – fatty acids ride through blood, enter cells, prep for oxidation <br>
 3️⃣ **Beta-Oxidation** – mitochondria chop fatty acids into usable energy (ATP) <br>
 4️⃣ **Thermogenesis** – some energy turns into heat 🔥, not ATP <br>
