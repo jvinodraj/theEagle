@@ -24,6 +24,28 @@ When we factor in metabolic inefficiencies (more on that in a sec), **1 kg of hu
 
 ---
 
+### 🔁 Why Burning Fat Isn’t “Efficient”
+
+Let’s say your body is a bank.
+
+To withdraw energy (fat), you have to:
+
+1. **Pay a transaction fee** (energy to break it down)
+2. **Lose some cash to taxes** (energy lost as heat)
+3. **Handle conversion costs** (enzymes, hormones, transport)
+
+Here’s how fat burning actually goes:
+
+1️⃣ **Lipolysis** – fat cells break triglycerides into fatty acids + glycerol
+2️⃣ **Transport** – fatty acids ride through blood, enter cells, prep for oxidation
+3️⃣ **Beta-Oxidation** – mitochondria chop fatty acids into usable energy (ATP)
+4️⃣ **Thermogenesis** – some energy turns into heat 🔥, not ATP
+5️⃣ **Glycerol** – mostly converted to glucose, but not super efficient
+
+Net result: You *can* technically get 9 kcal/gram, but your body taxes that down to \~7.7 kcal/g.
+
+---
+
 ### 🏃‍♂️ Easy Runs: Your Fat-Burning Superpower
 
 Here’s the cool part:
