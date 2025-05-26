@@ -42,7 +42,7 @@
 - **Warm-up:** 10–15 min easy jog + 3 x 20 sec strides  
 - **Cool-down:** 10–15 min easy jog + 5 min static stretching  
 
-**Phase 4: Race Simulation (Weeks 10–12)**  - In Progress
+**Phase 4: Race Simulation (Weeks 10–12)**  - ✅ Done
 - **Main Workout:**  
   - 1 x 8 min @ 4:30/km  
   - **Recovery:** 4 min jog  
