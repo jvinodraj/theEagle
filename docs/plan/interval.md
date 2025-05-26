@@ -50,9 +50,55 @@
 - **Warm-up:** 10–15 min easy jog + 3 x 20 sec strides  
 - **Cool-down:** 10–15 min easy jog + 5 min static stretching  
 
-**Final Phase: Continuous Effort (Week 13+)**  
+**Final Phase: Continuous Effort (Week 13)**  
 - **Main Workout:** 1 x 12 min @ 4:30/km  
   - Progress toward 5K over time  
 - **Warm-up:** 10–15 min easy jog + 3 x 20 sec strides  
-- **Cool-down:** 10–15 min easy jog + 5 min static stretching  
+- **Cool-down:** 10–15 min easy jog + 5 min static stretching
+  
+---
 
+#### **Week 14:**
+
+* **Workout A**
+  1 x 14 min @ 4:30/km
+  Recovery: Full warm-up and cool-down
+
+* **Workout B**
+  2 x 8 min @ 4:30/km, Recovery: 3 min jog
+
+---
+
+#### **Week 15:**
+
+* **Workout A**
+  1 x 16 min @ 4:30/km
+
+* **Workout B**
+  1 x 10 min + 1 x 8 min @ 4:30/km, Recovery: 3 min jog
+
+---
+
+#### **Week 16:**
+
+* **Workout A (Race Rehearsal)**
+  1 x 5K @ 4:30/km
+  Treat this as a **time trial**, simulate race conditions, and fuel/hydrate accordingly.
+
+---
+
+### **Final Phase notes:**
+
+* Maintain all warm-up and cool-down routines.
+* Add one **easy recovery run (Zone 2)** in between workouts.
+* Prioritize sleep, nutrition, and hydration for recovery.
+* If overly fatigued, repeat a week instead of progressing.
+
+---
+
+### **Optional Week 17+:**
+
+after done with 5K @ 4:30/km:
+
+* **shave 5–10 seconds/km** off your pace gradually.
+* Shift focus to a **10K program**.
