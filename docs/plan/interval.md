@@ -50,7 +50,7 @@
 - **Warm-up:** 10–15 min easy jog + 3 x 20 sec strides  
 - **Cool-down:** 10–15 min easy jog + 5 min static stretching  
 
-**Final Phase: Continuous Effort (Week 13)**  
+**Continuous Effort (Week 13)**  
 - **Main Workout:** 1 x 12 min @ 4:30/km  
   - Progress toward 5K over time  
 - **Warm-up:** 10–15 min easy jog + 3 x 20 sec strides  
@@ -101,4 +101,6 @@
 after done with 5K @ 4:30/km:
 
 * **shave 5–10 seconds/km** off your pace gradually.
+  * How to shave from pr. Sample calculation
+  * https://github.com/jvinodraj/theEagle/blob/master/docs/p1/interval-run.md
 * Shift focus to a **10K program**.
