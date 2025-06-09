@@ -1,4 +1,4 @@
-### 🏋️ **Strength Training Plan — 10K Run Focus**
+### **Strength Training Plan — 10K Run Focus**
 
 A 10K demands:
 
@@ -9,7 +9,7 @@ A 10K demands:
 
 ---
 
-## 🔢 **Strength Load Calculation (Based on 70kg Runner)**
+## **Strength Load Calculation (Based on 70kg Runner)**
 
 | Focus Area             | Weekly Volume Target | Why It Matters for 10K      |
 | ---------------------- | -------------------- | --------------------------- |
@@ -20,7 +20,7 @@ A 10K demands:
 
 ---
 
-## 🦵 1. **Lunges (Power + Endurance)**
+## 1. **Lunges (Power + Endurance)**
 
 🔹 **Target**: \~300 reps/week
 🔹 **Breakdown**:
@@ -35,7 +35,7 @@ A 10K demands:
 
 ---
 
-## 🏋️ 2. **Squats (Explosiveness + Stride Power)**
+## 2. **Squats (Explosiveness + Stride Power)**
 
 🔹 **Target**: \~250 reps/week
 🔹 **Breakdown**:
@@ -44,14 +44,14 @@ A 10K demands:
 * Bulgarian Split Squats: `2×10 reps/leg (weighted)`
 * Bodyweight Squats: `3×25 reps`
 
-📌 **10K Purpose**:
+**Purpose**:
 
 * Enhances **VO₂ max output** through neuromuscular demand.
 * Improves **running stride propulsion**.
 
 ---
 
-## 🦶 3. **Calf Raises (Speed & Bounce)**
+## 3. **Calf Raises (Speed & Bounce)**
 
 🔹 **Target**: \~300–350 reps/week
 🔹 **Breakdown**:
@@ -60,13 +60,13 @@ A 10K demands:
 * Seated Weighted Calf Raises: `3×12 reps`
 * Jump Rope (plyo): `3×50 skips`
 
-📌 **10K Purpose**:
+**Purpose**:
 
 * Enhances cadence & rebound effect, crucial for fast turnover.
 
 ---
 
-## 🔁 4. **Core & Posture (Mid-race control + Breathing)**
+## 4. **Core & Posture (Mid-race control + Breathing)**
 
 🔹 **Frequency**: 3×/week
 🔹 **Breakdown**:
@@ -76,7 +76,7 @@ A 10K demands:
 * Bicycle Crunch: `2×25`
 * Dead Bug: `3×15`
 
-📌 **10K Purpose**:
+**Purpose**:
 
 * Controls trunk rotation for efficient arm-leg coordination.
 * Supports diaphragmatic breathing.
@@ -98,7 +98,7 @@ A 10K demands:
 
 | Area               | FM Plan                    | 10K Plan                       |
 | ------------------ | -------------------------- | ------------------------------ |
-| **Weekly Volume**  | \~2000 reps                | \~1000–1200 reps               |
+| **Weekly Volume**  | \~1500 reps                | \~1000–1200 reps               |
 | **Explosive Work** | Moderate (less risk)       | High (more plyo emphasis)      |
 | **Core Volume**    | High for posture endurance | Medium for breathing/stability |
 | **Focus**          | Fatigue resistance         | Speed-endurance & power output |
