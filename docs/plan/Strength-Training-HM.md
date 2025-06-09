@@ -1,4 +1,4 @@
-### 🏋️ **Strength Training Plan — Half Marathon Focus**
+### **Strength Training Plan — Half Marathon Focus**
 
 A Half Marathon requires:
 
@@ -9,7 +9,7 @@ A Half Marathon requires:
 
 ---
 
-## 🔢 Strength Load Calculation (Assuming 70 kg runner)
+## Strength Load Calculation (Assuming 70 kg runner)
 
 | Focus Area             | Weekly Volume Target | Why It Matters for HM              |
 | ---------------------- | -------------------- | ---------------------------------- |
@@ -20,7 +20,7 @@ A Half Marathon requires:
 
 ---
 
-## 🦵 1. **Lunges (Endurance + Glute Strength)**
+## 1. **Lunges (Endurance + Glute Strength)**
 
 🔹 **Target**: \~500 reps/week
 🔹 **Breakdown**:
@@ -29,13 +29,13 @@ A Half Marathon requires:
 * Reverse Lunges: `2×15 reps/leg`
 * Jump Lunges: `2×12 reps`
 
-📌 **Half Marathon Purpose**:
+**Half Marathon Purpose**:
 
 * Builds hip/glute strength for mid-to-late race fatigue management.
 
 ---
 
-## 🏋️ 2. **Squats (Strength + Stability)**
+## 2. **Squats (Strength + Stability)**
 
 🔹 **Target**: \~400 reps/week
 🔹 **Breakdown**:
@@ -44,13 +44,13 @@ A Half Marathon requires:
 * Goblet Squats (10–15 kg): `3×12 reps`
 * Jump Squats: `2×15 reps`
 
-📌 **Half Marathon Purpose**:
+**Purpose**:
 
 * Enhances strength for sustained pace and reduces ground contact time.
 
 ---
 
-## 🦶 3. **Calf Raises (Support Footstrike Efficiency)**
+## 3. **Calf Raises (Support Footstrike Efficiency)**
 
 🔹 **Target**: \~400–500 reps/week
 🔹 **Breakdown**:
@@ -65,7 +65,7 @@ A Half Marathon requires:
 
 ---
 
-## 🔁 4. **Core & Hip Stability (Posture + Arm Drive)**
+## 4. **Core & Hip Stability (Posture + Arm Drive)**
 
 🔹 **Frequency**: 3×/week
 🔹 **Breakdown**:
@@ -103,7 +103,7 @@ A Half Marathon requires:
 
 ---
 
-## 🧘 Mobility & Stability Add-ons
+## Mobility & Stability Add-ons
 
 * **Band walks & clamshells** (2×/week): hip stabilization
 * **Hip openers & foam rolling**: post-run or strength cooldown
@@ -111,7 +111,7 @@ A Half Marathon requires:
 
 ---
 
-## 🔄 Integration with Run Plan
+## Integration with Run Plan
 
 * **Strength on easy run days** (Mon/Wed/Fri)
 * **Avoid** heavy strength 24 hr before intervals or long tempo
