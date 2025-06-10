@@ -2,7 +2,7 @@
 
 ---
 
-### **Strength Training Plan — 5K Focus**
+### **Strength Training Plan - 5K Focus**
 
 **5K race demands:**
 
