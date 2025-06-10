@@ -1,4 +1,4 @@
-**Strength Training Plan for 5K Runners** — built for **speed, explosive power, core stability, and injury prevention**. The 5K is short but intense, requiring **high neuromuscular coordination**, **VO₂ max utilization**, and **efficient biomechanics**.
+**Strength Training Plan for 5K Runners** built for **speed, explosive power, core stability, and injury prevention**. The 5K is short but intense, requiring **high neuromuscular coordination**, **VO₂ max utilization**, and **efficient biomechanics**.
 
 ---
 
