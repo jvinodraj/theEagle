@@ -118,6 +118,6 @@
 
 ## 🔁 Integration with Run Plan
 
-* Strength on non-quality run days (e.g., post-easy run or in PM)
+* Strength on non-quality run days (e.g., post-easy run)
 * Avoid lower body strength within 24h of interval/sprint sessions
 * Deload every 4th week (\~50% volume and intensity)
