@@ -1,8 +1,8 @@
-**Strength Training Plan for 5K Runners** — built for **speed, explosive power, core stability, and injury prevention**. The 5K is short but intense, requiring **high neuromuscular coordination**, **VO₂ max utilization**, and **efficient biomechanics**.
+**Strength Training Plan for 5K Runners** built for **speed, explosive power, core stability, and injury prevention**. The 5K is short but intense, requiring **high neuromuscular coordination**, **VO₂ max utilization**, and **efficient biomechanics**.
 
 ---
 
-### **Strength Training Plan — 5K Focus**
+### **Strength Training Plan - 5K Focus**
 
 **5K race demands:**
 
@@ -118,6 +118,6 @@
 
 ## 🔁 Integration with Run Plan
 
-* Strength on non-quality run days (e.g., post-easy run or in PM)
+* Strength on non-quality run days (e.g., post-easy run)
 * Avoid lower body strength within 24h of interval/sprint sessions
 * Deload every 4th week (\~50% volume and intensity)
