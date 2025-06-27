@@ -13,6 +13,16 @@
 
 ---
 
+## 📅 Weekly Strength Routine for 5K Runners
+
+| Day     | Focus                                    |
+| ------- | ---------------------------------------- |
+| **Mon** | Squats + Lunges + Core Stability         |
+| **Wed** | Jump Rope + Calf Raises + Core           |
+| **Fri** | Plyometrics + Glute Activation + Core    |
+| **Sat** | Explosive Lunges + Short Mobility + Core |
+
+---
 ## Strength Load Calculation (for \~70 kg runner)
 
 | Focus Area             | Weekly Volume Target | Why It Matters for 5K          |
@@ -26,12 +36,13 @@
 
 ## 1. **Lunges (Speed Power + Control)**
 
-🔹 **Target**: 250 reps/week
-🔹 **Breakdown**:
+**Target**: 250 reps/week
 
-* Jumping Lunges: `3×15 reps`
-* Walking Lunges (light weights): `2×20 reps/leg`
-* Reverse Lunges (explosive step-back): `2×10 reps/leg`
+| Exercise                      | Sets × Reps | Rest Between Sets |
+| ----------------------------- | ----------- | ----------------- |
+| Jumping Lunges                | 3 × 15      | 45–60 sec         |
+| Walking Lunges (light weight) | 2 × 20/leg  | 60–75 sec         |
+| Reverse Lunges (explosive)    | 2 × 10/leg  | 60 sec            |
 
 📌 **Purpose**:
 
@@ -41,12 +52,13 @@
 
 ## 2. **Squats (Explosiveness + Acceleration)**
 
-🔹 **Target**: \~200 reps/week
-🔹 **Breakdown**:
+**Target**: \~200 reps/week
 
-* Jump Squats: `3×15 reps`
-* Goblet Squats: `3×10 reps (15kg)`
-* Split Squats: `2×10/leg`
+| Exercise               | Sets × Reps | Rest Between Sets |
+| ---------------------- | ----------- | ----------------- |
+| Jump Squats            | 3 × 15      | 60 sec            |
+| Goblet Squats (15kg)   | 3 × 10      | 75–90 sec         |
+| Bulgarian Split Squats | 2 × 10/leg  | 60 sec            |
 
 📌 **Purpose**:
 
@@ -56,12 +68,13 @@
 
 ## 3. **Calf Raises & Plyo (Ground Contact Efficiency)**
 
-🔹 **Target**: 300+ reps/week
-🔹 **Breakdown**:
+**Target**: 300+ reps/week
 
-* Single-leg Calf Raises: `3×20 reps/leg`
-* Weighted Standing Raises: `3×12 reps`
-* Skipping or Jump Rope: `3×50 skips`
+| Exercise                 | Sets × Reps  | Rest Between Sets |
+| ------------------------ | ------------ | ----------------- |
+| Single-leg Calf Raises   | 3 × 20/leg   | 45 sec            |
+| Weighted Standing Raises | 3 × 12       | 60 sec            |
+| Jump Rope (fast cadence) | 3 × 50 skips | 30–45 sec         |
 
 📌 **Purpose**:
 
@@ -85,14 +98,51 @@
 
 ---
 
-## 📅 Weekly Strength Routine for 5K Runners
+## Friday - Plyometrics & Glute Activation
 
-| Day     | Focus                                    |
-| ------- | ---------------------------------------- |
-| **Mon** | Squats + Lunges + Core Stability         |
-| **Wed** | Jump Rope + Calf Raises + Core           |
-| **Fri** | Plyometrics + Glute Activation + Core    |
-| **Sat** | Explosive Lunges + Short Mobility + Core |
+### Plyometric Drills
+
+| Exercise            | Sets × Reps | Rest Between Sets |
+| ------------------- | ----------- | ----------------- |
+| Bounding (30m)      | 3 × 30m     | 60–75 sec         |
+| Lateral Skater Hops | 3 × 12/side | 45 sec            |
+| Tuck Jumps          | 3 × 8       | 75 sec            |
+
+---
+
+### Glute Activation Drills
+
+| Exercise               | Sets × Reps      | Rest |
+| ---------------------- | ---------------- | ---- |
+| Clamshells (with band) | 2 × 20/side      | 30s  |
+| Glute Bridges          | 3 × 15           | 45s  |
+| crab walk              | 2 × 10 steps/dir | 30s  |
+
+📌 *Wakes up glutes pre-run or pre-strength for power transfer*
+
+---
+
+## Saturday — Explosive + Mobility Focus
+
+### Explosive Lunges (Reactive Strength)
+
+| Exercise                     | Sets × Reps | Rest |
+| ---------------------------- | ----------- | ---- |
+| Split Jump Lunges            | 3 × 10/leg  | 60s  |
+| Plyo Step-back to Knee Drive | 3 × 6/leg   | 45s  |
+
+---
+
+### Short Mobility Routine
+
+| Drill                              | Duration/Reps       |
+| ---------------------------------- | ------------------- |
+| World's Greatest Stretch           | 2 × 30s/side        |
+| Hip Flexor Stretch (couch stretch) | 2 × 45s/side        |
+| Ankle Rockers                      | 2 × 15              |
+| Leg Swings (front/side)            | 2 × 15/leg each dir |
+
+📌 *Loosens tight hips, ankles, and hamstrings for optimal stride length*
 
 ---
 
