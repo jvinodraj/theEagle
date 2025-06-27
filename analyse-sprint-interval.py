@@ -127,20 +127,18 @@ def analyze_sprint_intervals(df, power_threshold=200, discard_interval_sec=30):
         # print(f"Total seconds: {delta.total_seconds()}")
 
         print(f"Sprint {i+1}: [{start_time} - {end_time}] delta {delta}; Avg Pace = {pace_min_per_km:.2f} min/km; \
-Avg Pow = {avg_power:.2f}w; GCT = {avg_gct:.2f} ms; Avg Cad = {avg_cad:.0f} SPM; \
-Avg HR = {avg_hr:.0f}; avg VR = {avg_vr:.2f} cm")
+Avg Pow = {avg_power:.2f}w; Avg HR = {avg_hr:.0f} \
+\n\t Running Dynamics: GCT = {avg_gct:.2f} ms; Avg Cad = {avg_cad:.0f} SPM; avg VR = {avg_vr:.2f} %")
 
 
 
 if __name__ == "__main__": 
-    file_name = r"C:\Users\a717631\fits\interval\10-Apr-2025.fit"
+    file_name = r"C:\Users\A717631\fits\interval\26-Jun-2025.fit"
     df = load_df_fitparse(file_name)
     print(file_name)
 
     # Run analysis
-    running_power = 250
-    interval_sec = 10
+    running_power = 300
+    interval_sec = 30
     print("When running power is > ", running_power, " and interval is > ", interval_sec, "sec")
     analyze_sprint_intervals(df, power_threshold=running_power, discard_interval_sec=interval_sec)
-
-
