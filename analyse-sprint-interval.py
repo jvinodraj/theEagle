@@ -121,6 +121,8 @@ def analyze_sprint_intervals(df, power_threshold=200, discard_interval_sec=30):
 
         #heart rate calculation
         avg_hr  = sum(hr_interval[i]) / len(hr_interval[i])
+        min_hr  = min(hr_interval[i])
+        max_hr  = max(hr_interval[i])
 
         #vertical ratio calculation 
         avg_vr = sum(vr_interval[i]) / len(vr_interval[i])
@@ -138,20 +140,20 @@ def analyze_sprint_intervals(df, power_threshold=200, discard_interval_sec=30):
         # print(f"Total seconds: {delta.total_seconds()}")
 
         print(f"Sprint {i+1}: [{start_time} - {end_time}] Δ={delta}; Pace={pace_min_per_km:.2f} min/km; \
-Pow={avg_power:.2f}w; HR={avg_hr:.0f}; GCT={avg_gct:.2f}ms; Cad={avg_cad:.0f} SPM; VR={avg_vr:.2f}% \
+P={avg_power:.2f}W; HR(min-max-avg)={min_hr}-{max_hr}-{avg_hr:.0f}; GCT={avg_gct:.2f}ms; Cad={avg_cad:.0f} spm; VR={avg_vr:.2f}% \
 VO={avg_vo:.2f}cm")
-    print("\nLegend: \nΔ = duration, Pow = Power, HR = Heart Rate, GCT = Ground Contact Time, Cad = Cadence, VR = Vertical Ratio, VO = Vertical Oscillation")
+    print("\nLegend: \nΔ = duration, P = Power, HR = Heart Rate, GCT = Ground Contact Time, Cad = Cadence, VR = Vertical Ratio, VO = Vertical Oscillation")
     
 
 
 
 if __name__ == "__main__": 
-    file_name = r"C:\Users\A717631\fits\interval\26-Jun-2025.fit"
+    file_name = r"C:\Users\A717631\fits\interval\03-Jul-2025.fit"
     df = load_df_fitparse(file_name)
     print(file_name)
 
     # Run analysis
-    running_power = 300
+    running_power = 350
     interval_sec = 30
     print("When running power is > ", running_power, " and interval is > ", interval_sec, "sec")
     analyze_sprint_intervals(df, power_threshold=running_power, discard_interval_sec=interval_sec)
