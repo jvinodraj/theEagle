@@ -1,6 +1,6 @@
-let me give you a quick overview of the database we're working with.
-We're using the Northwind sample database to demonstrate the backend part.
-It contains tables such as Orders, Customers, Products, Employees, and more—each with relevant columns like order dates, customer names, product prices, etc.
+let me give you a quick overview of the database we're working with.<br>
+We're using the Northwind sample database to demonstrate the backend part.<br>
+It contains tables such as Orders, Customers, Products, Employees, and more—each with relevant columns like order dates, customer names, product prices, etc.<br>
 This structure allows us to showcase data quality and observability checks on real-world business data.
 
 
