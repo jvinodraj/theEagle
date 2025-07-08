@@ -1,0 +1,67 @@
+Before we dive into the APIs, let me give you a quick overview of the database we're working with.
+We're using the Northwind sample database, which is a classic dataset for demonstrating business data solutions.
+It contains tables such as Orders, Customers, Products, Employees, and more—each with relevant columns like order dates, customer names, product prices, etc.
+This structure allows us to showcase data quality and observability checks on real-world business data.
+
+
+Certainly! Here’s a clear, client-friendly demo script and recommended order for presenting your APIs:
+
+---
+
+### 1. **System Metrics API** (`/metrics/system`)
+
+**Script:**  
+_"Let’s start by showing how we can monitor the health of our backend system. This endpoint provides real-time system metrics such as CPU usage, memory, disk usage, uptime, and platform details. This helps us ensure the infrastructure is healthy and responsive."_
+
+**Demo:**  
+- Call `/metrics/system`
+- Show the JSON output with CPU, memory, disk, uptime, etc.
+
+---
+
+### 2. **Token API** (`/token`)
+
+**Script:**  
+_"Next, we have a secure authentication mechanism. The `/token` endpoint issues an access token, which is required for all protected API calls. This ensures only authorized users can access sensitive data and operations."_
+
+**Demo:**  
+- Call `/token`
+- Show the returned access token and explain its use for authentication.
+
+---
+
+### 3. **Data Quality: Table Check** (`/quality/check-table`)
+
+**Script:**  
+_"Now, let’s look at our data quality capabilities. The `/quality/check-table` endpoint allows us to check the quality of data in any table. For example, we can see how many missing values, duplicate rows, and the total row count for a given table. This helps us quickly identify data issues at a high level."_
+
+**Demo:**  
+- Call `/quality/check-table` with a sample table (e.g., `Orders`)
+- Show the output: missing values per column, duplicates, row count.
+
+---
+
+### 4. **Data Quality: Column Check** (`/quality/check-column`)
+
+**Script:**  
+_"For more granular analysis, the `/quality/check-column` endpoint checks the quality of a specific column. It reports missing values, unique values, and—if the column is numeric—min, max, and outliers. This is useful for spotting anomalies or data entry issues in critical fields."_
+
+**Demo:**  
+- Call `/quality/check-column` with a sample table and column (e.g., `Products`, `UnitPrice`)
+- Show the output: missing, unique, min, max, outliers.
+
+---
+
+## **Summary Script**
+
+_"With these APIs, we provide robust observability and data quality checks for your data platform. You can monitor system health, ensure secure access, and quickly assess and diagnose data quality issues at both the table and column level. This empowers your team to maintain high data standards and operational reliability."_
+
+---
+
+**Order for Demo:**
+1. `/metrics/system`
+2. `/token`
+3. `/quality/check-table`
+4. `/quality/check-column`
+
+Let me know if you want a more detailed script for each step!
