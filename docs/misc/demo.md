@@ -4,8 +4,6 @@ It contains tables such as Orders, Customers, Products, Employees, and more—ea
 This structure allows us to showcase data quality and observability checks on real-world business data.
 
 
-Certainly! Here’s a clear, client-friendly demo script and recommended order for presenting your APIs:
-
 ---
 
 ### 1. **System Metrics API** (`/metrics/system`)
@@ -64,4 +62,3 @@ _"With these APIs, we provide robust observability and data quality checks for y
 3. `/quality/check-table`
 4. `/quality/check-column`
 
-Let me know if you want a more detailed script for each step!
