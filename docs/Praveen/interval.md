@@ -1,7 +1,7 @@
 ## 5K Sub-17:30 Training Plan (Target: 3:30/km pace)
 
 ### **Weekly Schedule Overview**
-
+<!-- 
 1. **Monday – Easy Run**
 
    * 6–8 km at 5:00–5:30/km pace
@@ -46,4 +46,4 @@
 
 * Strides: 4–6 × 100m fast strides (\~3:10/km effort, full recovery)
 * Drills: High knees, butt kicks, A-skips (for form)
-
+ -->
