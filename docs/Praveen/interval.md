@@ -2,7 +2,7 @@
 
 ### **Weekly Schedule Overview**
 
-**Low-Key - Enigmatic**
+**Classified**
 <!-- 
 1. **Monday – Easy Run**
 
