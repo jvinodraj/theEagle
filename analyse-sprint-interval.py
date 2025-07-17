@@ -51,6 +51,10 @@ def analyze_sprint_intervals(df, power_threshold=200, discard_interval_sec=30):
     current_gct         = []
     gct_interval        = []
     
+    # stride_length
+    current_strlen      = []
+    strlen_interval     = []
+    
     # vertical_ratio
     current_vr          = []
     vr_interval         = []
@@ -66,12 +70,15 @@ def analyze_sprint_intervals(df, power_threshold=200, discard_interval_sec=30):
             pdb.set_trace()
 
         if row['power'] >= power_threshold:
+            # import pdb
+            # pdb.set_trace()
             if not in_sprint:
                 in_sprint       = True
                 start_time      = row['timezone_ist']
                 current_pace    = [row['enhanced_speed']]
                 current_sprint  = [row['power']]
                 current_gct     = [row['stance_time']] 
+                current_strlen  = [row['step_length']/1000]  # Convert to meters
                 current_cadence = [row['cadence'] * 2]
                 current_hr      = [row['heart_rate']]
                 current_vr      = [row['vertical_ratio']]
@@ -80,6 +87,7 @@ def analyze_sprint_intervals(df, power_threshold=200, discard_interval_sec=30):
                 current_pace.append(row['enhanced_speed'])
                 current_sprint.append(row['power'])
                 current_gct.append(row['stance_time'])
+                current_strlen.append(row['step_length']/1000)  # Convert to meters
                 current_cadence.append(row['cadence'] * 2)
                 current_hr.append(row['heart_rate'])
                 current_vr.append(row['vertical_ratio'])
@@ -98,6 +106,7 @@ def analyze_sprint_intervals(df, power_threshold=200, discard_interval_sec=30):
                     sprint_intervals.append(current_sprint)
                     pace_interval.append(current_pace)
                     gct_interval.append(current_gct)
+                    strlen_interval.append(current_strlen)
                     cadence_interval.append(current_cadence)
                     hr_interval.append(current_hr)
                     vr_interval.append(current_vr)
@@ -111,10 +120,17 @@ def analyze_sprint_intervals(df, power_threshold=200, discard_interval_sec=30):
         # import pdb
         # pdb.set_trace()
         total_speed   = sum(pace_interval[i]) / len(pace_interval[i])
-        pace_min_per_km = (1000 / total_speed) / 60
+        # pace_min_per_km = (1000 / total_speed) / 60
+        pace_in_minutes = (1000 / total_speed) / 60
+        minutes = int(pace_in_minutes)
+        seconds = int((pace_in_minutes - minutes) * 60)
+        formatted_pace = f"{minutes}:{seconds:02d}"
         
         #calculating GCT
         avg_gct = sum(gct_interval[i]) / len(gct_interval[i])
+
+        # stride length
+        avg_strlen = sum(strlen_interval[i]) / len(strlen_interval[i])
 
         # avg cadence
         avg_cad = sum(cadence_interval[i]) / len(cadence_interval[i])
@@ -139,21 +155,24 @@ def analyze_sprint_intervals(df, power_threshold=200, discard_interval_sec=30):
         # print(delta)
         # print(f"Total seconds: {delta.total_seconds()}")
 
-        print(f"Sprint {i+1}: [{start_time} - {end_time}] Δ={delta}; Pace={pace_min_per_km:.2f} min/km; \
-P={avg_power:.2f}W; HR(min-max-avg)={min_hr}-{max_hr}-{avg_hr:.0f}; GCT={avg_gct:.2f}ms; Cad={avg_cad:.0f} spm; VR={avg_vr:.2f}% \
+
+        print(f"Sprint {i+1}: \
+Δ={delta}; Pace={formatted_pace} min/km; Pow={avg_power:.2f}W; HR(min-max-avg)={min_hr}-{max_hr}-{avg_hr:.0f}; \
+GCT={avg_gct:.2f}ms; StrideLen={avg_strlen:.2f}m; Cad={avg_cad:.0f} spm; VR={avg_vr:.2f}% \
 VO={avg_vo:.2f}cm")
+        #   [{start_time} - {end_time}] \
     print("\nLegend: \nΔ = duration, P = Power, HR = Heart Rate, GCT = Ground Contact Time, Cad = Cadence, VR = Vertical Ratio, VO = Vertical Oscillation")
     
 
 
 
 if __name__ == "__main__": 
-    file_name = r"C:\Users\A717631\fits\interval\03-Jul-2025.fit"
+    file_name = r"C:\Users\A717631\fits\interval\10-Jul-2025.fit"
     df = load_df_fitparse(file_name)
     print(file_name)
 
     # Run analysis
     running_power = 350
-    interval_sec = 30
+    interval_sec = 40
     print("When running power is > ", running_power, " and interval is > ", interval_sec, "sec")
     analyze_sprint_intervals(df, power_threshold=running_power, discard_interval_sec=interval_sec)

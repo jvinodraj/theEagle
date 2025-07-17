@@ -37,7 +37,8 @@ def analyze_pace_efficiency(df, power_level):
 
 # Correlation analysis
 def correlation_analysis(df):
-    correlation_matrix = df[['pace', 'cadence', 'vertical_ratio', 'heart_rate', 'power']].corr()
+    correlation_matrix = df[['pace', 'cadence', 'vertical_ratio', 'vertical_oscillation', 'heart_rate', 'power']].corr()
+    print ("Correlation Matrix:\n", correlation_matrix)
     plt.figure(figsize=(8, 6))
     sns.heatmap(correlation_matrix, annot=True, cmap='coolwarm', fmt='.2f')
     plt.title('Correlation Between Metrics')
@@ -58,7 +59,7 @@ def plot_trends(df):
 if __name__ == "__main__":
     # Sample data loading
     # df = pd.read_csv("your_data.csv", parse_dates=['timestamp'], index_col='timestamp')
-    file_name = r"C:\Users\a717631\OneDrive - Eviden\Documents\Repo\theEagle\easy_runs\17-Feb-2025.fit"
+    file_name = r"C:\Users\A717631\fits\interval\10-Jul-2025.fit"
     df = load_df_fitparse(file_name)
     df = preprocess_data(df)
     
