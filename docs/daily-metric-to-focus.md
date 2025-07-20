@@ -14,11 +14,43 @@
 - **Warning Sign:** If RHR increases by >5-10 bpm, it may indicate fatigue, stress, or illness.
 
 ### **3. Power-to-Weight Ratio (Running FTP / Body Weight)**
-- **Beginner:** 2.5 - 3.5 W/kg
-- **Intermediate:** 3.5 - 4.5 W/kg
-- **Advanced:** 4.5 - 5.5 W/kg
-- **Elite:** 5.5+ W/kg
-- **Your Goal:** Improve from 4.59 W/kg towards 5 W/kg
+
+**What is it?**
+This metric reflects how efficiently you can produce sustained power relative to your body weight. It’s calculated by dividing your **Running FTP** which closely corresponds to your **Lactate Threshold Power (LTP)** by your body weight in kilograms.
+
+$$
+\text{Power-to-Weight Ratio (W/kg)} = \frac{\text{Lactate Threshold Power (FTP)}}{\text{Body Weight (kg)}}
+$$
+
+**Why it matters:**
+This is a key indicator of endurance performance. A higher ratio means you can produce more power for longer durations without fatiguing, especially important for hills, longer races, and competitive performance. It's especially useful for comparing athletes of different sizes on a level playing field.
+
+**Example Benchmark:**
+If your FTP is **332W** and your body weight is **72 kg**, then:
+
+$$
+\frac{332}{72} = \mathbf{4.61 \, W/kg}
+$$
+
+**Performance Ranges:**
+
+| Level        | Power-to-Weight (W/kg) |
+| ------------ | ---------------------- |
+| Beginner     | 2.5 – 3.5              |
+| Intermediate | 3.5 – 4.5              |
+| Advanced     | 4.5 – 5.5              |
+| Elite        | > 5.5                  |
+
+**How to Improve:**
+
+* 🔼 **Increase FTP** via threshold intervals, tempo runs, and consistent aerobic training.
+* 🔽 **Reduce excess body fat** while maintaining lean muscle to improve the ratio naturally.
+
+**What to track:**
+
+* Lactate Threshold Power (FTP)
+* Body Weight (in kg)
+* Trends in W/kg over training cycles
 
 ### **4. Heart Rate Variability (HRV)**
 - **Excellent Recovery:** 70-100 ms (higher is better, low stress, high parasympathetic tone)
