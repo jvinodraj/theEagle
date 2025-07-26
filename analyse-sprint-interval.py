@@ -5,10 +5,32 @@ from pytz import timezone
 from datetime import datetime, time
 import pdb
 
+body_weight = 72  # kg, adjust as needed
+
+# Define pretty headers with units on the second line
+header_map = {
+    "Sprint": "Sprint",
+    "duration": "Duration",
+    "pace": "Pace",
+    "Speed (m/s)": "Speed(m/s)",
+    "Power(W)": "Power\n(W)",
+    "min_hr": "HR\nmin",
+    "max_hr": "HR\nmax",
+    "avg_hr": "HR\navg",
+    "GCT (ms)": "GCT\n(ms)",
+    "Stride Length(m)": "Stride\nLength (m)",
+    "Cadence (spm)": "Cadence\n(spm)",
+    "VR (%)": "VR\n(%)",
+    "VO (cm)": "VO\n(cm)",
+    "efficiency (m/W)": "Efficiency\n(m/W)"
+}
+
 def load_df_fitparse(file_name):
     ist = timezone("Asia/Kolkata")
     recs  = fitparse.FitFile(file_name)
     data = []
+    print("Info : \n", [{field.name: field.value} for msg  in recs.get_messages("file_id") for field in msg])
+    [{field.name: field.value} for msg  in recs.get_messages("file_id") for field in msg]
     for record in recs.get_messages("record"):
         # pdb.set_trace()
         data_dict = {field.name: field.value for field in record}
@@ -64,10 +86,11 @@ def analyze_sprint_intervals(df, power_threshold=200, discard_interval_sec=30):
     vo_interval         = []
 
     for i, row in df.iterrows():
+        # pdb.set_trace()
         # print(row['stance_time_balance'])
         if row['stance_time_balance'] != None:
             print(row['stance_time_balance'])
-            pdb.set_trace()
+            # pdb.set_trace()
 
         if row['power'] >= power_threshold:
             # import pdb
@@ -112,6 +135,9 @@ def analyze_sprint_intervals(df, power_threshold=200, discard_interval_sec=30):
                     vr_interval.append(current_vr)
                     vo_interval.append(current_vo)
 
+    # This will hold the summary of each sprint
+    sprint_summary = []
+    
     # Print average power for each sprint
     for i, sprint in enumerate(sprint_intervals):
         avg_power = sum(sprint) / len(sprint)
@@ -155,19 +181,97 @@ def analyze_sprint_intervals(df, power_threshold=200, discard_interval_sec=30):
         # print(delta)
         # print(f"Total seconds: {delta.total_seconds()}")
 
+        #Efficiency calculation
+        if avg_power > 0:
+            efficiency = (total_speed ) / avg_power
+            # print(f"Efficiency: {efficiency:.2f} m/W")
+        else:
+            efficiency = 0
+            # print("Efficiency: N/A (Power is zero)")
+
+        #Heart Rate based Mechanical Efficiency
+        hr_efficiency = (total_speed) / avg_hr
+
+        #Stride Based Mechanical Efficiency
+        stride_efficiency = (avg_strlen) / avg_gct
+
+        #Cadence based Mechanical Efficiency
+        cadence_efficiency = (total_speed) / avg_cad
+
+        #Minx, Max and Avg HR
+        hr = f"{min_hr}-{max_hr}-{round(avg_hr)}"
+
+        sprint_summary.append({
+            "Sprint": i + 1,
+            "Delta": str(delta).replace("0 days, ", ""),
+            "Pace": formatted_pace,
+            "Speed": round(total_speed, 2),
+            "Power": round(avg_power),
+            "HR": hr,
+            "GCT": round(avg_gct, 2),
+            "Stride Len": round(avg_strlen, 2),
+            "Cad": round(avg_cad),
+            "VR": round(avg_vr, 2),
+            "VO": round(avg_vo, 2),
+            "Eff PWR": round(efficiency, 5),
+            "Eff HR": round(hr_efficiency, 5),
+            "Eff Stride": round(stride_efficiency, 5),
+            "Eff Cad": round(cadence_efficiency, 5)
+        })
+
 
         print(f"Sprint {i+1}: \
-Δ={delta}; Pace={formatted_pace} min/km; Pow={avg_power:.2f}W; HR(min-max-avg)={min_hr}-{max_hr}-{avg_hr:.0f}; \
-GCT={avg_gct:.2f}ms; StrideLen={avg_strlen:.2f}m; Cad={avg_cad:.0f} spm; VR={avg_vr:.2f}% \
-VO={avg_vo:.2f}cm")
+Δ={delta}; Pace={formatted_pace}; S={total_speed:.2f}; Pow={avg_power:.2f}W; HR(min-max-avg)={min_hr}-{max_hr}-{avg_hr:.0f}; \
+GCT={avg_gct:.2f}ms; SL={avg_strlen:.2f}m; Cad={avg_cad:.0f}; VR={avg_vr:.2f}% \
+VO={avg_vo:.2f}cm; Eff={efficiency:.5f} m/W")
         #   [{start_time} - {end_time}] \
-    print("\nLegend: \nΔ = duration, P = Power, HR = Heart Rate, GCT = Ground Contact Time, Cad = Cadence, VR = Vertical Ratio, VO = Vertical Oscillation")
+    print("\nLegend: \nΔ = duration, P = Power, HR = Heart Rate, GCT = Ground Contact Time, Cad = Cadence(spm), VR = Vertical Ratio, VO = Vertical Oscillation\n"
+    "SL = Stride Length, Pace = min/km, S = Speed m/s, Eff = Power based Mechanical Efficiency m/W\n")
+
+    # After building the DataFrame
+    unit_row = {
+        "Sprint": "",
+        "Delta": "",
+        "Pace": "(min/km)",
+        "Speed": "(m/s)",
+        "Power": "(W)",
+        "HR": "(min-max-avg)",
+        "GCT": "(ms)",
+        "Stride Len": "(m)",
+        "Cad": "(spm)",
+        "VR": "(%)",
+        "VO": "(cm)",
+        "Eff PWR": "(m/W)",
+        "Eff HR": "(m/s·bpm⁻¹)",
+        "Eff Stride": "(m/s·ms⁻¹)",
+        "Eff Cad": "(m/s·spm⁻¹)"
+    }
+
+    # Insert the unit row at top of DataFrame
+    sprint_summary.insert(0, unit_row)
+    # Convert sprint_summary to DataFrame for better visualization
+    sprint_summary_df = pd.DataFrame(sprint_summary)
+    
+    # sprint_summary_df.rename(columns=header_map, inplace=True)
+    print(sprint_summary_df.to_string(index=False))
+
+
+    from prettytable import PrettyTable
+
+    # Prepare data
+    table = PrettyTable()
+    # import pdb
+    # pdb.set_trace()
+    table.field_names = [h.replace("\\n", "\n") for h in sprint_summary_df.columns]
+    for row in sprint_summary_df.values:
+        table.add_row(row)
+    print(table)
     
 
 
 
 if __name__ == "__main__": 
-    file_name = r"C:\Users\A717631\fits\interval\10-Jul-2025.fit"
+    file_name = r"C:\Users\A717631\fits\interval\24-Jul-2025.fit"
     df = load_df_fitparse(file_name)
     print(file_name)
 
