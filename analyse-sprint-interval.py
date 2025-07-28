@@ -93,8 +93,6 @@ def analyze_sprint_intervals(df, power_threshold=200, discard_interval_sec=30):
             # pdb.set_trace()
 
         if row['power'] >= power_threshold:
-            # import pdb
-            # pdb.set_trace()
             if not in_sprint:
                 in_sprint       = True
                 start_time      = row['timezone_ist']
