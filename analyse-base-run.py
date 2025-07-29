@@ -44,7 +44,7 @@ def load_df_fitparse(file_name):
     return df
 
 def analyze_base_run(df):
-    pdb.set_trace()
+    # pdb.set_trace()
     # Ensure distance is cumulative in meters
     df['cum_km'] = df['distance'] / 1000
 
@@ -117,7 +117,7 @@ def analyze_base_run(df):
         "Cad": "(spm)",
         "VR": "(%)",
         "VO": "(cm)",
-        "Eff PWR": "(m/W)",
+        "Eff PWR": "(m/s·W⁻¹)",
         "Eff HR": "(m/s·bpm⁻¹)",
         "Eff Stride": "(m/s·ms⁻¹)",
         "Eff Cad": "(m/s·spm⁻¹)"
@@ -145,7 +145,7 @@ def analyze_base_run(df):
 
 
 if __name__ == "__main__": 
-    file_name = r"C:\Users\A717631\fits\Base\28-Jul-2025.fit"
+    file_name = r"C:\Users\A717631\fits\Base\29-Jul-2025.fit"
     df = load_df_fitparse(file_name)
     print(file_name)
 
