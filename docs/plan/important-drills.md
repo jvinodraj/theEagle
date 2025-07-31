@@ -12,9 +12,7 @@
 
 ### 🚨 Real Talk: It’s Not Just Form
 
-To hit **2:50 pace at 330W**, you’d need to **match best biomechanics**, running economy, and weight ratio **perfectly** — which is nearly impossible for non-elite runners. He’s 52–54 kg, highly economical, and genetically gifted.
-
-But you *can* close the gap by:
+The gap *can* be closed by:
 
 1. **Reducing energy leaks** (less bounce, tighter core, stable arms)
 2. **Improving elastic recoil** (plyometrics + drills)
