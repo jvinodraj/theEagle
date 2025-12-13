@@ -14,10 +14,6 @@
 | Test              | General Normal Range | Optimal for Runners | Interpretation for Runners                                   |
 | ----------------- | -------------------- | ------------------- | ------------------------------------------------------------ |
 | Hemoglobin (g/dL) | Men: 13–17           | **14–16**           | Carries oxygen. Low values reduce VO₂ max and endurance.     |
-| Hematocrit (%)    | 40–50                | **42–48**           | Too low → poor oxygen delivery; too high → dehydration risk. |
-| RBC (mill/cu.mm)  | 4.5–5.5              | **5.0–5.5**         | Reflects oxygen transport capacity.                          |
-| MCV (fL)          | 83–101               | **85–95**           | Low MCV suggests iron deficiency common in runners.          |
-| RDW (%)           | 11.5–14              | **<13.5**           | High RDW indicates evolving anemia or nutrient deficiency.   |
 
 **Runner Insight:**
 Normal CBC values can still mask *early iron deficiency* or *training-induced anemia*.
@@ -66,43 +62,16 @@ Low Vitamin D increases injury risk, muscle weakness, and immune illness.
 
 ---
 
-## 4. Thyroid Function Tests
-
-| Test         | General Normal | Optimal for Runners | Interpretation                          |
-| ------------ | -------------- | ------------------- | --------------------------------------- |
-| TSH (µIU/mL) | 0.5–5.0        | **1.0–2.0**         | High TSH mimics overtraining & fatigue. |
-| Free T3      | Lab-specific   | Upper-normal        | Drives metabolism & energy.             |
-| Free T4      | Lab-specific   | Mid–upper           | Supports endurance metabolism.          |
-
-**Runner Insight:**
-Borderline thyroid dysfunction can severely limit marathon performance.
-
----
-
-## 5. Inflammation & Recovery Markers
+## 4. Inflammation & Recovery Markers
 
 | Test                  | Normal Range | Optimal for Runners | Interpretation                                       |
 | --------------------- | ------------ | ------------------- | ---------------------------------------------------- |
 | ESR (mm/hr)           | 0–10         | **<5**              | Chronic elevation → inflammation/poor recovery.      |
 | hs-CRP (mg/L)         | <3           | **<1**              | Detects systemic inflammation & overtraining.        |
-| Creatine Kinase (U/L) | <200         | **Variable**        | High = muscle damage; trend matters more than value. |
 
 ---
 
-## 6. Liver Function Tests (Often Misinterpreted in Runners)
-
-| Test      | General Normal | Runner Consideration      | Interpretation                                |
-| --------- | -------------- | ------------------------- | --------------------------------------------- |
-| AST (U/L) | <40            | May rise post-training    | Can reflect muscle damage.                    |
-| ALT (U/L) | <45            | Should remain near normal | High ALT suggests liver stress, not training. |
-
-**Runner Insight:**
-AST ↑ + ALT normal = muscle stress.
-ALT ↑↑ = liver issue → must consult doctor.
-
----
-
-## 7. Kidney & Hydration Markers
+## 5. Kidney & Hydration Markers
 
 | Test               | Normal Range | Runner Interpretation                              |
 | ------------------ | ------------ | -------------------------------------------------- |
@@ -113,17 +82,7 @@ ALT ↑↑ = liver issue → must consult doctor.
 
 ---
 
-## 8. Lipid Profile (Energy Utilization Indicator)
-
-| Test          | General Normal | Optimal for Runners | Interpretation                         |
-| ------------- | -------------- | ------------------- | -------------------------------------- |
-| LDL (mg/dL)   | <130           | **<100**            | High LDL impairs metabolic efficiency. |
-| HDL (mg/dL)   | >40            | **>50**             | Protective & anti-inflammatory.        |
-| Triglycerides | <150           | **<100**            | Reflects fat metabolism efficiency.    |
-
----
-
-## 9. Hormonal & Stress Markers (Advanced)
+## 6. Hormonal & Stress Markers (Advanced)
 
 | Test               | Optimal          | Interpretation                     |
 | ------------------ | ---------------- | ---------------------------------- |
@@ -132,7 +91,7 @@ ALT ↑↑ = liver issue → must consult doctor.
 
 ---
 
-## 10. Final Notes for Runners
+## 7. Final Notes for Runners
 
 * "Normal" lab ranges are based on **sedentary populations**
 * Endurance training **changes physiology**
