@@ -1,0 +1,118 @@
+Parsing data\raw\22696576216_ACTIVITY.fit
+  file_id              1 rows, 5 cols
+  file_creator         1 rows, 1 cols
+  activity             1 rows, 7 cols
+  unknown_140          1 rows, 54 cols
+  session              1 rows, 39 cols
+  unknown_216          84 rows, 11 cols
+  set                  42 rows, 13 cols
+  unknown_312          41 rows, 24 cols
+  unknown_313          3 rows, 19 cols
+  unknown_288          3 rows, 3 cols
+  unknown_327          3 rows, 8 cols
+  unknown_326          1 rows, 3 cols
+  timestamp_correlation 7 rows, 3 cols
+  event                2 rows, 5 cols
+  device_info          10 rows, 9 cols
+  unknown_22           1 rows, 3 cols
+  unknown_141          1 rows, 2 cols
+  unknown_394          1 rows, 4 cols
+  device_settings      1 rows, 101 cols
+  user_profile         1 rows, 33 cols
+  unknown_79           1 rows, 41 cols
+  sport                1 rows, 11 cols
+  unknown_13           1 rows, 31 cols
+  zones_target         1 rows, 10 cols
+  training_file        1 rows, 6 cols
+  workout              1 rows, 7 cols
+  workout_step         41 rows, 13 cols
+  record               1790 rows, 6 cols
+  unknown_233          3861 rows, 1 cols
+  unknown_104          13 rows, 5 cols
+  exercise_title       18 rows, 4 cols
+Detected activity type: strength (sport=training, sub_sport=strength_training)
+  sets_summary         24 rows, 16 cols
+Saved file_id \u2192 data\processed\22696576216_ACTIVITY\file_id.csv (1 rows)
+Saved file_creator \u2192 data\processed\22696576216_ACTIVITY\file_creator.csv (1 rows)
+Saved activity \u2192 data\processed\22696576216_ACTIVITY\activity.csv (1 rows)
+Saved unknown_140 \u2192 data\processed\22696576216_ACTIVITY\unknown_140.csv (1 rows)
+Saved session \u2192 data\processed\22696576216_ACTIVITY\session.csv (1 rows)
+Saved unknown_216 \u2192 data\processed\22696576216_ACTIVITY\unknown_216.csv (84 rows)
+Saved set \u2192 data\processed\22696576216_ACTIVITY\set.csv (42 rows)
+Saved unknown_312 \u2192 data\processed\22696576216_ACTIVITY\unknown_312.csv (41 rows)
+Saved unknown_313 \u2192 data\processed\22696576216_ACTIVITY\unknown_313.csv (3 rows)
+Saved unknown_288 \u2192 data\processed\22696576216_ACTIVITY\unknown_288.csv (3 rows)
+Saved unknown_327 \u2192 data\processed\22696576216_ACTIVITY\unknown_327.csv (3 rows)
+Saved unknown_326 \u2192 data\processed\22696576216_ACTIVITY\unknown_326.csv (1 rows)
+Saved timestamp_correlation \u2192 data\processed\22696576216_ACTIVITY\timestamp_correlation.csv (7 rows)
+Saved event \u2192 data\processed\22696576216_ACTIVITY\event.csv (2 rows)
+Saved device_info \u2192 data\processed\22696576216_ACTIVITY\device_info.csv (10 rows)
+Saved unknown_22 \u2192 data\processed\22696576216_ACTIVITY\unknown_22.csv (1 rows)
+Saved unknown_141 \u2192 data\processed\22696576216_ACTIVITY\unknown_141.csv (1 rows)
+Saved unknown_394 \u2192 data\processed\22696576216_ACTIVITY\unknown_394.csv (1 rows)
+Saved device_settings \u2192 data\processed\22696576216_ACTIVITY\device_settings.csv (1 rows)
+Saved user_profile \u2192 data\processed\22696576216_ACTIVITY\user_profile.csv (1 rows)
+Saved unknown_79 \u2192 data\processed\22696576216_ACTIVITY\unknown_79.csv (1 rows)
+Saved sport \u2192 data\processed\22696576216_ACTIVITY\sport.csv (1 rows)
+Saved unknown_13 \u2192 data\processed\22696576216_ACTIVITY\unknown_13.csv (1 rows)
+Saved zones_target \u2192 data\processed\22696576216_ACTIVITY\zones_target.csv (1 rows)
+Saved training_file \u2192 data\processed\22696576216_ACTIVITY\training_file.csv (1 rows)
+Saved workout \u2192 data\processed\22696576216_ACTIVITY\workout.csv (1 rows)
+Saved workout_step \u2192 data\processed\22696576216_ACTIVITY\workout_step.csv (41 rows)
+Saved record \u2192 data\processed\22696576216_ACTIVITY\record.csv (1790 rows)
+Saved unknown_233 \u2192 data\processed\22696576216_ACTIVITY\unknown_233.csv (3861 rows)
+Saved unknown_104 \u2192 data\processed\22696576216_ACTIVITY\unknown_104.csv (13 rows)
+Saved exercise_title \u2192 data\processed\22696576216_ACTIVITY\exercise_title.csv (18 rows)
+Saved sets_summary \u2192 data\processed\22696576216_ACTIVITY\sets_summary.csv (24 rows)
+Found 1 .fit file(s) in data\raw/
+
+============================================================
+Parsing: 22696576216_ACTIVITY.fit
+============================================================
+[fit_parser] Activity type : strength
+[fit_parser] Saved 32 CSV(s) to: data\processed\22696576216_ACTIVITY
+
+Activity type : STRENGTH
+
+Session Metrics:
+  Duration        : 64.2 min
+  Calories burned : 436 kcal
+  Heart rate      : 129 bpm avg (min: 87, max: 157)
+Total sets      : 24
+Exercises       : Squat, Bench Dip, Weighted Back Squats, Single-leg Back Extension, Incline Dip + 6 more
+
+Message types extracted:
+  file_id                    1 rows    5 cols
+  file_creator               1 rows    1 cols
+  activity                   1 rows    7 cols
+  unknown_140                1 rows   54 cols
+  session                    1 rows   39 cols
+  unknown_216               84 rows   11 cols
+  set                       42 rows   13 cols
+  unknown_312               41 rows   24 cols
+  unknown_313                3 rows   19 cols
+  unknown_288                3 rows    3 cols
+  unknown_327                3 rows    8 cols
+  unknown_326                1 rows    3 cols
+  timestamp_correlation      7 rows    3 cols
+  event                      2 rows    5 cols
+  device_info               10 rows    9 cols
+  unknown_22                 1 rows    3 cols
+  unknown_141                1 rows    2 cols
+  unknown_394                1 rows    4 cols
+  device_settings            1 rows  101 cols
+  user_profile               1 rows   33 cols
+  unknown_79                 1 rows   41 cols
+  sport                      1 rows   11 cols
+  unknown_13                 1 rows   31 cols
+  zones_target               1 rows   10 cols
+  training_file              1 rows    6 cols
+  workout                    1 rows    7 cols
+  workout_step              41 rows   13 cols
+  record                  1790 rows    6 cols
+  unknown_233             3861 rows    1 cols
+  unknown_104               13 rows    5 cols
+  exercise_title            18 rows    4 cols
+  sets_summary              24 rows   16 cols
+
+Done. All outputs in data\processed/

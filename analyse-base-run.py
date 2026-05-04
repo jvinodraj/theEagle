@@ -123,6 +123,11 @@ def analyze_base_run(df):
         "Eff Cad": "(m/s·spm⁻¹)"
     }
 
+    if len(summary) > 1:
+        last_idx = len(summary) - 1
+        last_distance = summary[last_idx]["Distance"]
+        summary[last_idx]["Distance"] = f"≈ {last_distance}"
+
     # Insert the unit row at top of DataFrame
     summary.insert(0, unit_row)
     
@@ -142,6 +147,60 @@ def analyze_base_run(df):
     print(table)
 
 
+import math
+
+def hr_bin_summary(summary_df):
+    # Remove unit row and any non-numeric Distance rows
+    df = summary_df[1:].copy()
+    df = df[pd.to_numeric(df["Distance"], errors="coerce").notnull()]
+    df["Distance"] = df["Distance"].astype(float)
+
+    # Extract avg_hr from HR column (format: min-max-avg)
+    df["avg_hr"] = df["HR"].apply(lambda x: int(str(x).split('-')[-1]) if '-' in str(x) else np.nan)
+
+    # Define HR bins (5 bpm)
+    min_hr = int(math.floor(df["avg_hr"].min() / 5.0) * 5)
+    max_hr = int(math.ceil(df["avg_hr"].max() / 5.0) * 5)
+    bins = list(range(min_hr, max_hr + 5, 5))
+    labels = [f"{b}-{b+4}" for b in bins[:-1]]
+
+    df["HR_bin"] = pd.cut(df["avg_hr"], bins=bins, labels=labels, right=True, include_lowest=True)
+
+    # Group by HR_bin and calculate mean for all numeric columns
+    numeric_cols = [
+        "Speed", "Power", "GCT", "Stride Len", "Cad", "VR", "VO",
+        "Eff PWR", "Eff HR", "Eff Stride", "Eff Cad"
+    ]
+    # For Pace, handle separately (convert to seconds, average, then back to min:sec)
+    def pace_to_seconds(pace_str):
+        try:
+            m, s = map(int, str(pace_str).split(":"))
+            return m * 60 + s
+        except:
+            return np.nan
+
+    df["pace_seconds"] = df["Pace"].apply(pace_to_seconds)
+
+    grouped = df.groupby("HR_bin")
+    result = grouped[numeric_cols + ["pace_seconds"]].mean()
+    result["Count"] = grouped.size()
+
+    # Convert pace back to min:sec
+    def seconds_to_pace(sec):
+        if np.isnan(sec):
+            return ""
+        m = int(sec // 60)
+        s = int(sec % 60)
+        return f"{m}:{s:02d}"
+
+    result["Pace"] = result["pace_seconds"].apply(seconds_to_pace)
+    result = result.drop(columns=["pace_seconds"])
+
+    # Reorder columns for display
+    display_cols = ["Count", "Pace"] + numeric_cols
+    result = result[display_cols]
+    return result
+
 
 
 if __name__ == "__main__": 
@@ -151,3 +210,9 @@ if __name__ == "__main__":
 
     # Run analysis
     analyze_base_run(df)
+
+# ...after your analyze_base_run() summary_df is created:
+    result = hr_bin_summary(df)
+    # Print as table
+    print("\nHR Bin Summary (per km):\n")
+    print(result.to_string())

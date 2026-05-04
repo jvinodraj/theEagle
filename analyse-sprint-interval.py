@@ -53,6 +53,7 @@ def analyze_sprint_intervals(df, power_threshold=200, discard_interval_sec=30):
     """
     in_sprint          = False
     timerange_interval = []
+    sprintdis_interval = []
     
     sprint_intervals   = []
     current_sprint     = []
@@ -96,6 +97,7 @@ def analyze_sprint_intervals(df, power_threshold=200, discard_interval_sec=30):
             if not in_sprint:
                 in_sprint       = True
                 start_time      = row['timezone_ist']
+                start_distance  = row['distance']                
                 current_pace    = [row['enhanced_speed']]
                 current_sprint  = [row['power']]
                 current_gct     = [row['stance_time']] 
@@ -118,12 +120,15 @@ def analyze_sprint_intervals(df, power_threshold=200, discard_interval_sec=30):
             if in_sprint:
                 in_sprint = False
                 end_time = row['timezone_ist']
+                end_distance = row['distance']
+                
                 # import pdb
                 # pdb.set_trace()
                 if (end_time - start_time).total_seconds() < discard_interval_sec:
                     continue
                 if current_sprint:
                     timerange_interval.append((start_time, end_time))
+                    sprintdis_interval.append((start_distance, end_distance))
                     sprint_intervals.append(current_sprint)
                     pace_interval.append(current_pace)
                     gct_interval.append(current_gct)
@@ -179,6 +184,11 @@ def analyze_sprint_intervals(df, power_threshold=200, discard_interval_sec=30):
         # print(delta)
         # print(f"Total seconds: {delta.total_seconds()}")
 
+        #calulate distance
+        start_distance = sprintdis_interval[i][0]
+        end_distance   = sprintdis_interval[i][1]
+        sprint_distance = end_distance - start_distance  # in meters
+
         #Efficiency calculation
         if avg_power > 0:
             efficiency = (total_speed ) / avg_power
@@ -202,6 +212,7 @@ def analyze_sprint_intervals(df, power_threshold=200, discard_interval_sec=30):
         sprint_summary.append({
             "Sprint": i + 1,
             "Delta": str(delta).replace("0 days, ", ""),
+            "Dist": f"{sprint_distance / 1000:.2f}",
             "Pace": formatted_pace,
             "Speed": round(total_speed, 2),
             "Power": round(avg_power),
@@ -230,6 +241,7 @@ VO={avg_vo:.2f}cm; Eff={efficiency:.5f} m/W")
     unit_row = {
         "Sprint": "",
         "Delta": "",
+        "Dist": "(km)",
         "Pace": "(min/km)",
         "Speed": "(m/s)",
         "Power": "(W)",
@@ -239,7 +251,7 @@ VO={avg_vo:.2f}cm; Eff={efficiency:.5f} m/W")
         "Cad": "(spm)",
         "VR": "(%)",
         "VO": "(cm)",
-        "Eff PWR": "(m/W)",
+        "Eff PWR": "(m/s·W⁻¹)",
         "Eff HR": "(m/s·bpm⁻¹)",
         "Eff Stride": "(m/s·ms⁻¹)",
         "Eff Cad": "(m/s·spm⁻¹)"
@@ -269,12 +281,12 @@ VO={avg_vo:.2f}cm; Eff={efficiency:.5f} m/W")
 
 
 if __name__ == "__main__": 
-    file_name = r"C:\Users\A717631\fits\interval\24-Jul-2025.fit"
+    file_name = r"C:\Users\A717631\fits\interval\14-Aug-2025.fit"
     df = load_df_fitparse(file_name)
     print(file_name)
 
     # Run analysis
     running_power = 350
-    interval_sec = 40
+    interval_sec = 10
     print("When running power is > ", running_power, " and interval is > ", interval_sec, "sec")
     analyze_sprint_intervals(df, power_threshold=running_power, discard_interval_sec=interval_sec)
