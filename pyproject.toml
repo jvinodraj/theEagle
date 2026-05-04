@@ -1,3 +1,7 @@
+[build-system]
+requires = ["hatchling>=1.27.0"]
+build-backend = "hatchling.build"
+
 [project]
 name = "theeagle"
 version = "0.1.0"
@@ -12,3 +16,9 @@ dependencies = [
     "pytz==2024.1",
     "seaborn==0.13.2",
 ]
+
+[project.scripts]
+easy-run-hr-report = "src.hr_improvement_tracker:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src"]
