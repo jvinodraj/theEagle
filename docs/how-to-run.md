@@ -19,21 +19,39 @@ This reads `pyproject.toml`, creates a `.venv`, and installs all packages.
 
 ---
 
-## 2. Parse FIT Files
+## 2. Parse FIT Files (Unified main.py)
 
-### Batch mode — parse all files at once
+Standardized FIT layout:
 
-1. Copy your Garmin `.fit` files into `data/raw/`
+```
+data/activities/<category>/raw
+data/activities/<category>/processed
+```
+
+Examples:
+- `data/activities/easy/raw`
+- `data/activities/strength/raw`
+- `data/activities/general/raw`
+
+### One-time folder setup
+
+```powershell
+uv run python main.py init
+```
+
+### Batch mode — parse all categories
+
+1. Copy your Garmin `.fit` files into category raw folders.
 2. Run:
 
 ```powershell
-uv run python main.py
+uv run python main.py parse --category all
 ```
 
 Each file is parsed and its outputs are written to:
 
 ```
-data/processed/<activity_name>/
+data/activities/<category>/processed/<activity_name>/
     record.csv        # per-second stream: HR, power, cadence, speed, pace
     lap.csv           # lap summaries
     session.csv       # overall session summary
@@ -45,13 +63,20 @@ data/processed/<activity_name>/
 ### Single file
 
 ```powershell
-uv run python main.py data/raw/my_run.fit
+uv run python main.py parse --file data/activities/easy/raw/my_run.fit --category easy
+```
+
+### Single category
+
+```powershell
+uv run python main.py parse --category easy
+uv run python main.py parse --category strength
 ```
 
 Or use the module directly and specify a custom output directory:
 
 ```powershell
-uv run python -m src.fit_parser data/raw/my_run.fit data/processed
+uv run python -m src.fit_parser data/activities/easy/raw/my_run.fit data/activities/easy/processed
 ```
 
 ---
@@ -61,9 +86,9 @@ uv run python -m src.fit_parser data/raw/my_run.fit data/processed
 ```python
 from src.fit_parser import FitParser
 
-parser = FitParser("data/raw/my_run.fit")
+parser = FitParser("data/activities/easy/raw/my_run.fit")
 dfs = parser.parse()          # returns dict[str, pd.DataFrame]
-parser.save("data/processed") # writes all CSVs
+parser.save("data/activities/easy/processed") # writes all CSVs
 
 # Access specific DataFrames directly
 records = parser.records       # per-second stream
@@ -142,7 +167,7 @@ Uses internationally recognised scoring metrics (not custom comparisons).
 Copy all easy-run `.fit` files exported from Garmin Connect into:
 
 ```
-data/easy_runs/
+data/activities/easy/raw/
 ```
 
 Recommended naming convention (date must be at the front):
@@ -160,12 +185,18 @@ YYYY-MM-DD_day_label.fit
 ### 7.2 Run
 
 ```powershell
-uv run easy-run-hr-report
+uv run python main.py easy-score
+```
+
+You can also run parse + scorecard in one command:
+
+```powershell
+uv run python main.py run-all
 ```
 
 That is the only command needed. The tool:
 
-1. Parses every `.fit` file in `data/easy_runs/`
+1. Parses every `.fit` file in `data/activities/easy/raw/`
 2. Strips the first 2–3 km warmup from each run
 3. Computes international-standard metrics on the **steady-state section**
 4. Scores each run 0–100
@@ -277,5 +308,5 @@ The fix is more Zone 2 easy runs (< 5 % decoupling), not more intensity.
 
 **How do I export a FIT file from Garmin Connect?**  
 Activity page → ⋯ (three dots) → Export Original. Save the `.fit` file into
-`data/easy_runs/`.
+`data/activities/easy/raw/`.
 ```

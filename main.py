@@ -1,25 +1,35 @@
 """
 theEagle – main entry point
 ============================
-Batch-parses all .fit files found in data/raw/ and writes per-message-type
-CSVs to data/processed/<activity_name>/.
+Unified CLI to parse FIT files and run easy-run scorecards.
+
+Standardized layout:
+    data/activities/<category>/raw
+    data/activities/<category>/processed
 
 Usage:
-    uv run python main.py                   # parse all .fit in data/raw/
-    uv run python main.py path/to/run.fit   # parse a single file
+    uv run python main.py parse --category all
+    uv run python main.py parse --category easy
+    uv run python main.py parse --category strength
+    uv run python main.py parse --category custom_category
+    uv run python main.py parse --file path/to/run.fit --category easy
+    uv run python main.py easy-score
+    uv run python main.py run-all
 """
 
-import sys
+import argparse
 import logging
 from pathlib import Path
 
 import pandas as pd
 from src.fit_parser import FitParser
+from src import hr_improvement_tracker as easy_tracker
 
 logging.basicConfig(level=logging.INFO, format="%(message)s")
 
-RAW_DIR = Path("data/raw")
-OUT_DIR = Path("data/processed")
+DATA_ROOT = Path("data/activities")
+LEGACY_RAW_DIR = Path("data/raw")
+LEGACY_EASY_DIR = Path("data/easy_runs")
 
 
 def _fmt_mm_ss(seconds: float) -> str:
@@ -34,13 +44,67 @@ def _fmt_mm_ss(seconds: float) -> str:
     return f"{mins}:{secs:04.1f}"
 
 
-def parse_file(fit_path: Path):
+def _category_raw_dir(category: str) -> Path:
+    return DATA_ROOT / category / "raw"
+
+
+def _category_processed_dir(category: str) -> Path:
+    return DATA_ROOT / category / "processed"
+
+
+def _ensure_category_structure(category: str) -> tuple[Path, Path]:
+    raw_dir = _category_raw_dir(category)
+    processed_dir = _category_processed_dir(category)
+    raw_dir.mkdir(parents=True, exist_ok=True)
+    processed_dir.mkdir(parents=True, exist_ok=True)
+    return raw_dir, processed_dir
+
+
+def _discover_categories() -> list[str]:
+    categories: set[str] = set()
+    if DATA_ROOT.exists():
+        for category_dir in DATA_ROOT.iterdir():
+            if category_dir.is_dir() and (category_dir / "raw").exists():
+                categories.add(category_dir.name)
+    # Legacy compatibility for existing repositories
+    if LEGACY_EASY_DIR.exists():
+        categories.add("easy")
+    if LEGACY_RAW_DIR.exists():
+        categories.add("general")
+    return sorted(categories)
+
+
+def _resolve_raw_dir(category: str) -> Path:
+    if category == "easy":
+        standardized = _category_raw_dir("easy")
+        if standardized.exists() and any(standardized.glob("*.fit")):
+            return standardized
+        if LEGACY_EASY_DIR.exists() and any(LEGACY_EASY_DIR.glob("*.fit")):
+            return LEGACY_EASY_DIR
+        if standardized.exists():
+            return standardized
+        if LEGACY_EASY_DIR.exists():
+            return LEGACY_EASY_DIR
+    if category == "general":
+        standardized = _category_raw_dir("general")
+        if standardized.exists() and any(standardized.glob("*.fit")):
+            return standardized
+        if LEGACY_RAW_DIR.exists() and any(LEGACY_RAW_DIR.glob("*.fit")):
+            return LEGACY_RAW_DIR
+        if standardized.exists():
+            return standardized
+        if LEGACY_RAW_DIR.exists():
+            return LEGACY_RAW_DIR
+    return _category_raw_dir(category)
+
+
+def parse_file(fit_path: Path, out_root: Path):
     print(f"\n{'='*60}")
     print(f"Parsing: {fit_path.name}")
     print(f"{'='*60}")
     parser = FitParser(fit_path)
     dfs = parser.parse()
-    parser.save(output_dir=OUT_DIR)
+    parser.save(output_dir=out_root)
 
     print(f"\nActivity type : {parser.activity_type.upper()}")
 
@@ -145,33 +209,143 @@ def parse_file(fit_path: Path):
         print(f"  {name:<22} {len(df):>5} rows  {len(df.columns):>3} cols")
 
 
-def main():
-    # Single file passed as argument
-    if len(sys.argv) > 1:
-        fit_path = Path(sys.argv[1])
-        if not fit_path.exists():
-            print(f"Error: file not found – {fit_path}")
-            sys.exit(1)
-        parse_file(fit_path)
-        return
+def run_parse_for_category(category: str) -> int:
+    raw_dir, processed_dir = _ensure_category_structure(category)
+    source_dir = _resolve_raw_dir(category)
+    fit_files = sorted(source_dir.glob("*.fit"))
 
-    # Batch mode: process every .fit in data/raw/
-    fit_files = sorted(RAW_DIR.glob("*.fit"))
     if not fit_files:
-        print(f"No .fit files found in {RAW_DIR}/")
-        print("Drop your Garmin .fit files into data/raw/ and run again.")
-        return
+        print(f"No .fit files found in {source_dir}/")
+        print(f"Drop your Garmin .fit files into {raw_dir}/ and run again.")
+        return 0
 
-    print(f"Found {len(fit_files)} .fit file(s) in {RAW_DIR}/")
+    print(f"Found {len(fit_files)} .fit file(s) in {source_dir}/ [category: {category}]")
     for fit_path in fit_files:
         try:
-            parse_file(fit_path)
+            parse_file(fit_path, processed_dir)
         except Exception as exc:
             print(f"[ERROR] {fit_path.name}: {exc}")
 
-    print(f"\nDone. All outputs in {OUT_DIR}/")
+    print(f"\nDone. Outputs in {processed_dir}/")
+    return 0
+
+
+def run_parse_single_file(fit_path: Path, category: str) -> int:
+    if not fit_path.exists():
+        print(f"Error: file not found – {fit_path}")
+        return 1
+
+    _, processed_dir = _ensure_category_structure(category)
+    parse_file(fit_path, processed_dir)
+    print(f"\nDone. Output in {processed_dir}/")
+    return 0
+
+
+def run_easy_score(report_dir: Path) -> int:
+    easy_raw = _resolve_raw_dir("easy")
+    if not easy_raw.exists():
+        easy_raw.mkdir(parents=True, exist_ok=True)
+
+    try:
+        _, _, summary = easy_tracker.run_analysis(fit_dir=easy_raw, report_dir=report_dir)
+        print()
+        print(summary)
+        return 0
+    except Exception as exc:
+        print(f"[ERROR] easy-score: {exc}")
+        return 1
+
+
+def build_cli() -> argparse.ArgumentParser:
+    parser = argparse.ArgumentParser(description="theEagle unified CLI")
+    sub = parser.add_subparsers(dest="command")
+
+    parse_cmd = sub.add_parser("parse", help="Parse FIT files into CSVs")
+    parse_cmd.add_argument(
+        "--category",
+        default="all",
+        help="Category under data/activities/<category>/raw (easy, strength, etc.) or 'all'",
+    )
+    parse_cmd.add_argument(
+        "--file",
+        type=Path,
+        default=None,
+        help="Parse one FIT file into the category's processed directory",
+    )
+
+    easy_cmd = sub.add_parser("easy-score", help="Run easy-run HR scorecard")
+    easy_cmd.add_argument(
+        "--report-dir",
+        type=Path,
+        default=Path("reports"),
+        help="Output report directory for scorecard files",
+    )
+
+    sub.add_parser("init", help="Create standard category directory layout")
+
+    all_cmd = sub.add_parser("run-all", help="Run parse-all + easy-score workflow")
+    all_cmd.add_argument(
+        "--report-dir",
+        type=Path,
+        default=Path("reports"),
+        help="Output report directory for easy scorecard files",
+    )
+    return parser
+
+
+def main() -> int:
+    parser = build_cli()
+    args = parser.parse_args()
+
+    if args.command is None:
+        parser.print_help()
+        return 0
+
+    if args.command == "init":
+        for category in ["easy", "strength", "general"]:
+            raw_dir, processed_dir = _ensure_category_structure(category)
+            print(f"Created/checked: {raw_dir}")
+            print(f"Created/checked: {processed_dir}")
+        return 0
+
+    if args.command == "easy-score":
+        return run_easy_score(args.report_dir)
+
+    if args.command == "run-all":
+        categories = _discover_categories()
+        if not categories:
+            print("No categories found.")
+            print("Run: uv run python main.py init")
+            return 0
+        exit_code = 0
+        for category in categories:
+            rc = run_parse_for_category(category)
+            exit_code = rc if rc != 0 else exit_code
+        rc = run_easy_score(args.report_dir)
+        return rc if rc != 0 else exit_code
+
+    if args.command == "parse":
+        if args.file is not None:
+            return run_parse_single_file(args.file, args.category if args.category != "all" else "general")
+
+        if args.category == "all":
+            categories = _discover_categories()
+            if not categories:
+                print("No categories found.")
+                print("Run: uv run python main.py init")
+                return 0
+            exit_code = 0
+            for category in categories:
+                rc = run_parse_for_category(category)
+                exit_code = rc if rc != 0 else exit_code
+            return exit_code
+
+        return run_parse_for_category(args.category)
+
+    parser.print_help()
+    return 0
 
 
 if __name__ == "__main__":
-    main()
+    raise SystemExit(main())
 

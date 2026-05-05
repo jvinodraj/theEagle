@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import logging
+import argparse
 from datetime import datetime
 from pathlib import Path
 
@@ -13,7 +14,8 @@ from src.fit_parser import FitParser
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-EASY_RUNS_DIR = Path("data/easy_runs")
+EASY_RUNS_DIR = Path("data/activities/easy/raw")
+LEGACY_EASY_RUNS_DIR = Path("data/easy_runs")
 REPORT_DIR = Path("reports")
 REPORT_DIR.mkdir(exist_ok=True)
 CSV_REPORT_PATH = REPORT_DIR / "hr_improvement_analysis.csv"
@@ -31,6 +33,30 @@ EF_REF_MAX: float = 2.0
 # Aerobic Decoupling threshold (Garmin / Joe Friel standard)
 # <5% = aerobically fit for that distance
 DECOUPLING_FIT_PCT: float = 5.0
+
+
+def resolve_easy_runs_dir(fit_dir: Path | None = None) -> Path:
+    if fit_dir is not None:
+        return fit_dir
+    if EASY_RUNS_DIR.exists() and any(EASY_RUNS_DIR.glob("*.fit")):
+        return EASY_RUNS_DIR
+    if LEGACY_EASY_RUNS_DIR.exists() and any(LEGACY_EASY_RUNS_DIR.glob("*.fit")):
+        return LEGACY_EASY_RUNS_DIR
+    if EASY_RUNS_DIR.exists():
+        return EASY_RUNS_DIR
+    if LEGACY_EASY_RUNS_DIR.exists():
+        return LEGACY_EASY_RUNS_DIR
+    return EASY_RUNS_DIR
+
+
+def configure_report_paths(report_dir: Path | None = None) -> None:
+    global REPORT_DIR, CSV_REPORT_PATH, PLOT_REPORT_PATH, TIMELINE_REPORT_PATH
+    if report_dir is not None:
+        REPORT_DIR = report_dir
+    REPORT_DIR.mkdir(parents=True, exist_ok=True)
+    CSV_REPORT_PATH = REPORT_DIR / "hr_improvement_analysis.csv"
+    PLOT_REPORT_PATH = REPORT_DIR / "hr_improvement_plot.png"
+    TIMELINE_REPORT_PATH = REPORT_DIR / "hr_timeline_report.md"
 
 
 def extract_date_from_filename(filename: str) -> datetime | None:
@@ -247,13 +273,14 @@ def extract_hr_metrics(fit_file: Path) -> dict | None:
         return None
 
 
-def load_run_dataframe() -> pd.DataFrame:
-    if not EASY_RUNS_DIR.exists():
-        raise FileNotFoundError(f"Directory not found: {EASY_RUNS_DIR}")
+def load_run_dataframe(fit_dir: Path | None = None) -> pd.DataFrame:
+    runs_dir = resolve_easy_runs_dir(fit_dir)
+    if not runs_dir.exists():
+        raise FileNotFoundError(f"Directory not found: {runs_dir}")
 
-    fit_files = sorted(EASY_RUNS_DIR.glob("*.fit"))
+    fit_files = sorted(runs_dir.glob("*.fit"))
     if not fit_files:
-        raise FileNotFoundError(f"No FIT files found in {EASY_RUNS_DIR}")
+        raise FileNotFoundError(f"No FIT files found in {runs_dir}")
 
     print(f"\nParsing {len(fit_files)} easy-run FIT files...")
     hr_data: list[dict] = []
@@ -753,8 +780,9 @@ def create_plots(df: pd.DataFrame) -> Path:
     return PLOT_REPORT_PATH
 
 
-def run_analysis() -> tuple[pd.DataFrame, pd.DataFrame, str]:
-    df = load_run_dataframe()
+def run_analysis(fit_dir: Path | None = None, report_dir: Path | None = None) -> tuple[pd.DataFrame, pd.DataFrame, str]:
+    configure_report_paths(report_dir)
+    df = load_run_dataframe(fit_dir)
     df = add_run_scores(df)
     df = add_timeline_status(df)
     weekly = build_weekly_summary(df)
@@ -765,9 +793,24 @@ def run_analysis() -> tuple[pd.DataFrame, pd.DataFrame, str]:
     return df, weekly, summary
 
 
-def main() -> int:
+def main(argv: list[str] | None = None) -> int:
+    parser = argparse.ArgumentParser(description="Easy run HR tracker")
+    parser.add_argument(
+        "--fit-dir",
+        type=Path,
+        default=None,
+        help="Directory containing easy-run .fit files (default: data/activities/easy/raw; fallback data/easy_runs)",
+    )
+    parser.add_argument(
+        "--report-dir",
+        type=Path,
+        default=Path("reports"),
+        help="Output report directory (default: reports)",
+    )
+    args = parser.parse_args(argv)
+
     try:
-        _, _, summary = run_analysis()
+        _, _, summary = run_analysis(fit_dir=args.fit_dir, report_dir=args.report_dir)
         print()
         print(summary)
         return 0

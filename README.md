@@ -15,8 +15,8 @@ Because these are rate metrics they are valid for comparing runs of different
 distances (e.g. 5 km Thursday easy vs 10 km Saturday easy).
 
 ```powershell
-# drop FIT files into data/easy_runs/, then:
-uv run easy-run-hr-report
+# drop FIT files into data/activities/easy/raw/, then:
+uv run python main.py easy-score
 ```
 
 Outputs:
@@ -69,8 +69,8 @@ cd theEagle
 uv sync
 
 # 3. run the HR tracker
-#    (drop your FIT files into data/easy_runs/ first)
-uv run easy-run-hr-report
+#    (drop your FIT files into data/activities/easy/raw/ first)
+uv run python main.py easy-score
 ```
 
 ---
