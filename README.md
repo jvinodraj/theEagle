@@ -21,10 +21,10 @@ uv run python main.py easy-score
 
 Outputs:
 - `reports/hr_improvement_plot.png` — four-panel chart
-- `reports/hr_timeline_report.md` — run-by-run table with plain-English notes
+- `reports/hr_timeline_report.md` — detailed run-by-run markdown analysis
 - `reports/hr_improvement_analysis.csv` — full metrics spreadsheet
 
-Key metrics explained in [`docs/how-to-run.md §7`](docs/how-to-run.md#7-easy-run-hr-tracker).
+Operational details are documented in [`docs/how-to-run.md`](docs/how-to-run.md).
 
 ---
 
@@ -33,11 +33,12 @@ Key metrics explained in [`docs/how-to-run.md §7`](docs/how-to-run.md#7-easy-ru
 Parses any Garmin `.fit` file into structured CSVs (one per message type).
 
 ```powershell
-uv run python main.py          # batch-parse all files in data/raw/
-uv run python main.py my.fit   # single file
+uv run python main.py parse --category all
+uv run python main.py parse --category easy
+uv run python main.py parse --file data/activities/easy/raw/my_run.fit --category easy
 ```
 
-Output folder: `data/processed/<activity_name>/` — contains `record.csv`,
+Output folder: `data/activities/<category>/processed/<activity_name>/` — contains `record.csv`,
 `session.csv`, `lap.csv`, and one CSV per additional message type.
 
 ---
@@ -67,10 +68,14 @@ winget install astral-sh.uv        # Windows
 git clone <repo-url>
 cd theEagle
 uv sync
+uv run python main.py init
 
 # 3. run the HR tracker
 #    (drop your FIT files into data/activities/easy/raw/ first)
 uv run python main.py easy-score
+
+# optional: parse all categories first, then run easy-score
+uv run python main.py run-all
 ```
 
 ---
@@ -80,18 +85,19 @@ uv run python main.py easy-score
 ```
 theEagle/
 ├── data/
-│   ├── raw/              # raw .fit files for batch parsing
-│   ├── easy_runs/        # easy-run .fit files for HR tracker
-│   └── processed/        # parsed CSVs
+│   ├── activities/
+│   │   └── <category>/
+│   │       ├── raw/      # input FIT files
+│   │       └── processed/ # parsed CSVs
+│   ├── raw/              # legacy general input folder
+│   └── easy_runs/        # legacy easy-run input folder
 ├── docs/                 # how-to guides and metric explanations
 ├── reports/              # generated reports and charts
 ├── src/
 │   ├── fit_parser.py             # FIT → DataFrame parser
 │   ├── hr_improvement_tracker.py # Easy Run HR Tracker (main logic)
-│   ├── feature_engineering.py
-│   ├── eda.py
 │   └── model.py
-├── main.py               # batch parse entry point
+├── main.py               # unified CLI: init, parse, easy-score, run-all
 └── pyproject.toml        # dependencies and script entrypoints
 ```
 

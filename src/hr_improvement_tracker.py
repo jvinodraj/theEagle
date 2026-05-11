@@ -23,6 +23,9 @@ PLOT_REPORT_PATH = REPORT_DIR / "hr_improvement_plot.png"
 TIMELINE_REPORT_PATH = REPORT_DIR / "hr_timeline_report.md"
 STEADY_STATE_START_M = 2000.0
 STEADY_STATE_MAX_START_M = 3000.0
+MOVING_SPEED_THRESHOLD_MPS = 0.5
+HR_ZONE_PCT_BOUNDS = (0.60, 0.70, 0.80, 0.90)
+POWER_ZONE_PCT_BOUNDS = (0.55, 0.75, 0.90, 1.05)
 
 # ── International scoring reference ranges ─────────────────────────────────
 # Efficiency Factor (EF) = power / HR in W/bpm  (Joe Friel / TrainingPeaks)
@@ -114,7 +117,7 @@ def calculate_aerobic_drift(records_df: pd.DataFrame) -> float | None:
         return None
 
     filtered = records_df.dropna(subset=["heart_rate", "speed"]).copy()
-    filtered = filtered[filtered["speed"] > 0.5]
+    filtered = filtered[filtered["speed"] > MOVING_SPEED_THRESHOLD_MPS]
     if len(filtered) < 20:
         return None
 
@@ -146,7 +149,7 @@ def clip_score(value: float, lower: float = 0.0, upper: float = 100.0) -> float:
 
 def select_steady_state_records(records_df: pd.DataFrame) -> tuple[pd.DataFrame, float, float]:
     filtered = records_df.dropna(subset=["distance", "heart_rate", "speed"]).copy()
-    filtered = filtered[filtered["speed"] > 0.5]
+    filtered = filtered[filtered["speed"] > MOVING_SPEED_THRESHOLD_MPS]
     if filtered.empty:
         return filtered, 0.0, 0.0
 
@@ -202,6 +205,165 @@ def summarize_steady_state(records_df: pd.DataFrame) -> dict:
     }
 
 
+def round_or_nan(value, digits: int = 2) -> float:
+    if value is None or pd.isna(value):
+        return np.nan
+    return round(float(value), digits)
+
+
+def get_message_row(parser: FitParser, message_name: str) -> pd.Series | None:
+    df = parser._dfs.get(message_name)
+    if df is None or df.empty:
+        return None
+    return df.iloc[0]
+
+
+def get_active_records(records_df: pd.DataFrame) -> pd.DataFrame:
+    if records_df.empty or "speed" not in records_df.columns:
+        return pd.DataFrame()
+    active = records_df.dropna(subset=["speed"]).copy()
+    return active[active["speed"] > MOVING_SPEED_THRESHOLD_MPS]
+
+
+def calculate_ratio_decoupling(records_df: pd.DataFrame, numerator_col: str) -> float | None:
+    if records_df.empty or "heart_rate" not in records_df.columns or numerator_col not in records_df.columns:
+        return None
+
+    filtered = records_df.dropna(subset=["heart_rate", numerator_col]).copy()
+    if numerator_col == "speed":
+        filtered = filtered[filtered["speed"] > MOVING_SPEED_THRESHOLD_MPS]
+    else:
+        filtered = filtered[filtered[numerator_col] > 0]
+    if len(filtered) < 20:
+        return None
+
+    midpoint = len(filtered) // 2
+    first_half = filtered.iloc[:midpoint]
+    second_half = filtered.iloc[midpoint:]
+    first_ratio = first_half[numerator_col].mean() / first_half["heart_rate"].mean()
+    second_ratio = second_half[numerator_col].mean() / second_half["heart_rate"].mean()
+    if first_ratio <= 0 or second_ratio <= 0:
+        return None
+    return abs(((second_ratio / first_ratio) - 1) * 100)
+
+
+def calculate_variability_pct(records_df: pd.DataFrame, column: str) -> float | None:
+    if records_df.empty or column not in records_df.columns:
+        return None
+    values = records_df[column].dropna()
+    if len(values) < 20 or values.mean() == 0:
+        return None
+    return float(values.std() / values.mean() * 100)
+
+
+def calculate_pace_durability(records_df: pd.DataFrame) -> float | None:
+    active = get_active_records(records_df)
+    if len(active) < 30:
+        return None
+
+    chunk_len = max(10, len(active) // 3)
+    first_chunk = active.iloc[:chunk_len]
+    last_chunk = active.iloc[-chunk_len:]
+    first_speed = first_chunk["speed"].mean()
+    last_speed = last_chunk["speed"].mean()
+    if first_speed <= 0 or last_speed <= 0:
+        return None
+
+    first_pace = pace_from_speed(first_speed)
+    last_pace = pace_from_speed(last_speed)
+    if first_pace is None or last_pace is None or first_pace == 0:
+        return None
+    return ((last_pace / first_pace) - 1) * 100
+
+
+def calculate_recovery_hr_60s(records_df: pd.DataFrame, events_df: pd.DataFrame) -> float | None:
+    if records_df.empty or events_df.empty or "heart_rate" not in records_df.columns or "timestamp" not in records_df.columns:
+        return None
+
+    timer_events = events_df[(events_df.get("event") == "timer") & (events_df.get("event_type") == "stop")]
+    if timer_events.empty or "timestamp" not in timer_events.columns:
+        return None
+
+    stop_time = pd.to_datetime(timer_events["timestamp"].max())
+    records = records_df.dropna(subset=["timestamp", "heart_rate"]).copy()
+    if records.empty:
+        return None
+
+    pre_stop = records[records["timestamp"] <= stop_time]
+    post_stop = records[records["timestamp"] >= stop_time + pd.Timedelta(seconds=55)]
+    if pre_stop.empty or post_stop.empty:
+        return None
+
+    end_hr = float(pre_stop.iloc[-1]["heart_rate"])
+    hr_60s = float(post_stop.iloc[0]["heart_rate"])
+    return end_hr - hr_60s
+
+
+def build_zone_distribution(series: pd.Series, bounds: tuple[float, float, float, float], scale: float) -> dict:
+    values = series.dropna()
+    if values.empty or scale <= 0:
+        return {}
+
+    ratios = values / scale
+    total = len(ratios)
+    counts = {
+        "z1": int((ratios < bounds[0]).sum()),
+        "z2": int(((ratios >= bounds[0]) & (ratios < bounds[1])).sum()),
+        "z3": int(((ratios >= bounds[1]) & (ratios < bounds[2])).sum()),
+        "z4": int(((ratios >= bounds[2]) & (ratios < bounds[3])).sum()),
+        "z5": int((ratios >= bounds[3]).sum()),
+    }
+    distribution: dict[str, float] = {}
+    for zone_name, count in counts.items():
+        distribution[f"{zone_name}_sec"] = count
+        distribution[f"{zone_name}_pct"] = round(count / total * 100, 1)
+    return distribution
+
+
+def summarize_hr_zone2(records_df: pd.DataFrame, max_hr_setting: float | None) -> dict:
+    if records_df.empty or pd.isna(max_hr_setting) or "heart_rate" not in records_df.columns:
+        return {
+            "zone2_duration_min": np.nan,
+            "zone2_avg_hr": np.nan,
+            "zone2_pace_min_per_km": np.nan,
+            "zone2_avg_power": np.nan,
+        }
+
+    lower = max_hr_setting * HR_ZONE_PCT_BOUNDS[0]
+    upper = max_hr_setting * HR_ZONE_PCT_BOUNDS[1]
+    zone2 = records_df.dropna(subset=["heart_rate", "speed"]).copy()
+    zone2 = zone2[(zone2["speed"] > MOVING_SPEED_THRESHOLD_MPS) & (zone2["heart_rate"] >= lower) & (zone2["heart_rate"] < upper)]
+    if zone2.empty:
+        return {
+            "zone2_duration_min": 0.0,
+            "zone2_avg_hr": np.nan,
+            "zone2_pace_min_per_km": np.nan,
+            "zone2_avg_power": np.nan,
+        }
+
+    mean_speed = zone2["speed"].mean()
+    return {
+        "zone2_duration_min": round(len(zone2) / 60, 1),
+        "zone2_avg_hr": round_or_nan(zone2["heart_rate"].mean(), 1),
+        "zone2_pace_min_per_km": round_or_nan(pace_from_speed(mean_speed), 2),
+        "zone2_avg_power": round_or_nan(zone2["power"].dropna().mean(), 1) if "power" in zone2.columns else np.nan,
+    }
+
+
+def estimate_load_focus(training_effect: float | None, anaerobic_training_effect: float | None) -> str | None:
+    if training_effect is None or pd.isna(training_effect):
+        return None
+    aerobic_te = float(training_effect)
+    anaerobic_te = float(anaerobic_training_effect) if anaerobic_training_effect is not None and pd.notna(anaerobic_training_effect) else 0.0
+    if anaerobic_te >= 1.0:
+        return "mixed_or_anaerobic_estimated"
+    if aerobic_te < 1.5:
+        return "recovery_estimated"
+    if aerobic_te <= 3.5:
+        return "low_aerobic_estimated"
+    return "high_aerobic_estimated"
+
+
 def fatigue_component_score(drift_pct: float, hr_rise_bpm: float) -> float:
     drift_penalty = max(float(drift_pct) - 3.0, 0.0) * 11.0 if pd.notna(drift_pct) else 25.0
     rise_penalty = max(float(hr_rise_bpm) - 4.0, 0.0) * 6.0 if pd.notna(hr_rise_bpm) else 15.0
@@ -222,50 +384,151 @@ def extract_hr_metrics(fit_file: Path) -> dict | None:
             logger.warning("No HR data in %s", fit_file.name)
             return None
 
+        session_row = session_df.iloc[0]
+        zones_row = get_message_row(parser, "zones_target")
+        user_profile_row = get_message_row(parser, "user_profile")
+        workout_row = get_message_row(parser, "workout")
+        events_df = parser._dfs.get("event", pd.DataFrame())
+
         hr_data = records_df["heart_rate"].dropna()
         if hr_data.empty:
             logger.warning("No HR readings in %s", fit_file.name)
             return None
 
-        row = session_df.iloc[0]
-        activity_date, filename_mismatch = choose_activity_date(row, fit_file)
+        activity_date, filename_mismatch = choose_activity_date(session_row, fit_file)
+        active_records = get_active_records(records_df)
         avg_speed = float(
-            row.get(
+            session_row.get(
                 "enhanced_avg_speed",
                 records_df["speed"].dropna().mean() if "speed" in records_df.columns else np.nan,
             )
         )
+        moving_speed = float(active_records["speed"].mean()) if not active_records.empty else avg_speed
+        best_speed = float(
+            session_row.get(
+                "enhanced_max_speed",
+                active_records["speed"].max() if not active_records.empty else np.nan,
+            )
+        )
         avg_power = float(
-            row.get(
+            session_row.get(
                 "avg_power",
                 records_df["power"].dropna().mean() if "power" in records_df.columns else np.nan,
             )
         )
-        duration_min = round(float(row.get("total_timer_time", row.get("total_elapsed_time", 0))) / 60, 1)
-        distance_km = round(float(row.get("total_distance", 0)) / 1000, 2)
-        avg_hr = float(row.get("avg_heart_rate", hr_data.mean()))
+        duration_min = round(float(session_row.get("total_timer_time", session_row.get("total_elapsed_time", 0))) / 60, 1)
+        distance_km = round(float(session_row.get("total_distance", 0)) / 1000, 2)
+        avg_hr = float(session_row.get("avg_heart_rate", hr_data.mean()))
         pace_min_per_km = pace_from_speed(avg_speed)
+        moving_pace = pace_from_speed(moving_speed)
+        best_pace = pace_from_speed(best_speed)
         aerobic_drift_pct = calculate_aerobic_drift(records_df)
+        power_hr_decoupling_pct = calculate_ratio_decoupling(records_df, "power")
         steady_state_metrics = summarize_steady_state(records_df)
+        pace_durability_pct = calculate_pace_durability(records_df)
+        power_stability_cv_pct = calculate_variability_pct(active_records, "power")
+        cadence_stability_cv_pct = calculate_variability_pct(active_records, "cadence")
+        recovery_hr_60s = calculate_recovery_hr_60s(records_df, events_df)
+
+        hr_max_setting = zones_row.get("max_heart_rate") if zones_row is not None else np.nan
+        ftp_setting = zones_row.get("functional_threshold_power") if zones_row is not None else np.nan
+        threshold_hr = zones_row.get("threshold_heart_rate") if zones_row is not None else np.nan
+        weight_kg = user_profile_row.get("weight") if user_profile_row is not None else np.nan
+        resting_hr = user_profile_row.get("resting_heart_rate") if user_profile_row is not None else np.nan
+        sleep_time = user_profile_row.get("sleep_time") if user_profile_row is not None else None
+        wake_time = user_profile_row.get("wake_time") if user_profile_row is not None else None
+        workout_title = workout_row.get("wkt_name") if workout_row is not None else fit_file.stem
+
+        hr_zone_distribution = build_zone_distribution(hr_data, HR_ZONE_PCT_BOUNDS, float(hr_max_setting)) if pd.notna(hr_max_setting) else {}
+        power_values = active_records["power"].dropna() if "power" in active_records.columns else pd.Series(dtype=float)
+        power_zone_distribution = build_zone_distribution(power_values, POWER_ZONE_PCT_BOUNDS, float(ftp_setting)) if pd.notna(ftp_setting) else {}
+        zone2_metrics = summarize_hr_zone2(records_df, float(hr_max_setting)) if pd.notna(hr_max_setting) else summarize_hr_zone2(pd.DataFrame(), np.nan)
+
+        avg_stride_length_m = np.nan
+        if pd.notna(session_row.get("avg_step_length")):
+            avg_stride_length_m = float(session_row.get("avg_step_length")) / 1000.0
+        elif not active_records.empty and "stride_length_m" in active_records.columns:
+            avg_stride_length_m = float(active_records["stride_length_m"].mean())
+
+        running_economy = float(avg_power / avg_speed) if pd.notna(avg_power) and avg_speed > 0 else np.nan
+        energy_cost_j_per_m = float(avg_power / avg_speed) if pd.notna(avg_power) and avg_speed > 0 else np.nan
+        total_work_kj = float(session_row.get("total_work", np.nan)) / 1000 if pd.notna(session_row.get("total_work", np.nan)) else np.nan
+        avg_power_wkg = float(avg_power / weight_kg) if pd.notna(avg_power) and pd.notna(weight_kg) and weight_kg > 0 else np.nan
+        max_power_wkg = float(session_row.get("max_power", np.nan) / weight_kg) if pd.notna(session_row.get("max_power", np.nan)) and pd.notna(weight_kg) and weight_kg > 0 else np.nan
+        fatigue_score = fatigue_component_score(
+            aerobic_drift_pct if aerobic_drift_pct is not None else np.nan,
+            steady_state_metrics.get("steady_hr_rise_bpm", np.nan),
+        )
 
         return {
             "file": fit_file.name,
             "date": activity_date,
             "filename_date": extract_date_from_filename(fit_file.name),
             "filename_mismatch": filename_mismatch,
+            "workout_title": workout_title,
             "avg_hr": round(avg_hr, 1),
             "max_hr": int(hr_data.max()),
             "min_hr": int(hr_data.min()),
             "std_hr": round(hr_data.std(), 1),
             "hr_readings": len(hr_data),
             "avg_power": round(avg_power, 1),
+            "normalized_power": round_or_nan(session_row.get("normalized_power"), 1),
+            "max_power": round_or_nan(session_row.get("max_power"), 1),
             "avg_speed_mps": round(avg_speed, 3),
+            "moving_speed_mps": round_or_nan(moving_speed, 3),
+            "best_speed_mps": round_or_nan(best_speed, 3),
             "pace_min_per_km": round(pace_min_per_km, 2) if pace_min_per_km is not None else np.nan,
+            "moving_pace_min_per_km": round(moving_pace, 2) if moving_pace is not None else np.nan,
+            "best_pace_min_per_km": round(best_pace, 2) if best_pace is not None else np.nan,
             "duration_min": duration_min,
             "distance_km": distance_km,
+            "total_ascent_m": round_or_nan(session_row.get("total_ascent"), 1),
+            "total_descent_m": round_or_nan(session_row.get("total_descent"), 1),
+            "avg_temperature_c": round_or_nan(session_row.get("avg_temperature"), 1),
+            "max_temperature_c": round_or_nan(session_row.get("max_temperature"), 1),
             "power_per_hr": round(avg_power / avg_hr, 3) if avg_hr and not pd.isna(avg_power) else np.nan,
             "speed_per_hr": round(avg_speed / avg_hr, 5) if avg_hr and not pd.isna(avg_speed) else np.nan,
             "aerobic_drift_pct": round(aerobic_drift_pct, 2) if aerobic_drift_pct is not None else np.nan,
+            "power_hr_decoupling_pct": round(power_hr_decoupling_pct, 2) if power_hr_decoupling_pct is not None else np.nan,
+            "pace_durability_pct": round(pace_durability_pct, 2) if pace_durability_pct is not None else np.nan,
+            "recovery_hr_60s_bpm": round_or_nan(recovery_hr_60s, 1),
+            "power_stability_cv_pct": round_or_nan(power_stability_cv_pct, 2),
+            "cadence_stability_cv_pct": round_or_nan(cadence_stability_cv_pct, 2),
+            "avg_running_cadence": round_or_nan(session_row.get("avg_running_cadence"), 1),
+            "max_running_cadence": round_or_nan(session_row.get("max_running_cadence"), 1),
+            "avg_stride_length_m": round_or_nan(avg_stride_length_m, 3),
+            "avg_stance_time_ms": round_or_nan(session_row.get("avg_stance_time"), 1),
+            "avg_vertical_oscillation_mm": round_or_nan(session_row.get("avg_vertical_oscillation"), 1),
+            "avg_vertical_ratio_pct": round_or_nan(session_row.get("avg_vertical_ratio"), 2),
+            "left_right_balance_pct": np.nan,
+            "aerobic_training_effect": round_or_nan(session_row.get("total_training_effect"), 1),
+            "anaerobic_training_effect": round_or_nan(session_row.get("total_anaerobic_training_effect"), 1),
+            "exercise_load": np.nan,
+            "measured_load_focus_category": np.nan,
+            "estimated_load_focus_category": estimate_load_focus(session_row.get("total_training_effect"), session_row.get("total_anaerobic_training_effect")),
+            "vo2max": np.nan,
+            "body_battery_before_run": np.nan,
+            "hrv_status": np.nan,
+            "stress_level": np.nan,
+            "recovery_time_recommendation_h": np.nan,
+            "sleep_time_profile": sleep_time,
+            "wake_time_profile": wake_time,
+            "resting_heart_rate": round_or_nan(resting_hr, 1),
+            "weight_kg": round_or_nan(weight_kg, 1),
+            "avg_power_wkg": round_or_nan(avg_power_wkg, 2),
+            "max_power_wkg": round_or_nan(max_power_wkg, 2),
+            "functional_threshold_power": round_or_nan(ftp_setting, 1),
+            "threshold_heart_rate": round_or_nan(threshold_hr, 1),
+            "max_heart_rate_setting": round_or_nan(hr_max_setting, 1),
+            "hr_zone_source": "garmin_percent_max_hr" if pd.notna(hr_max_setting) else "unavailable",
+            "power_zone_source": "garmin_percent_ftp" if pd.notna(ftp_setting) else "unavailable",
+            "running_economy_w_per_mps": round_or_nan(running_economy, 1),
+            "energy_cost_j_per_m": round_or_nan(energy_cost_j_per_m, 1),
+            "total_work_kj": round_or_nan(total_work_kj, 1),
+            "fatigue_resilience_score": fatigue_score,
+            **{f"hr_{key}": value for key, value in hr_zone_distribution.items()},
+            **{f"power_{key}": value for key, value in power_zone_distribution.items()},
+            **zone2_metrics,
             **steady_state_metrics,
         }
     except Exception as exc:
@@ -472,6 +735,77 @@ def add_timeline_status(df: pd.DataFrame) -> pd.DataFrame:
     return df
 
 
+def add_longitudinal_fields(df: pd.DataFrame) -> pd.DataFrame:
+    df = df.copy()
+    pace_change_vs_reference: list[float] = []
+    hr_change_vs_reference: list[float] = []
+    ef_change_vs_reference: list[float] = []
+    drift_delta_vs_reference: list[float] = []
+    hr_cost_change_vs_reference: list[float] = []
+    pace_at_similar_hr_change: list[float] = []
+    hr_at_similar_pace_change: list[float] = []
+
+    for row_index in range(len(df)):
+        current = df.iloc[row_index]
+        reference = get_reference_run(df, row_index)
+        if reference is None:
+            pace_change_vs_reference.append(np.nan)
+            hr_change_vs_reference.append(np.nan)
+            ef_change_vs_reference.append(np.nan)
+            drift_delta_vs_reference.append(np.nan)
+            hr_cost_change_vs_reference.append(np.nan)
+            pace_at_similar_hr_change.append(np.nan)
+            hr_at_similar_pace_change.append(np.nan)
+            continue
+
+        pace_change_vs_reference.append(
+            lower_is_better_change(reference.get("steady_pace_min_per_km"), current.get("steady_pace_min_per_km"))
+        )
+        hr_change_vs_reference.append(
+            lower_is_better_change(reference.get("steady_avg_hr"), current.get("steady_avg_hr"))
+        )
+        ef_change_vs_reference.append(
+            pct_change(reference.get("steady_power_per_hr"), current.get("steady_power_per_hr"))
+        )
+
+        if pd.notna(reference.get("aerobic_drift_pct")) and pd.notna(current.get("aerobic_drift_pct")):
+            drift_delta_vs_reference.append(float(current["aerobic_drift_pct"]) - float(reference["aerobic_drift_pct"]))
+        else:
+            drift_delta_vs_reference.append(np.nan)
+
+        ref_hr_cost = reference.get("steady_avg_hr") / reference.get("steady_avg_speed_mps") if pd.notna(reference.get("steady_avg_hr")) and pd.notna(reference.get("steady_avg_speed_mps")) and reference.get("steady_avg_speed_mps") else np.nan
+        cur_hr_cost = current.get("steady_avg_hr") / current.get("steady_avg_speed_mps") if pd.notna(current.get("steady_avg_hr")) and pd.notna(current.get("steady_avg_speed_mps")) and current.get("steady_avg_speed_mps") else np.nan
+        hr_cost_change_vs_reference.append(lower_is_better_change(ref_hr_cost, cur_hr_cost))
+
+        if pd.notna(reference.get("steady_avg_hr")) and pd.notna(current.get("steady_avg_hr")) and abs(float(current["steady_avg_hr"]) - float(reference["steady_avg_hr"])) <= 3.0:
+            pace_at_similar_hr_change.append(
+                lower_is_better_change(reference.get("steady_pace_min_per_km"), current.get("steady_pace_min_per_km"))
+            )
+        else:
+            pace_at_similar_hr_change.append(np.nan)
+
+        if pd.notna(reference.get("steady_pace_min_per_km")) and pd.notna(current.get("steady_pace_min_per_km")) and abs(float(current["steady_pace_min_per_km"]) - float(reference["steady_pace_min_per_km"])) <= 0.15:
+            hr_at_similar_pace_change.append(
+                lower_is_better_change(reference.get("steady_avg_hr"), current.get("steady_avg_hr"))
+            )
+        else:
+            hr_at_similar_pace_change.append(np.nan)
+
+    df["pace_change_vs_reference_pct"] = [round_or_nan(value, 1) for value in pace_change_vs_reference]
+    df["steady_hr_change_vs_reference_pct"] = [round_or_nan(value, 1) for value in hr_change_vs_reference]
+    df["ef_change_vs_reference_pct"] = [round_or_nan(value, 1) for value in ef_change_vs_reference]
+    df["drift_delta_vs_reference_pct_pts"] = [round_or_nan(value, 1) for value in drift_delta_vs_reference]
+    df["hr_cost_change_vs_reference_pct"] = [round_or_nan(value, 1) for value in hr_cost_change_vs_reference]
+    df["pace_change_at_similar_hr_pct"] = [round_or_nan(value, 1) for value in pace_at_similar_hr_change]
+    df["hr_change_at_similar_pace_pct"] = [round_or_nan(value, 1) for value in hr_at_similar_pace_change]
+    df["rolling_3run_duration_min"] = df["duration_min"].rolling(3, min_periods=1).sum().round(1)
+    df["rolling_3run_total_work_kj"] = df["total_work_kj"].rolling(3, min_periods=1).sum().round(1)
+    df["rolling_3run_training_effect"] = df["aerobic_training_effect"].rolling(3, min_periods=1).sum().round(1)
+    temp_median = df["avg_temperature_c"].median()
+    df["temperature_vs_median_c"] = (df["avg_temperature_c"] - temp_median).round(1) if pd.notna(temp_median) else np.nan
+    return df
+
+
 def classify_week_status(current: pd.Series, reference: pd.Series | None) -> tuple[str, str]:
     if reference is None:
         return "baseline", "First week in timeline."
@@ -648,21 +982,119 @@ def build_console_summary(df: pd.DataFrame, weekly: pd.DataFrame) -> str:
     return "\n".join(lines)
 
 
+def format_metric(value, digits: int = 1, suffix: str = "", missing: str = "unavailable") -> str:
+    if value is None or pd.isna(value):
+        return missing
+    if isinstance(value, str):
+        return value
+    if isinstance(value, (bool, np.bool_)):
+        return str(value)
+    if not isinstance(value, (int, float, np.integer, np.floating)):
+        return str(value)
+    return f"{float(value):.{digits}f}{suffix}"
+
+
+def metric_status(value, estimated: bool = False) -> str:
+    if value is None or pd.isna(value) or value == "":
+        return "unavailable"
+    return "estimated" if estimated else "measured"
+
+
+def build_longitudinal_observations(df: pd.DataFrame) -> list[str]:
+    observations: list[str] = []
+    first_row = df.iloc[0]
+    last_row = df.iloc[-1]
+
+    pace_change = lower_is_better_change(first_row.get("steady_pace_min_per_km"), last_row.get("steady_pace_min_per_km"))
+    ef_change = pct_change(first_row.get("steady_power_per_hr"), last_row.get("steady_power_per_hr"))
+    drift_delta = float(last_row.get("aerobic_drift_pct") - first_row.get("aerobic_drift_pct")) if pd.notna(first_row.get("aerobic_drift_pct")) and pd.notna(last_row.get("aerobic_drift_pct")) else np.nan
+
+    if pd.notna(pace_change):
+        observations.append(
+            f"Steady-state easy pace changed {format_pct(pace_change)} from the first comparable run to the latest run."
+        )
+    if pd.notna(ef_change):
+        observations.append(
+            f"Steady power-per-heartbeat changed {format_pct(ef_change)} across the timeline, which is the cleanest aerobic-efficiency signal in this dataset."
+        )
+    if pd.notna(drift_delta):
+        observations.append(
+            f"Aerobic decoupling moved {drift_delta:+.1f} percentage points from the opening run to the latest run."
+        )
+
+    hot_runs = df[df["avg_temperature_c"] >= 30]
+    if len(hot_runs) >= 2:
+        observations.append(
+            f"{len(hot_runs)} runs were recorded at 30 C or hotter; heat is a plausible confounder for drift and HR cost in this sample."
+        )
+
+    high_drift_runs = int((df["aerobic_drift_pct"] >= 8.0).sum())
+    if high_drift_runs:
+        observations.append(
+            f"{high_drift_runs}/{len(df)} runs crossed the 8% decoupling line, which is the strongest within-run fatigue signal in these easy sessions."
+        )
+    return observations
+
+
+def build_run_concerns(row: pd.Series) -> list[str]:
+    concerns: list[str] = []
+    if pd.notna(row.get("aerobic_drift_pct")) and float(row["aerobic_drift_pct"]) >= 8.0:
+        concerns.append(f"High aerobic decoupling at {row['aerobic_drift_pct']:.1f}% suggests cardiovascular drift beyond a typical easy-run target.")
+    if pd.notna(row.get("pace_durability_pct")) and float(row["pace_durability_pct"]) >= 3.0:
+        concerns.append(f"Pace slowed by {row['pace_durability_pct']:.1f}% from early to late run segments, which weakens durability.")
+    if pd.notna(row.get("avg_temperature_c")) and float(row["avg_temperature_c"]) >= 30.0:
+        concerns.append(f"Average temperature was {row['avg_temperature_c']:.1f} C, so heat strain is a realistic contributor to elevated HR and drift.")
+    if pd.notna(row.get("hr_z4_pct")) and float(row["hr_z4_pct"]) >= 20.0:
+        concerns.append(f"{row['hr_z4_pct']:.1f}% of the run sat in HR zone 4 by Garmin max-HR zones, which is high for a nominal easy run.")
+    if not concerns:
+        concerns.append("No acute red flags stand out in this file beyond the usual Garmin power and training-effect uncertainty.")
+    return concerns
+
+
+def build_run_recommendations(row: pd.Series) -> list[str]:
+    recommendations: list[str] = []
+    if pd.notna(row.get("aerobic_drift_pct")) and float(row["aerobic_drift_pct"]) >= 8.0:
+        recommendations.append("Slow the first 15-20 minutes or insert brief walk resets so the steady section stays below the decoupling threshold.")
+    if pd.notna(row.get("zone2_duration_min")) and float(row["zone2_duration_min"]) < 10.0:
+        recommendations.append("If the goal is true zone-2 development, reduce pace until more of the run stays inside Garmin zone 2 instead of zone 3-4.")
+    if pd.notna(row.get("avg_temperature_c")) and float(row["avg_temperature_c"]) >= 30.0:
+        recommendations.append("Treat this run as heat-adjusted data: compare it mainly against other warm runs and prioritize hydration/cooling over pace targets.")
+    if pd.notna(row.get("aerobic_drift_pct")) and float(row["aerobic_drift_pct"]) < 5.0 and pd.notna(row.get("pace_change_vs_reference_pct")) and float(row["pace_change_vs_reference_pct"]) > 0:
+        recommendations.append("This is a good candidate benchmark run; keep conditions similar and use it to judge whether aerobic efficiency is actually improving.")
+    if not recommendations:
+        recommendations.append("Hold the current easy-run structure and keep judging progress with matched-duration comparisons rather than single-run pace changes.")
+    return recommendations
+
+
 def write_timeline_report(df: pd.DataFrame, weekly: pd.DataFrame) -> Path:
     headline, details = build_overall_assessment(df, weekly)
+    measured_unavailable = [
+        "Measured directly from current FIT exports: session totals, heart rate, power, cadence, stride length, stance time, vertical oscillation/ratio, Garmin training effect, Garmin zone target settings, and profile weight/resting HR.",
+        "Estimated in this report: load focus category only. It is inferred from Garmin aerobic and anaerobic training effect, not read directly from the FIT file.",
+        "Unavailable in the current FIT exports: Body Battery before run, HRV status, stress level, recovery-time recommendation, per-run sleep metrics, VO2 max, direct exercise load, and left/right balance.",
+    ]
+
     lines: list[str] = []
-    lines.append("# Easy Run HR Timeline Report")
+    lines.append("# Easy Run Endurance Analysis")
     lines.append("")
     lines.append(f"Overall status: **{headline}**")
     lines.append("")
     for detail in details:
         lines.append(f"- {detail}")
     lines.append("")
-    lines.append("## Report Files")
+    lines.append("## Metric Availability")
     lines.append("")
-    lines.append(f"- CSV metrics: `{CSV_REPORT_PATH}`")
-    lines.append(f"- Plot: `{PLOT_REPORT_PATH}`")
-    lines.append(f"- Timeline report: `{TIMELINE_REPORT_PATH}`")
+    for item in measured_unavailable:
+        lines.append(f"- {item}")
+    lines.append("")
+    lines.append("## Longitudinal Tracking")
+    lines.append("")
+    lines.append("| Date | Workout | km | Steady Pace | Steady HR | EF W/bpm | Drift % | Pace vs ref % | HR cost vs ref % | 3-run work kJ | Status |")
+    lines.append("| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | --- |")
+    for _, row in df.iterrows():
+        lines.append(
+            f"| {row['date_str']} | {row['workout_title']} | {row['distance_km']:.2f} | {row['steady_pace_str']} | {row['steady_avg_hr']:.0f} | {row['steady_power_per_hr']:.3f} | {row['aerobic_drift_pct']:.1f} | {format_metric(row.get('pace_change_vs_reference_pct'), 1, '%')} | {format_metric(row.get('hr_cost_change_vs_reference_pct'), 1, '%')} | {format_metric(row.get('rolling_3run_total_work_kj'), 1)} | {row['timeline_status']} |"
+        )
     lines.append("")
     lines.append("## Weekly Summary")
     lines.append("")
@@ -670,31 +1102,117 @@ def write_timeline_report(df: pd.DataFrame, weekly: pd.DataFrame) -> Path:
     lines.append("| --- | --- | ---: | ---: | ---: | ---: | --- |")
     for _, row in weekly.iterrows():
         lines.append(
-            f"| {int(row['week'])} | {row['start_date_str']} to {row['end_date_str']} | {int(row['run_count'])} | "
-            f"{row['easy_run_score']:.1f} | {row['ef_wbpm']:.3f} | {row['aerobic_drift_pct']:.1f} | {row['timeline_status']} |"
+            f"| {int(row['week'])} | {row['start_date_str']} to {row['end_date_str']} | {int(row['run_count'])} | {row['easy_run_score']:.1f} | {row['ef_wbpm']:.3f} | {row['aerobic_drift_pct']:.1f} | {row['timeline_status']} |"
         )
     lines.append("")
-    lines.append("## Run Timeline")
+    lines.append("## Overall Observations Worth Tracking")
     lines.append("")
-    lines.append("> Scoring: **EF** (Efficiency Factor, W/bpm) = power÷HR — Joe Friel/TrainingPeaks standard. "
-                 "**Aerobic Decoupling** = cardiac drift in steady section — <5% = aerobically fit (Garmin standard). "
-                 "Both metrics are load-independent: valid for comparing 5 km and 10 km runs.")
+    for observation in build_longitudinal_observations(df):
+        lines.append(f"- {observation}")
     lines.append("")
-    lines.append("| Date | km | min | Score | EF W/bpm | Decoupling % | Stability | Pace | HR | Status | Note |")
-    lines.append("| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | --- | --- |")
-    for _, row in df.iterrows():
-        note = row["timeline_note"].replace("|", "/")
-        lines.append(
-            f"| {row['date_str']} | {row['distance_km']:.2f} | {row['duration_min']:.1f} | {row['easy_run_score']:.1f} | "
-            f"{row['steady_power_per_hr']:.3f} | {row['aerobic_drift_pct']:.1f} | {row['stability_score']:.1f} | "
-            f"{row['steady_pace_str']} | {row['steady_avg_hr']:.0f} | "
-            f"{row['timeline_status']} | {note} |"
-        )
+    lines.append("## Per-Run Summaries")
+    lines.append("")
+
+    for row_index in range(len(df)):
+        row = df.iloc[row_index]
+        reference = get_reference_run(df, row_index)
+        concerns = build_run_concerns(row)
+        recommendations = build_run_recommendations(row)
+        physiologic_interpretation = []
+        if pd.notna(row.get("aerobic_drift_pct")) and float(row["aerobic_drift_pct"]) < 5.0:
+            physiologic_interpretation.append("The steady section stayed inside the usual aerobic-decoupling target, which supports durable easy-run metabolism for this duration.")
+        elif pd.notna(row.get("aerobic_drift_pct")):
+            physiologic_interpretation.append("Cardiac drift rose above the ideal easy-run range, suggesting either excessive intensity for the day, heat strain, or incomplete recovery.")
+        if pd.notna(row.get("pace_change_at_similar_hr_pct")):
+            physiologic_interpretation.append(f"At roughly the same steady HR as the reference run, pace changed {format_pct(row['pace_change_at_similar_hr_pct'])}, which is direct evidence about aerobic development.")
+        elif pd.notna(row.get("hr_change_at_similar_pace_pct")):
+            physiologic_interpretation.append(f"At nearly the same steady pace as the reference run, HR cost changed {format_pct(row['hr_change_at_similar_pace_pct'])}.")
+        else:
+            physiologic_interpretation.append("This run is best interpreted against the same duration bucket rather than as a standalone benchmark.")
+
+        lines.append(f"### {row['date_str']} - {row['workout_title']}")
+        lines.append("")
+        lines.append("#### 1. Executive Summary")
+        lines.append("")
+        lines.append(f"- {row['distance_km']:.2f} km in {row['duration_min']:.1f} min, average pace {row['pace_min_per_km']:.2f} min/km, steady pace {row['steady_pace_min_per_km']:.2f} min/km.")
+        lines.append(f"- Average HR {row['avg_hr']:.0f} bpm, steady HR {row['steady_avg_hr']:.0f} bpm, EF {row['steady_power_per_hr']:.3f} W/bpm, aerobic decoupling {row['aerobic_drift_pct']:.1f}%.")
+        if reference is not None:
+            lines.append(f"- Reference comparison ({reference['date_str']}): pace {format_metric(row.get('pace_change_vs_reference_pct'), 1, '%')} better/worse depending on sign, EF {format_metric(row.get('ef_change_vs_reference_pct'), 1, '%')}, drift delta {format_metric(row.get('drift_delta_vs_reference_pct_pts'), 1, ' pts')}.")
+        else:
+            lines.append("- Baseline run for this dataset segment; use later runs to judge adaptation.")
+        lines.append("")
+        lines.append("#### 2. Key Metrics Table")
+        lines.append("")
+        lines.append("| Category | Metric | Value | Status |")
+        lines.append("| --- | --- | --- | --- |")
+        lines.append(f"| Basic | Duration | {row['duration_min']:.1f} min | measured |")
+        lines.append(f"| Basic | Distance | {row['distance_km']:.2f} km | measured |")
+        lines.append(f"| Basic | Average pace | {row['pace_min_per_km']:.2f} min/km | measured |")
+        lines.append(f"| Basic | Moving pace | {format_metric(row.get('moving_pace_min_per_km'), 2, ' min/km')} | measured |")
+        lines.append(f"| Basic | Best pace | {format_metric(row.get('best_pace_min_per_km'), 2, ' min/km')} | measured |")
+        lines.append(f"| Basic | Elevation gain/loss | {format_metric(row.get('total_ascent_m'), 1, ' m')} / {format_metric(row.get('total_descent_m'), 1, ' m')} | measured |")
+        lines.append(f"| Environment | Average / max temperature | {format_metric(row.get('avg_temperature_c'), 1, ' C')} / {format_metric(row.get('max_temperature_c'), 1, ' C')} | {metric_status(row.get('avg_temperature_c'))} |")
+        lines.append(f"| Heart rate | Average / max HR | {row['avg_hr']:.0f} / {row['max_hr']:.0f} bpm | measured |")
+        lines.append(f"| Heart rate | HR zone distribution | Z1 {format_metric(row.get('hr_z1_pct'), 1, '%')}, Z2 {format_metric(row.get('hr_z2_pct'), 1, '%')}, Z3 {format_metric(row.get('hr_z3_pct'), 1, '%')}, Z4 {format_metric(row.get('hr_z4_pct'), 1, '%')}, Z5 {format_metric(row.get('hr_z5_pct'), 1, '%')} | {metric_status(row.get('hr_z1_pct'))} |")
+        lines.append(f"| Heart rate | Recovery HR at 60 s | {format_metric(row.get('recovery_hr_60s_bpm'), 1, ' bpm')} | {metric_status(row.get('recovery_hr_60s_bpm'))} |")
+        lines.append(f"| Power | Average / max / normalized power | {format_metric(row.get('avg_power'), 1, ' W')} / {format_metric(row.get('max_power'), 1, ' W')} / {format_metric(row.get('normalized_power'), 1, ' W')} | measured |")
+        lines.append(f"| Power | Power zones | Z1 {format_metric(row.get('power_z1_pct'), 1, '%')}, Z2 {format_metric(row.get('power_z2_pct'), 1, '%')}, Z3 {format_metric(row.get('power_z3_pct'), 1, '%')}, Z4 {format_metric(row.get('power_z4_pct'), 1, '%')}, Z5 {format_metric(row.get('power_z5_pct'), 1, '%')} | {metric_status(row.get('power_z1_pct'))} |")
+        lines.append(f"| Power | W/kg / stability | {format_metric(row.get('avg_power_wkg'), 2, ' W/kg')} / {format_metric(row.get('power_stability_cv_pct'), 1, '% CV')} | {metric_status(row.get('avg_power_wkg'))} |")
+        lines.append(f"| Dynamics | Cadence / stride length | {format_metric(row.get('avg_running_cadence'), 1, ' spm')} / {format_metric(row.get('avg_stride_length_m'), 3, ' m')} | measured |")
+        lines.append(f"| Dynamics | Ground contact / vertical oscillation / vertical ratio | {format_metric(row.get('avg_stance_time_ms'), 1, ' ms')} / {format_metric(row.get('avg_vertical_oscillation_mm'), 1, ' mm')} / {format_metric(row.get('avg_vertical_ratio_pct'), 2, '%')} | measured |")
+        lines.append(f"| Aerobic | Training effect / anaerobic TE | {format_metric(row.get('aerobic_training_effect'), 1)} / {format_metric(row.get('anaerobic_training_effect'), 1)} | measured |")
+        lines.append(f"| Aerobic | Load focus | {format_metric(row.get('estimated_load_focus_category'))} | estimated |")
+        lines.append(f"| Recovery | Body Battery / HRV / stress / recovery time | unavailable / unavailable / unavailable / unavailable | unavailable |")
+        lines.append(f"| Recovery | Sleep profile window | {format_metric(row.get('sleep_time_profile'))} to {format_metric(row.get('wake_time_profile'))} | {metric_status(row.get('sleep_time_profile'))} |")
+        lines.append("")
+        lines.append("#### 3. Physiological Interpretation")
+        lines.append("")
+        for item in physiologic_interpretation:
+            lines.append(f"- {item}")
+        lines.append("")
+        lines.append("#### 4. Aerobic Efficiency Analysis")
+        lines.append("")
+        lines.append(f"- Steady-state EF was {row['steady_power_per_hr']:.3f} W/bpm and steady speed per HR was {row['steady_speed_per_hr']:.5f} m/s/bpm.")
+        lines.append(f"- Aerobic decoupling was {row['aerobic_drift_pct']:.1f}% and power-HR decoupling was {format_metric(row.get('power_hr_decoupling_pct'), 1, '%')}.")
+        lines.append(f"- Time spent in Garmin HR zone 2 was {format_metric(row.get('zone2_duration_min'), 1, ' min')}; pace inside that zone was {format_metric(row.get('zone2_pace_min_per_km'), 2, ' min/km')}.")
+        lines.append("")
+        lines.append("#### 5. Fatigue/Recovery Assessment")
+        lines.append("")
+        lines.append(f"- Fatigue resilience score: {format_metric(row.get('fatigue_resilience_score'), 1, '/100')} with steady HR rise {format_metric(row.get('steady_hr_rise_bpm'), 1, ' bpm')}. ")
+        lines.append(f"- Rolling 3-run load proxy: {format_metric(row.get('rolling_3run_total_work_kj'), 1, ' kJ')} mechanical work and {format_metric(row.get('rolling_3run_training_effect'), 1)} summed aerobic training effect.")
+        lines.append(f"- Recovery-specific Garmin wellness metrics were not embedded in these FIT files, so under-recovery can only be inferred indirectly from drift, HR cost, and temperature context.")
+        lines.append("")
+        lines.append("#### 6. Running Economy Notes")
+        lines.append("")
+        lines.append(f"- Mechanical energy cost was {format_metric(row.get('energy_cost_j_per_m'), 1, ' J/m')} and average running economy was {format_metric(row.get('running_economy_w_per_mps'), 1, ' W per m/s')}.")
+        lines.append(f"- Cadence stability was {format_metric(row.get('cadence_stability_cv_pct'), 1, '% CV')} and pace durability changed {format_metric(row.get('pace_durability_pct'), 1, '%')} from early to late thirds.")
+        lines.append("")
+        lines.append("#### 7. Concerns or Risks")
+        lines.append("")
+        for item in concerns:
+            lines.append(f"- {item}")
+        lines.append("")
+        lines.append("#### 8. Recommendations")
+        lines.append("")
+        for item in recommendations:
+            lines.append(f"- {item}")
+        lines.append("")
+
+    lines.append("## Suggested Visualization Ideas")
+    lines.append("")
+    lines.append("- Matched-duration slope chart: steady pace and steady HR for 45 min, 50-55 min, and 60+ min buckets.")
+    lines.append("- Heat-context scatter: average temperature vs aerobic decoupling, colored by fatigue resilience score.")
+    lines.append("- Pace vs HR-cost chart: steady pace on one axis, steady HR/speed on the other, with point size driven by duration.")
+    lines.append("- Running-dynamics trend panel: stride length, stance time, and vertical ratio against steady pace.")
+    lines.append("")
+    lines.append("## Important Limitations")
+    lines.append("")
+    lines.append("- Garmin running power, training effect, and normalized power are vendor-derived and should be treated as consistent heuristics, not laboratory truth.")
+    lines.append("- This dataset is small and weather is warm in several runs, so trend interpretation should prioritize repeated conditions and matched durations.")
+    lines.append("- Recovery and wellness conclusions are indirect because the relevant wellness metrics are not present in these FIT exports.")
 
     TIMELINE_REPORT_PATH.write_text("\n".join(lines), encoding="utf-8")
     return TIMELINE_REPORT_PATH
-
-
 def create_plots(df: pd.DataFrame) -> Path:
     fig, axes = plt.subplots(2, 2, figsize=(14, 10))
     fig.suptitle("Easy Run Scorecard — International Metrics", fontsize=16, fontweight="bold")
@@ -785,6 +1303,7 @@ def run_analysis(fit_dir: Path | None = None, report_dir: Path | None = None) ->
     df = load_run_dataframe(fit_dir)
     df = add_run_scores(df)
     df = add_timeline_status(df)
+    df = add_longitudinal_fields(df)
     weekly = build_weekly_summary(df)
     df.to_csv(CSV_REPORT_PATH, index=False)
     write_timeline_report(df, weekly)
