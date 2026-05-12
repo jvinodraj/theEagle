@@ -1,106 +1,109 @@
 # theEagle
-Python tools for analysing Garmin FIT files — aimed at half-marathon runners training with a coach.
 
-> Full how-to guide: [`docs/how-to-run.md`](docs/how-to-run.md)
+Python tools for Garmin FIT analysis for half-marathon training, with separate workflows for easy runs, interval/high-intensity sessions, and strength sessions.
 
----
+Full operational guide: [docs/how-to-run.md](docs/how-to-run.md)
 
-## Tools
+## What This Project Does
 
-### Easy Run HR Tracker ⭐
+- Parse Garmin FIT files into structured CSV outputs.
+- Analyze easy-run aerobic efficiency and decoupling trends.
+- Analyze interval/tempo/threshold/speed adaptation trends.
+- Analyze strength-endurance interaction and recovery cost.
+- Keep reports separated by workout type.
 
-Tracks heart-rate efficiency across easy training runs using internationally
-recognised metrics (**Efficiency Factor** and **Aerobic Decoupling %**).
-Because these are rate metrics they are valid for comparing runs of different
-distances (e.g. 5 km Thursday easy vs 10 km Saturday easy).
+## Standard Data Folders
+
+Place FIT files into:
+
+- data/activities/easy/raw
+- data/activities/interval/raw
+- data/activities/strength/raw
+- data/activities/general/raw
+
+Parsed outputs go to:
+
+- data/activities/<category>/processed/<fit_file_stem>/
+
+## Report Folders (Separated)
+
+- Easy reports: reports/easy
+- Interval reports: reports/interval
+- Strength reports: reports/strength
+
+## CLI Commands
+
+Initialize standard folders:
 
 ```powershell
-# drop FIT files into data/activities/easy/raw/, then:
-uv run python main.py easy-score
+uv run python main.py init
 ```
 
-Outputs:
-- `reports/hr_improvement_plot.png` — four-panel chart
-- `reports/hr_timeline_report.md` — detailed run-by-run markdown analysis
-- `reports/hr_improvement_analysis.csv` — full metrics spreadsheet
-
-Operational details are documented in [`docs/how-to-run.md`](docs/how-to-run.md).
-
----
-
-### FIT File Parser
-
-Parses any Garmin `.fit` file into structured CSVs (one per message type).
+Parse FIT files:
 
 ```powershell
 uv run python main.py parse --category all
 uv run python main.py parse --category easy
+uv run python main.py parse --category interval
+uv run python main.py parse --category strength
 uv run python main.py parse --file data/activities/easy/raw/my_run.fit --category easy
 ```
 
-Output folder: `data/activities/<category>/processed/<activity_name>/` — contains `record.csv`,
-`session.csv`, `lap.csv`, and one CSV per additional message type.
+Run separated reports:
 
----
-
-### Other Analysis Scripts
-
-| Script | Purpose |
-|--------|---------|
-| `HRbyPower.py` | Scatter: heart rate vs power coloured by HR zone |
-| `BoxPlot-HRbyPower.py` | Box plot: power distribution per HR zone |
-| `correlation-analysis.py` | Correlation matrix across all running metrics |
-| `running-analysis.py` | General session analysis and pace breakdown |
-| `track-power-zone.py` | Time-in-zone breakdown for power |
-| `ftp-test.py` | FTP estimation from a test effort |
-| `predict-efficiency.py` | Running economy regression model |
-
----
+```powershell
+uv run python main.py easy-score
+uv run python main.py interval-report
+uv run python main.py strength-report
+```
 
 ## Quick Start
 
 ```powershell
-# 1. install uv (once)
-winget install astral-sh.uv        # Windows
-# brew install uv                  # macOS
-
-# 2. clone and set up
-git clone <repo-url>
-cd theEagle
+# 1) install dependencies
 uv sync
+
+# 2) create folders
 uv run python main.py init
 
-# 3. run the HR tracker
-#    (drop your FIT files into data/activities/easy/raw/ first)
+# 3) add FIT files to raw folders by category
+
+# 4) parse files
+uv run python main.py parse --category all
+
+# 5) generate reports
 uv run python main.py easy-score
-
-# optional: parse all categories first, then run easy-score
-uv run python main.py run-all
+uv run python main.py interval-report
+uv run python main.py strength-report
 ```
 
----
+## Project Layout
 
-## Project Structure
-
-```
+```text
 theEagle/
-├── data/
-│   ├── activities/
-│   │   └── <category>/
-│   │       ├── raw/      # input FIT files
-│   │       └── processed/ # parsed CSVs
-│   ├── raw/              # legacy general input folder
-│   └── easy_runs/        # legacy easy-run input folder
-├── docs/                 # how-to guides and metric explanations
-├── reports/              # generated reports and charts
-├── src/
-│   ├── fit_parser.py             # FIT → DataFrame parser
-│   ├── hr_improvement_tracker.py # Easy Run HR Tracker (main logic)
-│   └── model.py
-├── main.py               # unified CLI: init, parse, easy-score, run-all
-└── pyproject.toml        # dependencies and script entrypoints
+	data/
+		activities/
+			easy/raw
+			interval/raw
+			strength/raw
+			general/raw
+			<category>/processed
+	reports/
+		easy/
+		interval/
+		strength/
+	docs/
+		how-to-run.md
+	src/
+		fit_parser.py
+		hr_improvement_tracker.py
+	main.py
+	interval_high_intensity_analysis.py
+	strength_endurance_integration.py
 ```
 
-## Questions?
-Open an issue or reach out at [vinodraj.j@gmail.com].
+## Notes
+
+- Legacy fallback folders still work (data/easy_runs and data/raw), but standardized paths above are recommended.
+- Garmin-derived values (for example training effect and threshold settings) should be interpreted as device estimates, not laboratory measurements.
 

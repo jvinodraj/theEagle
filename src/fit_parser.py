@@ -335,6 +335,25 @@ class FitParser:
         else:
             sets_for_hr["end_time"] = pd.NaT
 
+        # Some devices/exports omit optional strength fields.
+        # Ensure all downstream aggregation columns exist.
+        if "set_type" not in sets_for_hr.columns:
+            sets_for_hr["set_type"] = "active"
+        if "exercise_label" not in sets_for_hr.columns:
+            if "exercise_name" in sets_for_hr.columns:
+                sets_for_hr["exercise_label"] = sets_for_hr["exercise_name"]
+            else:
+                sets_for_hr["exercise_label"] = "Unknown"
+        sets_for_hr["exercise_label"] = sets_for_hr["exercise_label"].fillna("Unknown").astype(str)
+        if "duration_s" not in sets_for_hr.columns:
+            sets_for_hr["duration_s"] = 0.0
+        if "repetitions" not in sets_for_hr.columns:
+            sets_for_hr["repetitions"] = 0
+        if "weight_kg" not in sets_for_hr.columns:
+            sets_for_hr["weight_kg"] = pd.NA
+        if "start_time" not in sets_for_hr.columns:
+            sets_for_hr["start_time"] = pd.NaT
+
         # Get total session calories and duration for estimation
         total_calories = 0
         total_duration = 0

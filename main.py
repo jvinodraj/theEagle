@@ -24,12 +24,17 @@ from pathlib import Path
 import pandas as pd
 from src.fit_parser import FitParser
 from src import hr_improvement_tracker as easy_tracker
+from strength_endurance_integration import analyze_strength_endurance
+from interval_high_intensity_analysis import analyze_interval_workouts
 
 logging.basicConfig(level=logging.INFO, format="%(message)s")
 
 DATA_ROOT = Path("data/activities")
 LEGACY_RAW_DIR = Path("data/raw")
 LEGACY_EASY_DIR = Path("data/easy_runs")
+DEFAULT_EASY_REPORT_DIR = Path("reports/easy")
+DEFAULT_INTERVAL_REPORT_DIR = Path("reports/interval")
+DEFAULT_STRENGTH_REPORT_DIR = Path("reports/strength")
 
 
 def _fmt_mm_ss(seconds: float) -> str:
@@ -256,6 +261,54 @@ def run_easy_score(report_dir: Path) -> int:
         return 1
 
 
+def _resolve_running_csv() -> Path:
+    preferred = DEFAULT_EASY_REPORT_DIR / "hr_improvement_analysis.csv"
+    if preferred.exists():
+        return preferred
+    legacy = Path("reports/hr_improvement_analysis.csv")
+    return legacy
+
+
+def run_strength_report(report_dir: Path) -> int:
+    strength_raw = _resolve_raw_dir("strength")
+    if not strength_raw.exists():
+        strength_raw.mkdir(parents=True, exist_ok=True)
+
+    try:
+        outputs = analyze_strength_endurance(
+            strength_dir=strength_raw,
+            running_csv=_resolve_running_csv(),
+            output_dir=report_dir,
+        )
+        print("Generated strength report artifacts:")
+        for _, path in outputs.items():
+            print(f"- {path}")
+        return 0
+    except Exception as exc:
+        print(f"[ERROR] strength-report: {exc}")
+        return 1
+
+
+def run_interval_report(report_dir: Path, interval_dir: Path | None = None) -> int:
+    interval_raw = interval_dir or _category_raw_dir("interval")
+    if not interval_raw.exists():
+        interval_raw.mkdir(parents=True, exist_ok=True)
+
+    try:
+        outputs = analyze_interval_workouts(
+            interval_dir=interval_raw,
+            easy_csv=_resolve_running_csv(),
+            output_dir=report_dir,
+        )
+        print("Generated interval report artifacts:")
+        for _, path in outputs.items():
+            print(f"- {path}")
+        return 0
+    except Exception as exc:
+        print(f"[ERROR] interval-report: {exc}")
+        return 1
+
+
 def build_cli() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="theEagle unified CLI")
     sub = parser.add_subparsers(dest="command")
@@ -277,8 +330,30 @@ def build_cli() -> argparse.ArgumentParser:
     easy_cmd.add_argument(
         "--report-dir",
         type=Path,
-        default=Path("reports"),
+        default=DEFAULT_EASY_REPORT_DIR,
         help="Output report directory for scorecard files",
+    )
+
+    strength_cmd = sub.add_parser("strength-report", help="Run strength-endurance integration analysis")
+    strength_cmd.add_argument(
+        "--report-dir",
+        type=Path,
+        default=DEFAULT_STRENGTH_REPORT_DIR,
+        help="Output report directory for strength report files",
+    )
+
+    interval_cmd = sub.add_parser("interval-report", help="Run interval/tempo/threshold/speed adaptation analysis")
+    interval_cmd.add_argument(
+        "--report-dir",
+        type=Path,
+        default=DEFAULT_INTERVAL_REPORT_DIR,
+        help="Output report directory for interval report files",
+    )
+    interval_cmd.add_argument(
+        "--interval-dir",
+        type=Path,
+        default=_category_raw_dir("interval"),
+        help="Input folder containing interval FIT files",
     )
 
     sub.add_parser("init", help="Create standard category directory layout")
@@ -287,7 +362,7 @@ def build_cli() -> argparse.ArgumentParser:
     all_cmd.add_argument(
         "--report-dir",
         type=Path,
-        default=Path("reports"),
+        default=DEFAULT_EASY_REPORT_DIR,
         help="Output report directory for easy scorecard files",
     )
     return parser
@@ -310,6 +385,12 @@ def main() -> int:
 
     if args.command == "easy-score":
         return run_easy_score(args.report_dir)
+
+    if args.command == "strength-report":
+        return run_strength_report(args.report_dir)
+
+    if args.command == "interval-report":
+        return run_interval_report(args.report_dir, args.interval_dir)
 
     if args.command == "run-all":
         categories = _discover_categories()
