@@ -2,7 +2,7 @@
 
 Overall status: **fatigue_risk**
 
-- Efficiency Factor (EF, W/bpm — Joe Friel / TrainingPeaks standard): first run 1.536 W/bpm → last run 1.538 W/bpm (+0.1%). Reference: <1.4 beginner, 1.4–1.8 recreational, 1.8+ trained.
+- Efficiency Factor (EF, W/bpm — Joe Friel / TrainingPeaks standard): first run 1.536 W/bpm -> last run 1.538 W/bpm (+0.1%). Reference: <1.4 beginner, 1.4–1.8 recreational, 1.8+ trained.
 - Aerobic Decoupling (Garmin / Joe Friel standard — <5% = aerobically fit run): median 7.2%, 2/8 runs below the 5% threshold. This metric is load-independent — valid for comparing 5 km and 10 km easy runs.
 - Latest run score 51.8/100 (EF 58.0, decoupling 32.9, stability 75.0).
 - Latest week shows fatigue risk: aerobic decoupling 8.4%, score 51.0.

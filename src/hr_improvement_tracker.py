@@ -662,7 +662,7 @@ def classify_run_status(current: pd.Series, reference: pd.Series | None) -> tupl
 
     if reference is None:
         return "baseline", (
-            f"First run. EF {ef_str} (Joe Friel scale: 0.9 beginner → 2.0 trained); "
+              f"First run. EF {ef_str} (Joe Friel scale: 0.9 beginner -> 2.0 trained); "
             f"aerobic decoupling {drift_str} ({fit_tag})."
         )
 
@@ -896,7 +896,7 @@ def build_overall_assessment(df: pd.DataFrame, weekly: pd.DataFrame) -> tuple[st
 
     details.append(
         f"Efficiency Factor (EF, W/bpm — Joe Friel / TrainingPeaks standard): "
-        f"first run {first_row['steady_power_per_hr']:.3f} W/bpm → "
+            f"first run {first_row['steady_power_per_hr']:.3f} W/bpm -> "
         f"last run {last_row['steady_power_per_hr']:.3f} W/bpm ({format_pct(ef_trend)}). "
         f"Reference: <1.4 beginner, 1.4–1.8 recreational, 1.8+ trained."
     )

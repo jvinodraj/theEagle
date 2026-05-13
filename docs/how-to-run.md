@@ -164,8 +164,14 @@ uv run python main.py strength-report
 
 ### No FIT files found
 
-- Confirm files are in data/activities/<category>/raw.
-- Confirm extension is .fit.
+### UnicodeEncodeError on Windows
+
+If you see a `charmap` codec error when running `easy-score`, set encoding explicitly:
+
+```powershell
+$env:PYTHONIOENCODING="utf-8"; uv run python main.py easy-score
+```
+
 
 ### Command runs but report is missing
 
