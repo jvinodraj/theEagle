@@ -20,6 +20,7 @@ Usage:
 import argparse
 import logging
 from pathlib import Path
+from textwrap import dedent
 
 import pandas as pd
 from src.fit_parser import FitParser
@@ -310,7 +311,28 @@ def run_interval_report(report_dir: Path, interval_dir: Path | None = None) -> i
 
 
 def build_cli() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(description="theEagle unified CLI")
+    parser = argparse.ArgumentParser(
+        description="theEagle unified CLI for Garmin FIT parsing and training reports",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog=dedent(
+            """
+            Quick start:
+              uv run python main.py init
+              uv run python main.py parse --category all
+              uv run python main.py easy-score
+
+            Common commands:
+              uv run python main.py parse --category easy
+              uv run python main.py interval-report
+              uv run python main.py strength-report
+              uv run python main.py run-all
+
+            Docs:
+              README.md
+              docs/how-to-run.md
+            """
+        ),
+    )
     sub = parser.add_subparsers(dest="command")
 
     parse_cmd = sub.add_parser("parse", help="Parse FIT files into CSVs")
@@ -373,6 +395,8 @@ def main() -> int:
     args = parser.parse_args()
 
     if args.command is None:
+        print("No command provided. Use one of the commands below:")
+        print()
         parser.print_help()
         return 0
 
@@ -429,4 +453,5 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
+
 

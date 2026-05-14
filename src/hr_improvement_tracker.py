@@ -1216,11 +1216,15 @@ def write_timeline_report(df: pd.DataFrame, weekly: pd.DataFrame) -> Path:
 def create_plots(df: pd.DataFrame) -> Path:
     fig, axes = plt.subplots(2, 2, figsize=(14, 10))
     fig.suptitle("Easy Run Scorecard — International Metrics", fontsize=16, fontweight="bold")
+    x = np.arange(len(df))
+    x_labels = df["date_str"]
 
     # Panel 1: EF trend (primary fitness indicator)
     ax = axes[0, 0]
-    ax.plot(df["date"], df["steady_power_per_hr"], marker="o", linewidth=2.5, markersize=7,
+    ax.plot(x, df["steady_power_per_hr"], marker="o", linewidth=2.5, markersize=7,
             color="midnightblue", label="EF (W/bpm)")
+    ax.set_xticks(x)
+    ax.set_xticklabels(x_labels, rotation=45)
     ax.axhline(1.8, color="seagreen", linestyle="--", linewidth=1.2, label="Trained (1.8)")
     ax.axhline(1.4, color="darkorange", linestyle="--", linewidth=1.2, label="Recreational (1.4)")
     ax.set_xlabel("Date")
@@ -1234,13 +1238,12 @@ def create_plots(df: pd.DataFrame) -> Path:
     ax = axes[0, 1]
     colors = ["seagreen" if d < DECOUPLING_FIT_PCT else ("darkorange" if d < 8.0 else "crimson")
               for d in df["aerobic_drift_pct"]]
-    x = np.arange(len(df))
     bars = ax.bar(x, df["aerobic_drift_pct"], color=colors, alpha=0.85, edgecolor="black", linewidth=0.7)
     ax.axhline(DECOUPLING_FIT_PCT, color="seagreen", linestyle="--", linewidth=1.5,
                label=f"Fit threshold ({DECOUPLING_FIT_PCT:.0f}%)")
     ax.axhline(8.0, color="crimson", linestyle=":", linewidth=1.2, label="High drift (8%)")
     ax.set_xticks(x)
-    ax.set_xticklabels(df["date_str"], rotation=45)
+    ax.set_xticklabels(x_labels, rotation=45)
     ax.set_ylabel("Aerobic Decoupling (%)")
     ax.set_title("Aerobic Decoupling %\n(Garmin/Friel standard — <5% = aerobically fit)")
     ax.grid(True, alpha=0.3, axis="y")
@@ -1248,14 +1251,16 @@ def create_plots(df: pd.DataFrame) -> Path:
 
     # Panel 3: Score components over time
     ax = axes[1, 0]
-    ax.plot(df["date"], df["ef_score"], marker="o", linewidth=2, markersize=7,
+    ax.plot(x, df["ef_score"], marker="o", linewidth=2, markersize=7,
             color="steelblue", label="EF score")
-    ax.plot(df["date"], df["decoupling_score"], marker="s", linewidth=2, markersize=7,
+    ax.plot(x, df["decoupling_score"], marker="s", linewidth=2, markersize=7,
             color="darkorange", label="Decoupling score")
-    ax.plot(df["date"], df["stability_score"], marker="^", linewidth=2, markersize=7,
+    ax.plot(x, df["stability_score"], marker="^", linewidth=2, markersize=7,
             color="slateblue", label="Stability score")
-    ax.plot(df["date"], df["easy_run_score"], marker="D", linewidth=2.5, markersize=8,
+    ax.plot(x, df["easy_run_score"], marker="D", linewidth=2.5, markersize=8,
             color="midnightblue", linestyle="-.", label="Overall score")
+    ax.set_xticks(x)
+    ax.set_xticklabels(x_labels, rotation=45)
     ax.axhline(60, color="seagreen", linestyle="--", linewidth=1.0)
     ax.set_xlabel("Date")
     ax.set_ylabel("Score (0–100)")
@@ -1263,7 +1268,6 @@ def create_plots(df: pd.DataFrame) -> Path:
     ax.set_title("Score Components Over Time")
     ax.grid(True, alpha=0.3)
     ax.legend(loc="best", fontsize=9)
-    ax.tick_params(axis="x", rotation=45)
 
     # Panel 4: Pace vs HR scatter coloured by EF
     ax = axes[1, 1]

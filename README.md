@@ -57,6 +57,25 @@ uv run python main.py interval-report
 uv run python main.py strength-report
 ```
 
+## Help
+
+If you are unsure what to run, start with:
+
+```powershell
+uv run python main.py
+```
+
+That prints the built-in command help, including the most common workflows:
+
+- `init` to create the standard folder layout
+- `parse` to convert FIT files into CSV outputs
+- `easy-score` to generate the easy-run HR scorecard and plot
+- `interval-report` to analyze interval / tempo / threshold sessions
+- `strength-report` to analyze strength-endurance sessions
+- `run-all` to run the combined parse-and-report workflow
+
+For a step-by-step walkthrough, see [docs/how-to-run.md](docs/how-to-run.md).
+
 ## Quick Start
 
 ```powershell
