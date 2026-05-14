@@ -14,6 +14,7 @@ dependencies = [
     "numpy==2.2.3",
     "pandas==2.2.3",
     "pytz==2024.1",
+    "scikit-learn==1.5.2",
     "seaborn==0.13.2",
 ]
 
@@ -22,3 +23,8 @@ easy-run-hr-report = "src.hr_improvement_tracker:main"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src"]
+
+[dependency-groups]
+dev = [
+    "ipykernel>=7.2.0",
+]

@@ -4,6 +4,10 @@ Python tools for Garmin FIT analysis for half-marathon training, with separate w
 
 Full operational guide: [docs/how-to-run.md](docs/how-to-run.md)
 
+Project structure standard: [docs/PROJECT_STRUCTURE.md](docs/PROJECT_STRUCTURE.md)
+
+Contribution guide: [CONTRIBUTING.md](CONTRIBUTING.md)
+
 ## What This Project Does
 
 - Parse Garmin FIT files into structured CSV outputs.
@@ -100,6 +104,7 @@ uv run python main.py strength-report
 
 ```text
 theEagle/
+	configs/
 	data/
 		activities/
 			easy/raw
@@ -107,15 +112,24 @@ theEagle/
 			strength/raw
 			general/raw
 			<category>/processed
+	notebooks/
 	reports/
 		easy/
 		interval/
 		strength/
+	scripts/
+	tests/
+		unit/
+		integration/
 	docs/
 		how-to-run.md
+		PROJECT_STRUCTURE.md
 	src/
 		fit_parser.py
 		hr_improvement_tracker.py
+	CONTRIBUTING.md
+	pyproject.toml
+	uv.lock
 	main.py
 	interval_high_intensity_analysis.py
 	strength_endurance_integration.py
@@ -125,4 +139,5 @@ theEagle/
 
 - Legacy fallback folders still work (data/easy_runs and data/raw), but standardized paths above are recommended.
 - Garmin-derived values (for example training effect and threshold settings) should be interpreted as device estimates, not laboratory measurements.
+- Existing root-level analysis scripts are kept for compatibility. New scripts should be added under `scripts/`.
 
