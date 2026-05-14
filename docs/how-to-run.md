@@ -88,6 +88,44 @@ Primary files:
 - reports/easy/hr_timeline_report.md
 - reports/easy/hr_improvement_plot.png
 
+### 5.1.1 Easy Run EDA Notebook (Prerequisites + Run)
+
+Notebook path:
+
+- notebooks/easy_run_eda.ipynb
+
+Prerequisites:
+
+- Python 3.13+
+- uv
+- Dependencies synced with dev tools:
+
+```powershell
+uv sync --dev
+```
+
+- Easy-run report CSV generated (the notebook reads one of these):
+  - reports/hr_improvement_analysis.csv
+  - reports/easy/hr_improvement_analysis.csv
+
+Generate the required CSV:
+
+```powershell
+uv run python main.py easy-score
+```
+
+Run the notebook:
+
+1. Open notebooks/easy_run_eda.ipynb in VS Code.
+2. Select the project kernel (`theeagle` / `.venv`).
+3. Run all cells top-to-bottom.
+
+If the notebook raises file-not-found for CSV input, rerun:
+
+```powershell
+uv run python main.py easy-score
+```
+
 ### 5.2 Interval / Tempo / Threshold / Speed
 
 Keep interval FIT files in:

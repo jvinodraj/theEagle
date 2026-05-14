@@ -100,6 +100,22 @@ uv run python main.py interval-report
 uv run python main.py strength-report
 ```
 
+## Easy Run EDA Notebook
+
+Notebook:
+
+- notebooks/easy_run_eda.ipynb
+
+Prerequisites:
+
+```powershell
+uv sync --dev
+uv run python main.py easy-score
+```
+
+Then open the notebook in VS Code, select the project kernel, and run all cells.
+Detailed runbook: [docs/how-to-run.md](docs/how-to-run.md)
+
 ## Project Layout
 
 ```text
