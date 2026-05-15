@@ -1223,10 +1223,20 @@ def create_plots(df: pd.DataFrame) -> Path:
     ax = axes[0, 0]
     ax.plot(x, df["steady_power_per_hr"], marker="o", linewidth=2.5, markersize=7,
             color="midnightblue", label="EF (W/bpm)")
+    ef_values = df["steady_power_per_hr"]
+    ef_min = ef_values.min(skipna=True)
+    ef_max = ef_values.max(skipna=True)
+    ef_range = (ef_max - ef_min) if pd.notna(ef_min) and pd.notna(ef_max) else 0.0
+    ef_label_offset = max(0.01, ef_range * 0.08)
+    for i, ef in enumerate(ef_values):
+        if pd.notna(ef):
+            ax.text(i, ef + ef_label_offset, f"{ef:.3f}", ha="center", va="bottom", fontsize=8, fontweight="bold", color="midnightblue")
     ax.set_xticks(x)
     ax.set_xticklabels(x_labels, rotation=45)
     ax.axhline(1.8, color="seagreen", linestyle="--", linewidth=1.2, label="Trained (1.8)")
     ax.axhline(1.4, color="darkorange", linestyle="--", linewidth=1.2, label="Recreational (1.4)")
+    if pd.notna(ef_max):
+        ax.set_ylim(top=ef_max + ef_label_offset + 0.03)
     ax.set_xlabel("Date")
     ax.set_ylabel("Efficiency Factor (W/bpm)")
     ax.set_title("Efficiency Factor Trend\n(Joe Friel / TrainingPeaks — higher = fitter)")
@@ -1239,13 +1249,25 @@ def create_plots(df: pd.DataFrame) -> Path:
     colors = ["seagreen" if d < DECOUPLING_FIT_PCT else ("darkorange" if d < 8.0 else "crimson")
               for d in df["aerobic_drift_pct"]]
     bars = ax.bar(x, df["aerobic_drift_pct"], color=colors, alpha=0.85, edgecolor="black", linewidth=0.7)
+    
+    # Add labels: mins spent and avg HR (with dynamic spacing to avoid title crowding)
+    max_drift = df["aerobic_drift_pct"].max()
+    label_offset = max(0.5, max_drift * 0.08)  # Dynamic offset based on highest bar
+    for i, (idx, row) in enumerate(df.iterrows()):
+        drift_pct = row["aerobic_drift_pct"]
+        mins = row.get("duration_min", np.nan)
+        avg_hr = row.get("steady_avg_hr", np.nan)
+        label_text = f"{mins:.0f}m\n{avg_hr:.0f}bpm" if not (pd.isna(mins) or pd.isna(avg_hr)) else ""
+        ax.text(i, drift_pct + label_offset, label_text, ha="center", va="bottom", fontsize=7, fontweight="bold")
+    
     ax.axhline(DECOUPLING_FIT_PCT, color="seagreen", linestyle="--", linewidth=1.5,
                label=f"Fit threshold ({DECOUPLING_FIT_PCT:.0f}%)")
     ax.axhline(8.0, color="crimson", linestyle=":", linewidth=1.2, label="High drift (8%)")
     ax.set_xticks(x)
     ax.set_xticklabels(x_labels, rotation=45)
     ax.set_ylabel("Aerobic Decoupling (%)")
-    ax.set_title("Aerobic Decoupling %\n(Garmin/Friel standard — <5% = aerobically fit)")
+    ax.set_ylim(0, max_drift + label_offset + 2)  # Add extra space at top for labels
+    ax.set_title("Aerobic Decoupling %\n(Garmin/Friel standard — <5% = aerobically fit)\nLabels: duration (mins) / avg HR (bpm)")
     ax.grid(True, alpha=0.3, axis="y")
     ax.legend(loc="upper left")
 
