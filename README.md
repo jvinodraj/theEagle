@@ -105,6 +105,26 @@ uv run python main.py interval-report
 uv run python main.py strength-report
 ```
 
+## Training Pyramid
+
+Visualise your training load distribution across aerobic base, strength, and interval/threshold work:
+
+```powershell
+# All-time view
+uv run python training_pyramid.py
+
+# Last N weeks only
+uv run python training_pyramid.py --weeks 4
+```
+
+Output saved to `reports/training_pyramid.png`.
+
+![Training Pyramid](reports/training_pyramid.png)
+
+Each band's height is proportional to actual training time, so the pyramid shape reflects your real load balance. The ideal pyramid has a wide aerobic base, a medium strength band, and a narrow interval top.
+
+---
+
 ## Easy Run EDA Notebook
 
 Notebook:
