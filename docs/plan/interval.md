@@ -102,5 +102,4 @@ after done with 5K @ 4:30/km:
 
 * **shave 5–10 seconds/km** off your pace gradually.
   * How to shave from pr. Sample calculation
-  * https://github.com/jvinodraj/theEagle/blob/master/docs/p1/interval-run.md
 * Shift focus to a **10K program**.

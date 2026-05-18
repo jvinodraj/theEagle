@@ -1,4 +1,6 @@
-### Understanding Acute Load and Chronic Load
+# Acute Load and Chronic Load
+
+Understanding acute and chronic load helps calibrate training stress versus adaptation.
 
 **Acute Load** refers to the short-term training load, typically calculated over a recent period (e.g., 7 days). It represents the sum of the training stress from your workouts during this timeframe. ([support.garmin.com](https://support.garmin.com/en-US/?faq=C6iHdy0SS05RkoSVbFz066))
 

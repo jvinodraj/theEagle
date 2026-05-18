@@ -2,9 +2,13 @@
 
 Python tools for Garmin FIT analysis for half-marathon training, with separate workflows for easy runs, interval/high-intensity sessions, and strength sessions.
 
-Full operational guide: [docs/how-to-run.md](docs/how-to-run.md)
+Full operational guide: [docs/guides/how-to-run.md](docs/guides/how-to-run.md)
 
-Project structure standard: [docs/PROJECT_STRUCTURE.md](docs/PROJECT_STRUCTURE.md)
+Download and place FIT files: [docs/guides/download-fit-files.md](docs/guides/download-fit-files.md)
+
+Documentation index: [docs/guides/docs-index.md](docs/guides/docs-index.md)
+
+Project structure standard: [docs/guides/project-structure.md](docs/guides/project-structure.md)
 
 Contribution guide: [CONTRIBUTING.md](CONTRIBUTING.md)
 
@@ -78,7 +82,7 @@ That prints the built-in command help, including the most common workflows:
 - `strength-report` to analyze strength-endurance sessions
 - `run-all` to run the combined parse-and-report workflow
 
-For a step-by-step walkthrough, see [docs/how-to-run.md](docs/how-to-run.md).
+For a step-by-step walkthrough, see [docs/guides/how-to-run.md](docs/guides/how-to-run.md).
 
 ## Quick Start
 
@@ -114,7 +118,7 @@ uv run python main.py easy-score
 ```
 
 Then open the notebook in VS Code, select the project kernel, and run all cells.
-Detailed runbook: [docs/how-to-run.md](docs/how-to-run.md)
+Detailed runbook: [docs/guides/how-to-run.md](docs/guides/how-to-run.md)
 
 ## Project Layout
 
@@ -156,4 +160,5 @@ theEagle/
 - Legacy fallback folders still work (data/easy_runs and data/raw), but standardized paths above are recommended.
 - Garmin-derived values (for example training effect and threshold settings) should be interpreted as device estimates, not laboratory measurements.
 - Existing root-level analysis scripts are kept for compatibility. New scripts should be added under `scripts/`.
+
 

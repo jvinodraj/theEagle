@@ -1,4 +1,6 @@
-### **Load Focus Regression Over Time**  
+# Load Focus Regression Over Time
+
+How anaerobic, high aerobic, and low aerobic load points decay after each session.
 
 Load Focus (Anaerobic, High Aerobic, Low Aerobic) is based on your **Acute Training Load** (short-term workload) and **Chronic Training Load** (long-term workload). Garmin and other platforms use an **exponential decay model** to account for how training stress fades over time.  
 

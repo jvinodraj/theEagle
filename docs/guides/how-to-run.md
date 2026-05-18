@@ -27,6 +27,8 @@ The init command prepares category folders under data/activities.
 
 ## 3. Standard FIT Input Folders
 
+Before placing files, follow: [How to Download and Place FIT Files](download-fit-files.md)
+
 Use these folders for new files:
 
 - data/activities/easy/raw
@@ -177,7 +179,7 @@ Primary files:
 
 ## 6. Recommended Daily Workflow
 
-1. Export FIT files from Garmin Connect.
+1. Download FIT files using [How to Download and Place FIT Files](download-fit-files.md).
 2. Drop files into the correct category raw folder.
 3. Run parse for that category.
 4. Run the matching report command.
@@ -228,3 +230,4 @@ $env:PYTHONIOENCODING="utf-8"; uv run python main.py easy-score
 - main.py is the unified CLI entry point.
 - Use standardized category folders for consistency and easier automation.
 - Keep easy, interval, and strength reports separate to avoid mixing interpretations.
+

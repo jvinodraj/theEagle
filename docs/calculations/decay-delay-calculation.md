@@ -1,3 +1,7 @@
+# Decay Delay Calculation
+
+Reference formulas and examples for how training load focus decays over time.
+
 ### **Formula for Load Focus Points Regression**  
 
 Your **training load focus points** (anaerobic, high aerobic, and low aerobic) **decay over time** due to fitness detraining. Garmin typically follows an **exponential decay model**, meaning older training sessions contribute less to your load score. 

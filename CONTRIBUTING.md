@@ -29,5 +29,6 @@
 
 ## Documentation
 
-- Usage guide: `docs/how-to-run.md`
-- Structure standard: `docs/PROJECT_STRUCTURE.md`
+- Usage guide: `docs/guides/how-to-run.md`
+- Structure standard: `docs/guides/project-structure.md`
+

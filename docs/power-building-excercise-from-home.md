@@ -1,3 +1,7 @@
+# Home Exercises to Increase Running Power
+
+Bodyweight and low-equipment exercises to improve running power output.
+
 ### **Exercise that Increases Running Power (Watts)?**  
 
 When it comes to running power (measured in watts), **dynamic exercises** generally contribute more because they improve **neuromuscular coordination, stride efficiency, and explosive strength**. However, **static exercises** also help by increasing **muscle endurance and stability**, which can indirectly enhance power.

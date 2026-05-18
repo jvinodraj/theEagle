@@ -1,3 +1,7 @@
+# Improve Aerobic Base
+
+Practical signs, diagnostics, and training actions for improving aerobic base when HRDI is high.
+
 ### **1. Signs That HRDI Is High Due to a Weak Aerobic Base**
 If your HRDI is consistently above **5%–6%** during easy runs, it may indicate that your aerobic system is not well-developed. Look for these signs:
 
