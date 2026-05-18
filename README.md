@@ -60,7 +60,7 @@ uv run python main.py parse --file data/activities/easy/raw/my_run.fit --categor
 Run separated reports:
 
 ```powershell
-uv run python main.py easy-score
+uv run python main.py easy-report
 uv run python main.py interval-report
 uv run python main.py strength-report
 ```
@@ -77,7 +77,8 @@ That prints the built-in command help, including the most common workflows:
 
 - `init` to create the standard folder layout
 - `parse` to convert FIT files into CSV outputs
-- `easy-score` to generate the easy-run HR scorecard and plot
+- `easy-report` to generate the easy-run HR scorecard and plot
+	- `easy-score` remains available as a backward-compatible alias
 - `interval-report` to analyze interval / tempo / threshold sessions
 - `strength-report` to analyze strength-endurance sessions
 - `run-all` to run the combined parse-and-report workflow
@@ -99,7 +100,7 @@ uv run python main.py init
 uv run python main.py parse --category all
 
 # 5) generate reports
-uv run python main.py easy-score
+uv run python main.py easy-report
 uv run python main.py interval-report
 uv run python main.py strength-report
 ```
@@ -114,7 +115,7 @@ Prerequisites:
 
 ```powershell
 uv sync --dev
-uv run python main.py easy-score
+uv run python main.py easy-report
 ```
 
 Then open the notebook in VS Code, select the project kernel, and run all cells.
@@ -142,8 +143,12 @@ theEagle/
 		unit/
 		integration/
 	docs/
-		how-to-run.md
-		PROJECT_STRUCTURE.md
+		README.md
+		guides/
+		calculations/
+		knowledge-base/
+		plan/
+		misc/
 	src/
 		fit_parser.py
 		hr_improvement_tracker.py

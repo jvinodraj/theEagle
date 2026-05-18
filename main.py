@@ -13,7 +13,7 @@ Usage:
     uv run python main.py parse --category strength
     uv run python main.py parse --category custom_category
     uv run python main.py parse --file path/to/run.fit --category easy
-    uv run python main.py easy-score
+    uv run python main.py easy-report
     uv run python main.py run-all
 """
 
@@ -259,7 +259,7 @@ def run_easy_score(report_dir: Path) -> int:
         print(summary)
         return 0
     except Exception as exc:
-        print(f"[ERROR] easy-score: {exc}")
+        print(f"[ERROR] easy-report: {exc}")
         return 1
 
 
@@ -329,7 +329,7 @@ def build_cli() -> argparse.ArgumentParser:
             Quick start:
               uv run python main.py init
               uv run python main.py parse --category all
-              uv run python main.py easy-score
+              uv run python main.py easy-report
 
             Common commands:
               uv run python main.py parse --category easy
@@ -358,12 +358,12 @@ def build_cli() -> argparse.ArgumentParser:
         help="Parse one FIT file into the category's processed directory",
     )
 
-    easy_cmd = sub.add_parser("easy-score", help="Run easy-run HR scorecard")
+    easy_cmd = sub.add_parser("easy-report", aliases=["easy-score"], help="Run easy-run HR scorecard")
     easy_cmd.add_argument(
         "--report-dir",
         type=Path,
         default=DEFAULT_EASY_REPORT_DIR,
-        help="Output report directory for scorecard files",
+        help="Output report directory for easy report files",
     )
 
     strength_cmd = sub.add_parser("strength-report", help="Run strength-endurance integration analysis")
@@ -390,7 +390,7 @@ def build_cli() -> argparse.ArgumentParser:
 
     sub.add_parser("init", help="Create standard category directory layout")
 
-    all_cmd = sub.add_parser("run-all", help="Run parse-all + easy-score workflow")
+    all_cmd = sub.add_parser("run-all", help="Run parse-all + easy-report workflow")
     all_cmd.add_argument(
         "--report-dir",
         type=Path,
@@ -417,7 +417,7 @@ def main() -> int:
             print(f"Created/checked: {processed_dir}")
         return 0
 
-    if args.command == "easy-score":
+    if args.command in {"easy-report", "easy-score"}:
         return run_easy_score(args.report_dir)
 
     if args.command == "strength-report":

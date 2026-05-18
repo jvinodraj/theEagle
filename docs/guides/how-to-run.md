@@ -77,7 +77,7 @@ data/activities/<category>/processed/<fit_file_stem>/
 Command:
 
 ```powershell
-uv run python main.py easy-score
+uv run python main.py easy-report
 ```
 
 Default output folder:
@@ -113,7 +113,7 @@ uv sync --dev
 Generate the required CSV:
 
 ```powershell
-uv run python main.py easy-score
+uv run python main.py easy-report
 ```
 
 Run the notebook:
@@ -125,7 +125,7 @@ Run the notebook:
 If the notebook raises file-not-found for CSV input, rerun:
 
 ```powershell
-uv run python main.py easy-score
+uv run python main.py easy-report
 ```
 
 ### 5.2 Interval / Tempo / Threshold / Speed
@@ -195,7 +195,7 @@ uv run python main.py init
 uv run python main.py parse --category all
 
 # Reports
-uv run python main.py easy-score
+uv run python main.py easy-report
 uv run python main.py interval-report
 uv run python main.py strength-report
 ```
@@ -206,10 +206,10 @@ uv run python main.py strength-report
 
 ### UnicodeEncodeError on Windows
 
-If you see a `charmap` codec error when running `easy-score`, set encoding explicitly:
+If you see a `charmap` codec error when running `easy-report`, set encoding explicitly:
 
 ```powershell
-$env:PYTHONIOENCODING="utf-8"; uv run python main.py easy-score
+$env:PYTHONIOENCODING="utf-8"; uv run python main.py easy-report
 ```
 
 

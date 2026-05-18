@@ -67,7 +67,7 @@ After placing files:
 
 ```powershell
 uv run python main.py parse --category all
-uv run python main.py easy-score
+uv run python main.py easy-report
 uv run python main.py interval-report
 uv run python main.py strength-report
 ```
