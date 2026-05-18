@@ -27,6 +27,7 @@ from src.fit_parser import FitParser
 from src import hr_improvement_tracker as easy_tracker
 from strength_endurance_integration import analyze_strength_endurance
 from interval_high_intensity_analysis import analyze_interval_workouts
+from interval_visualization import create_interval_plots, load_interval_dataframe
 
 logging.basicConfig(level=logging.INFO, format="%(message)s")
 
@@ -304,6 +305,15 @@ def run_interval_report(report_dir: Path, interval_dir: Path | None = None) -> i
         print("Generated interval report artifacts:")
         for _, path in outputs.items():
             print(f"- {path}")
+        
+        # Generate visualization charts
+        interval_csv = report_dir / "interval_workouts_dataset.csv"
+        if interval_csv.exists():
+            df = load_interval_dataframe(interval_csv)
+            if not df.empty:
+                chart_path = create_interval_plots(df, report_dir / "interval_performance_charts.png")
+                print(f"- {chart_path}")
+        
         return 0
     except Exception as exc:
         print(f"[ERROR] interval-report: {exc}")
