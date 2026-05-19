@@ -2,5 +2,6 @@
 *.log
 *.pyc
 *.csv
+!reports/*/*.csv
 __pycache__/
 **/__pycache__/
