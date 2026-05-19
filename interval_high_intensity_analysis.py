@@ -12,6 +12,7 @@ from src.fit_parser import FitParser
 DEFAULT_INTERVAL_DIR = Path("data/activities/interval/raw")
 DEFAULT_EASY_CSV = Path("reports/easy/hr_improvement_analysis.csv")
 DEFAULT_OUTPUT_DIR = Path("reports/interval")
+LOCAL_TIMEZONE = "Asia/Kolkata"
 
 
 def _safe_float(value: Any) -> float | None:
@@ -43,8 +44,12 @@ def _safe_timestamp(value: Any) -> pd.Timestamp | None:
 def _as_naive(ts: pd.Timestamp | None) -> pd.Timestamp | None:
     if ts is None:
         return None
+    # FIT `start_time` values can arrive as naive UTC; normalize all timestamps to
+    # local time before removing timezone info so date labels stay on the right day.
+    if ts.tzinfo is None:
+        return ts.tz_localize("UTC").tz_convert(LOCAL_TIMEZONE).tz_localize(None)
     if ts.tzinfo is not None:
-        return ts.tz_localize(None)
+        return ts.tz_convert(LOCAL_TIMEZONE).tz_localize(None)
     return ts
 
 
@@ -182,7 +187,7 @@ def _build_interval_rows(parser: FitParser, fit_file: Path) -> tuple[pd.DataFram
         return pd.DataFrame(), {}
 
     session_row = session_df.iloc[0]
-    session_ts = _safe_timestamp(session_row.get("start_time") or session_row.get("timestamp"))
+    session_ts = _safe_timestamp(session_row.get("timestamp") or session_row.get("start_time"))
     session_ts = _as_naive(session_ts)
 
     threshold_hr = None

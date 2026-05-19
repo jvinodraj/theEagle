@@ -44,7 +44,7 @@ This report separates direct measurements from Garmin estimates and emphasizes t
 
 ### 7. Recovery Assessment
 - HR response lag: 0.0 s
-- HR recovery between reps: n/a bpm
+- HR recovery between reps: 95.6 bpm
 - Cardiac drift: 16.588405797101444 bpm
 - Environment impact flag: heat_stress_possible
 
@@ -101,7 +101,7 @@ This report separates direct measurements from Garmin estimates and emphasizes t
 
 ### 7. Recovery Assessment
 - HR response lag: 0.0 s
-- HR recovery between reps: n/a bpm
+- HR recovery between reps: 94.28571428571429 bpm
 - Cardiac drift: 16.94238683127574 bpm
 - Environment impact flag: heat_stress_possible
 
@@ -114,7 +114,7 @@ This report separates direct measurements from Garmin estimates and emphasizes t
 - Garmin-derived metrics are estimates and should not be treated as direct lab measurements
 - Missing running-dynamics fields lower certainty for neuromuscular conclusions
 
-## Workout: 2026-05-12_tuesday_interval.fit (2026-05-11)
+## Workout: 2026-05-12_tuesday_interval.fit (2026-05-12)
 
 ### 1. Executive Summary
 - Session type: interval
@@ -157,8 +157,8 @@ This report separates direct measurements from Garmin estimates and emphasizes t
 - Form deterioration (vertical oscillation shift): -1.2931034482758674%
 
 ### 7. Recovery Assessment
-- HR response lag: 0.0 s
-- HR recovery between reps: n/a bpm
+- HR response lag: n/a s
+- HR recovery between reps: 100.42857142857143 bpm
 - Cardiac drift: 20.04058624577226 bpm
 - Environment impact flag: heat_stress_possible
 
@@ -214,7 +214,7 @@ This report separates direct measurements from Garmin estimates and emphasizes t
 
 ### 7. Recovery Assessment
 - HR response lag: 0.0 s
-- HR recovery between reps: n/a bpm
+- HR recovery between reps: 37.666666666666664 bpm
 - Cardiac drift: 20.633841886269067 bpm
 - Environment impact flag: heat_stress_possible
 
@@ -227,7 +227,7 @@ This report separates direct measurements from Garmin estimates and emphasizes t
 - Garmin-derived metrics are estimates and should not be treated as direct lab measurements
 - Missing running-dynamics fields lower certainty for neuromuscular conclusions
 
-## Workout: 2026-05-19_tuesday_interval.fit (2026-05-18)
+## Workout: 2026-05-19_tuesday_interval.fit (2026-05-19)
 
 ### 1. Executive Summary
 - Session type: interval
@@ -270,8 +270,8 @@ This report separates direct measurements from Garmin estimates and emphasizes t
 - Form deterioration (vertical oscillation shift): -2.611534276387384%
 
 ### 7. Recovery Assessment
-- HR response lag: 0.0 s
-- HR recovery between reps: n/a bpm
+- HR response lag: n/a s
+- HR recovery between reps: 100.42857142857143 bpm
 - Cardiac drift: 18.473451327433622 bpm
 - Environment impact flag: heat_stress_possible
 
