@@ -119,16 +119,16 @@ def draw_pyramid(metrics: dict, output_path: Path = DEFAULT_OUTPUT, weeks: int |
     fracs = [t["total_duration_min"] / total_min_safe for t in tiers]
 
     # ── Canvas setup ─────────────────────────────────────────────────────────
-    fig, ax = plt.subplots(figsize=(11, 8))
-    ax.set_xlim(0, 10)
-    ax.set_ylim(0, 11)
+    fig, ax = plt.subplots(figsize=(12, 10))
+    ax.set_xlim(0, 12)
+    ax.set_ylim(0, 13)
     ax.axis("off")
     fig.patch.set_facecolor("#F5F5F5")
 
     # ── Pyramid geometry ─────────────────────────────────────────────────────
-    # The pyramid lives between y=1 and y=9, x apex at x=5
-    pyramid_bottom = 1.0
-    pyramid_top = 9.0
+    # The pyramid lives between y=1.5 and y=10, x apex at x=5
+    pyramid_bottom = 1.5
+    pyramid_top = 10.0
     pyramid_height = pyramid_top - pyramid_bottom
     apex_x = 5.0
     half_base = 3.8  # half-width at the very base
@@ -176,10 +176,12 @@ def draw_pyramid(metrics: dict, output_path: Path = DEFAULT_OUTPUT, weeks: int |
         hours = tier["total_duration_min"] / 60
         stats_line = f"{tier['sessions']} sessions  ·  {hours:.1f} hrs  ·  {pct:.0f}%"
 
-        # Narrow bands: place label outside to the left with a leader line
-        if band_height < 1.8:
-            _, xr_mid = x_bounds_at_y(y_mid)
-            label_x = 0.3
+        xl_mid, xr_mid = x_bounds_at_y(y_mid)
+        band_width = xr_mid - xl_mid
+
+        # Narrow bands (too tall/thin to fit text): annotate outside to the right
+        if band_height < 1.8 or band_width < 2.5:
+            label_x = xr_mid + 0.3
             ax.annotate(
                 f"{tier['label']}\n{stats_line}",
                 xy=(xr_mid, y_mid),
@@ -247,10 +249,11 @@ def draw_pyramid(metrics: dict, output_path: Path = DEFAULT_OUTPUT, weeks: int |
         y_bot = y_boundaries[i]
         y_top = y_boundaries[i + 1]
         band_height = y_top - y_bot
-        if band_height < 1.8:
-            continue  # narrow band already labelled on the left via annotation
         y_mid = (y_bot + y_top) / 2
-        _, xr = x_bounds_at_y(y_mid)
+        xl_mid, xr = x_bounds_at_y(y_mid)
+        band_width = xr - xl_mid
+        if band_height < 1.8 or band_width < 2.5:
+            continue  # narrow/thin band already labelled via external annotation
         ax.text(
             xr + 0.25,
             y_mid,
@@ -268,7 +271,7 @@ def draw_pyramid(metrics: dict, output_path: Path = DEFAULT_OUTPUT, weeks: int |
     title = "Training Pyramid"
     if weeks:
         title += f"  (last {weeks} weeks)"
-    ax.text(apex_x, 10.3, title, ha="center", va="top", fontsize=17, fontweight="bold", color="#212121")
+    ax.text(apex_x, 11.7, title, ha="center", va="top", fontsize=17, fontweight="bold", color="#212121")
 
     # ── Footer ────────────────────────────────────────────────────────────────
     footer = f"Total: {total_min / 60:.1f} hrs  ·  {sum(t['sessions'] for t in tiers)} sessions"
@@ -279,8 +282,8 @@ def draw_pyramid(metrics: dict, output_path: Path = DEFAULT_OUTPUT, weeks: int |
     # ── Save ──────────────────────────────────────────────────────────────────
     output_path = Path(output_path)
     output_path.parent.mkdir(parents=True, exist_ok=True)
-    plt.tight_layout()
-    plt.savefig(output_path, dpi=150, bbox_inches="tight", facecolor="#F5F5F5")
+    fig.subplots_adjust(left=0.05, right=0.95, top=0.92, bottom=0.08)
+    plt.savefig(output_path, dpi=150, facecolor="#F5F5F5")
     plt.close()
     print(f"[OK] Saved → {output_path}")
 
