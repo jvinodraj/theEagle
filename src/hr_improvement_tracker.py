@@ -364,6 +364,23 @@ def estimate_load_focus(training_effect: float | None, anaerobic_training_effect
     return "high_aerobic_estimated"
 
 
+def extract_estimated_sweat_loss_ml(session_row: pd.Series) -> float | None:
+    for key in ("estimated_sweat_loss", "total_sweat_loss", "sweat_loss", "unknown_178"):
+        value = session_row.get(key)
+        if value is None:
+            continue
+        try:
+            if pd.isna(value):
+                continue
+        except Exception:
+            pass
+        try:
+            return float(value)
+        except Exception:
+            continue
+    return None
+
+
 def fatigue_component_score(drift_pct: float, hr_rise_bpm: float) -> float:
     drift_penalty = max(float(drift_pct) - 3.0, 0.0) * 11.0 if pd.notna(drift_pct) else 25.0
     rise_penalty = max(float(hr_rise_bpm) - 4.0, 0.0) * 6.0 if pd.notna(hr_rise_bpm) else 15.0
@@ -459,6 +476,7 @@ def extract_hr_metrics(fit_file: Path) -> dict | None:
             aerobic_drift_pct if aerobic_drift_pct is not None else np.nan,
             steady_state_metrics.get("steady_hr_rise_bpm", np.nan),
         )
+        estimated_sweat_loss_ml = extract_estimated_sweat_loss_ml(session_row)
 
         return {
             "file": fit_file.name,
@@ -504,6 +522,8 @@ def extract_hr_metrics(fit_file: Path) -> dict | None:
             "aerobic_training_effect": round_or_nan(session_row.get("total_training_effect"), 1),
             "anaerobic_training_effect": round_or_nan(session_row.get("total_anaerobic_training_effect"), 1),
             "exercise_load": np.nan,
+            "estimated_sweat_loss_ml": round_or_nan(estimated_sweat_loss_ml, 1),
+            "estimated_sweat_loss_l": round_or_nan(estimated_sweat_loss_ml / 1000.0, 3) if estimated_sweat_loss_ml is not None else np.nan,
             "measured_load_focus_category": np.nan,
             "estimated_load_focus_category": estimate_load_focus(session_row.get("total_training_effect"), session_row.get("total_anaerobic_training_effect")),
             "vo2max": np.nan,
@@ -1070,6 +1090,7 @@ def write_timeline_report(df: pd.DataFrame, weekly: pd.DataFrame) -> Path:
     headline, details = build_overall_assessment(df, weekly)
     measured_unavailable = [
         "Measured directly from current FIT exports: session totals, heart rate, power, cadence, stride length, stance time, vertical oscillation/ratio, Garmin training effect, Garmin zone target settings, and profile weight/resting HR.",
+        "Measured from session metadata (mapped field): estimated sweat loss in mL/L.",
         "Estimated in this report: load focus category only. It is inferred from Garmin aerobic and anaerobic training effect, not read directly from the FIT file.",
         "Unavailable in the current FIT exports: Body Battery before run, HRV status, stress level, recovery-time recommendation, per-run sleep metrics, VO2 max, direct exercise load, and left/right balance.",
     ]
@@ -1163,6 +1184,7 @@ def write_timeline_report(df: pd.DataFrame, weekly: pd.DataFrame) -> Path:
         lines.append(f"| Aerobic | Training effect / anaerobic TE | {format_metric(row.get('aerobic_training_effect'), 1)} / {format_metric(row.get('anaerobic_training_effect'), 1)} | measured |")
         lines.append(f"| Aerobic | Load focus | {format_metric(row.get('estimated_load_focus_category'))} | estimated |")
         lines.append(f"| Recovery | Body Battery / HRV / stress / recovery time | unavailable / unavailable / unavailable / unavailable | unavailable |")
+        lines.append(f"| Recovery | Estimated sweat loss | {format_metric(row.get('estimated_sweat_loss_ml'), 1, ' mL')} ({format_metric(row.get('estimated_sweat_loss_l'), 3, ' L')}) | {metric_status(row.get('estimated_sweat_loss_ml'))} |")
         lines.append(f"| Recovery | Sleep profile window | {format_metric(row.get('sleep_time_profile'))} to {format_metric(row.get('wake_time_profile'))} | {metric_status(row.get('sleep_time_profile'))} |")
         lines.append("")
         lines.append("#### 3. Physiological Interpretation")

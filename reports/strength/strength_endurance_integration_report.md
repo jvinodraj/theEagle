@@ -2,7 +2,7 @@
 
 ## Scope
 - Objective: evaluate strength-load stress, recovery cost, fatigue risk, and transfer signals to running
-- Sessions analyzed: 9
+- Sessions analyzed: 10
 
 ## Session: 2026-04-15_strength.fit (2026-04-15)
 
@@ -24,6 +24,7 @@
 - HR zones: Z1 71.6%, Z2 26.6%, Z3 1.8%, Z4 0.0%, Z5 0.0%
 - Training Effect: aerobic 1.4, anaerobic 0.3
 - Exercise load field: not recorded
+- Estimated sweat loss: 925.0 mL (0.925 L)
 
 ### 4. Recovery Impact
 - Recovery recommendation field: not available
@@ -69,6 +70,7 @@
 - HR zones: Z1 46.7%, Z2 38.9%, Z3 14.5%, Z4 0.0%, Z5 0.0%
 - Training Effect: aerobic 2.0, anaerobic 0.4
 - Exercise load field: not recorded
+- Estimated sweat loss: 719.0 mL (0.719 L)
 
 ### 4. Recovery Impact
 - Recovery recommendation field: not available
@@ -114,6 +116,7 @@
 - HR zones: Z1 23.7%, Z2 58.7%, Z3 17.6%, Z4 0.0%, Z5 0.0%
 - Training Effect: aerobic 2.2, anaerobic 0.8
 - Exercise load field: not recorded
+- Estimated sweat loss: 527.0 mL (0.527 L)
 
 ### 4. Recovery Impact
 - Recovery recommendation field: not available
@@ -159,6 +162,7 @@
 - HR zones: Z1 67.4%, Z2 29.6%, Z3 3.0%, Z4 0.0%, Z5 0.0%
 - Training Effect: aerobic 1.3, anaerobic 0.0
 - Exercise load field: not recorded
+- Estimated sweat loss: 747.0 mL (0.747 L)
 
 ### 4. Recovery Impact
 - Recovery recommendation field: not available
@@ -204,6 +208,7 @@
 - HR zones: Z1 19.2%, Z2 61.1%, Z3 19.7%, Z4 0.0%, Z5 0.0%
 - Training Effect: aerobic 2.3, anaerobic 0.4
 - Exercise load field: not recorded
+- Estimated sweat loss: 834.0 mL (0.834 L)
 
 ### 4. Recovery Impact
 - Recovery recommendation field: not available
@@ -249,6 +254,7 @@
 - HR zones: Z1 33.9%, Z2 51.6%, Z3 14.1%, Z4 0.4%, Z5 0.0%
 - Training Effect: aerobic 2.3, anaerobic 0.5
 - Exercise load field: not recorded
+- Estimated sweat loss: 1478.0 mL (1.478 L)
 
 ### 4. Recovery Impact
 - Recovery recommendation field: not available
@@ -294,6 +300,7 @@
 - HR zones: Z1 39.8%, Z2 49.8%, Z3 10.4%, Z4 0.0%, Z5 0.0%
 - Training Effect: aerobic 2.2, anaerobic 0.3
 - Exercise load field: not recorded
+- Estimated sweat loss: 884.0 mL (0.884 L)
 
 ### 4. Recovery Impact
 - Recovery recommendation field: not available
@@ -339,6 +346,7 @@
 - HR zones: Z1 79.8%, Z2 19.2%, Z3 1.0%, Z4 0.0%, Z5 0.0%
 - Training Effect: aerobic 1.0, anaerobic 0.3
 - Exercise load field: not recorded
+- Estimated sweat loss: 1008.0 mL (1.008 L)
 
 ### 4. Recovery Impact
 - Recovery recommendation field: not available
@@ -384,6 +392,7 @@
 - HR zones: Z1 58.9%, Z2 35.5%, Z3 5.6%, Z4 0.0%, Z5 0.0%
 - Training Effect: aerobic 2.0, anaerobic 0.0
 - Exercise load field: not recorded
+- Estimated sweat loss: 1267.0 mL (1.267 L)
 
 ### 4. Recovery Impact
 - Recovery recommendation field: not available
@@ -409,6 +418,52 @@
 ### 7. Recommendations
 - Keep next day run easy and monitor HR response
 
+## Session: 2026-05-20_strength.fit (2026-05-19)
+
+### 1. Executive Summary
+- Strength load: 122 sets, 532 reps, estimated load 0.0 kg
+- Session stress: recovery cost score 68.0/100, fatigue risk moderate
+- Transfer signal: insufficient_data
+
+### 2. Workout Breakdown
+- Duration: 97.3 min
+- Exercise list: Air Squat, Back Extension with Opposite Arm and Leg Reach, Bench Dip, Body-weight Wall Squat, Child's Pose Stretch, Dead Bug, Elbow Plank Pike Jacks, Hip Raise, Jump Squat, Lying Reverse Plank, Pistol Squat, Push-up, Reverse Lunge with Reach Back, Romanian Deadlift, Side Plank, Side-lying Leg Raise, Superman from Floor, Tabletop Dip, Warm-up
+- Sets/Reps: 122/532
+- Rest intervals total: 1562.5 s
+- Total load availability: available
+
+### 3. Physiological Stress Analysis
+- Average HR: 112.0 bpm
+- Max HR: 160.0 bpm
+- HR zones: Z1 66.4%, Z2 28.4%, Z3 5.0%, Z4 0.2%, Z5 0.0%
+- Training Effect: aerobic 1.9, anaerobic 0.9
+- Exercise load field: not recorded
+- Estimated sweat loss: 1111.0 mL (1.111 L)
+
+### 4. Recovery Impact
+- Recovery recommendation field: not available
+- Body Battery field: not available
+- HRV status field: not available
+- Stress field: not available
+- Recovery cost interpretation: moderate recovery demand
+
+### 5. Interaction With Running
+- Before run date: n/a
+- After run date: n/a
+- Easy score change after vs before: n/a
+- Pace change after vs before (%): n/a
+- HR change after vs before (%): n/a
+- Interaction signal: insufficient_data
+
+### 6. Fatigue Risk
+- Neuromuscular fatigue proxy (HR drift): 1.7 bpm
+- Time in high HR zones (Z4+Z5): 0.2%
+- Elevated HR flag: False
+- Final fatigue risk: moderate
+
+### 7. Recommendations
+- Keep next day run easy and monitor HR response
+
 ## Final Output Tables
 ### Weekly Strength-Load Summary
 - Week 2026-04-13: sessions 2, duration 130.3 min, recovery cost 52.6, sustainability sustainable
@@ -416,18 +471,19 @@
 - Week 2026-04-27: sessions 2, duration 157.6 min, recovery cost 62.15, sustainability sustainable
 - Week 2026-05-04: sessions 1, duration 71.3 min, recovery cost 57.9, sustainability sustainable
 - Week 2026-05-11: sessions 2, duration 177.8 min, recovery cost 66.65, sustainability watch_load
+- Week 2026-05-18: sessions 1, duration 97.3 min, recovery cost 68.0, sustainability watch_load
 
 ### Recovery Interaction Analysis
+- insufficient_data: 3 session(s)
 - neutral_or_inconclusive: 3 session(s)
-- insufficient_data: 2 session(s)
 - possible_interference: 2 session(s)
 - potential_positive_transfer: 2 session(s)
 
 ### Running-Performance Transfer Observations
-- strength_session_count: 9.0 (Total strength sessions analyzed)
-- avg_recovery_cost_score: 58.93 (Lower is easier to absorb into endurance plan)
+- strength_session_count: 10.0 (Total strength sessions analyzed)
+- avg_recovery_cost_score: 59.84 (Lower is easier to absorb into endurance plan)
 - high_fatigue_share_pct: 0.0 (Share of sessions classified as high fatigue risk)
+- interaction_insufficient_data: 3.0 (Count of strength sessions with this running interaction signal)
 - interaction_neutral_or_inconclusive: 3.0 (Count of strength sessions with this running interaction signal)
-- interaction_insufficient_data: 2.0 (Count of strength sessions with this running interaction signal)
 - interaction_possible_interference: 2.0 (Count of strength sessions with this running interaction signal)
 - interaction_potential_positive_transfer: 2.0 (Count of strength sessions with this running interaction signal)

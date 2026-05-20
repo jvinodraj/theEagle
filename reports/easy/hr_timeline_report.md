@@ -10,6 +10,7 @@ Overall status: **fatigue_risk**
 ## Metric Availability
 
 - Measured directly from current FIT exports: session totals, heart rate, power, cadence, stride length, stance time, vertical oscillation/ratio, Garmin training effect, Garmin zone target settings, and profile weight/resting HR.
+- Measured from session metadata (mapped field): estimated sweat loss in mL/L.
 - Estimated in this report: load focus category only. It is inferred from Garmin aerobic and anaerobic training effect, not read directly from the FIT file.
 - Unavailable in the current FIT exports: Body Battery before run, HRV status, stress level, recovery-time recommendation, per-run sleep metrics, VO2 max, direct exercise load, and left/right balance.
 
@@ -77,6 +78,7 @@ Overall status: **fatigue_risk**
 | Aerobic | Training effect / anaerobic TE | 3.0 / 0.0 | measured |
 | Aerobic | Load focus | low_aerobic_estimated | estimated |
 | Recovery | Body Battery / HRV / stress / recovery time | unavailable / unavailable / unavailable / unavailable | unavailable |
+| Recovery | Estimated sweat loss | 750.0 mL (0.750 L) | measured |
 | Recovery | Sleep profile window | 21:30:00 to 04:30:00 | measured |
 
 #### 3. Physiological Interpretation
@@ -139,6 +141,7 @@ Overall status: **fatigue_risk**
 | Aerobic | Training effect / anaerobic TE | 3.1 / 0.0 | measured |
 | Aerobic | Load focus | low_aerobic_estimated | estimated |
 | Recovery | Body Battery / HRV / stress / recovery time | unavailable / unavailable / unavailable / unavailable | unavailable |
+| Recovery | Estimated sweat loss | 879.0 mL (0.879 L) | measured |
 | Recovery | Sleep profile window | 21:30:00 to 04:30:00 | measured |
 
 #### 3. Physiological Interpretation
@@ -204,6 +207,7 @@ Overall status: **fatigue_risk**
 | Aerobic | Training effect / anaerobic TE | 3.0 / 0.0 | measured |
 | Aerobic | Load focus | low_aerobic_estimated | estimated |
 | Recovery | Body Battery / HRV / stress / recovery time | unavailable / unavailable / unavailable / unavailable | unavailable |
+| Recovery | Estimated sweat loss | 750.0 mL (0.750 L) | measured |
 | Recovery | Sleep profile window | 21:30:00 to 04:30:00 | measured |
 
 #### 3. Physiological Interpretation
@@ -268,6 +272,7 @@ Overall status: **fatigue_risk**
 | Aerobic | Training effect / anaerobic TE | 2.8 / 0.0 | measured |
 | Aerobic | Load focus | low_aerobic_estimated | estimated |
 | Recovery | Body Battery / HRV / stress / recovery time | unavailable / unavailable / unavailable / unavailable | unavailable |
+| Recovery | Estimated sweat loss | 612.0 mL (0.612 L) | measured |
 | Recovery | Sleep profile window | 21:30:00 to 04:30:00 | measured |
 
 #### 3. Physiological Interpretation
@@ -331,6 +336,7 @@ Overall status: **fatigue_risk**
 | Aerobic | Training effect / anaerobic TE | 3.2 / 0.0 | measured |
 | Aerobic | Load focus | low_aerobic_estimated | estimated |
 | Recovery | Body Battery / HRV / stress / recovery time | unavailable / unavailable / unavailable / unavailable | unavailable |
+| Recovery | Estimated sweat loss | 1001.0 mL (1.001 L) | measured |
 | Recovery | Sleep profile window | 21:30:00 to 04:30:00 | measured |
 
 #### 3. Physiological Interpretation
@@ -395,6 +401,7 @@ Overall status: **fatigue_risk**
 | Aerobic | Training effect / anaerobic TE | 3.2 / 0.0 | measured |
 | Aerobic | Load focus | low_aerobic_estimated | estimated |
 | Recovery | Body Battery / HRV / stress / recovery time | unavailable / unavailable / unavailable / unavailable | unavailable |
+| Recovery | Estimated sweat loss | 1221.0 mL (1.221 L) | measured |
 | Recovery | Sleep profile window | 21:30:00 to 04:30:00 | measured |
 
 #### 3. Physiological Interpretation
@@ -461,6 +468,7 @@ Overall status: **fatigue_risk**
 | Aerobic | Training effect / anaerobic TE | 3.1 / 0.0 | measured |
 | Aerobic | Load focus | low_aerobic_estimated | estimated |
 | Recovery | Body Battery / HRV / stress / recovery time | unavailable / unavailable / unavailable / unavailable | unavailable |
+| Recovery | Estimated sweat loss | 1001.0 mL (1.001 L) | measured |
 | Recovery | Sleep profile window | 21:30:00 to 04:30:00 | measured |
 
 #### 3. Physiological Interpretation
@@ -526,6 +534,7 @@ Overall status: **fatigue_risk**
 | Aerobic | Training effect / anaerobic TE | 3.2 / 0.0 | measured |
 | Aerobic | Load focus | low_aerobic_estimated | estimated |
 | Recovery | Body Battery / HRV / stress / recovery time | unavailable / unavailable / unavailable / unavailable | unavailable |
+| Recovery | Estimated sweat loss | 1250.0 mL (1.250 L) | measured |
 | Recovery | Sleep profile window | 21:30:00 to 04:30:00 | measured |
 
 #### 3. Physiological Interpretation
@@ -588,6 +597,7 @@ Overall status: **fatigue_risk**
 | Aerobic | Training effect / anaerobic TE | 3.1 / 0.0 | measured |
 | Aerobic | Load focus | low_aerobic_estimated | estimated |
 | Recovery | Body Battery / HRV / stress / recovery time | unavailable / unavailable / unavailable / unavailable | unavailable |
+| Recovery | Estimated sweat loss | 1251.0 mL (1.251 L) | measured |
 | Recovery | Sleep profile window | 21:30:00 to 04:30:00 | measured |
 
 #### 3. Physiological Interpretation

@@ -46,6 +46,7 @@ This report separates direct measurements from Garmin estimates and emphasizes t
 - HR response lag: 0.0 s
 - HR recovery between reps: 95.6 bpm
 - Cardiac drift: 16.588405797101444 bpm
+- Estimated sweat loss: 906.0 mL (0.906 L)
 - Environment impact flag: heat_stress_possible
 
 ### 8. Training Recommendations
@@ -103,6 +104,7 @@ This report separates direct measurements from Garmin estimates and emphasizes t
 - HR response lag: 0.0 s
 - HR recovery between reps: 94.28571428571429 bpm
 - Cardiac drift: 16.94238683127574 bpm
+- Estimated sweat loss: 994.0 mL (0.994 L)
 - Environment impact flag: heat_stress_possible
 
 ### 8. Training Recommendations
@@ -160,6 +162,7 @@ This report separates direct measurements from Garmin estimates and emphasizes t
 - HR response lag: n/a s
 - HR recovery between reps: 100.42857142857143 bpm
 - Cardiac drift: 20.04058624577226 bpm
+- Estimated sweat loss: 1207.0 mL (1.207 L)
 - Environment impact flag: heat_stress_possible
 
 ### 8. Training Recommendations
@@ -216,6 +219,7 @@ This report separates direct measurements from Garmin estimates and emphasizes t
 - HR response lag: 0.0 s
 - HR recovery between reps: 37.666666666666664 bpm
 - Cardiac drift: 20.633841886269067 bpm
+- Estimated sweat loss: 1001.0 mL (1.001 L)
 - Environment impact flag: heat_stress_possible
 
 ### 8. Training Recommendations
@@ -273,6 +277,7 @@ This report separates direct measurements from Garmin estimates and emphasizes t
 - HR response lag: n/a s
 - HR recovery between reps: 100.42857142857143 bpm
 - Cardiac drift: 18.473451327433622 bpm
+- Estimated sweat loss: 1535.0 mL (1.535 L)
 - Environment impact flag: heat_stress_possible
 
 ### 8. Training Recommendations

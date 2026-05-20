@@ -176,6 +176,14 @@ def _compute_environment_flags(session_row: pd.Series) -> str:
     return "moderate_conditions"
 
 
+def _extract_estimated_sweat_loss_ml(session_row: pd.Series) -> float | None:
+    for key in ("estimated_sweat_loss", "total_sweat_loss", "sweat_loss", "unknown_178"):
+        value = _safe_float(session_row.get(key))
+        if value is not None:
+            return value
+    return None
+
+
 def _build_interval_rows(parser: FitParser, fit_file: Path) -> tuple[pd.DataFrame, dict[str, Any]]:
     record_df = parser.records.copy()
     lap_df = parser._dfs.get("lap", pd.DataFrame()).copy()
@@ -335,6 +343,8 @@ def _build_interval_rows(parser: FitParser, fit_file: Path) -> tuple[pd.DataFram
     if avg_power is not None and body_weight is not None and body_weight > 0:
         wkg = avg_power / body_weight
 
+    sweat_loss_ml = _extract_estimated_sweat_loss_ml(session_row)
+
     workout_summary = {
         "file": fit_file.name,
         "date": session_ts,
@@ -364,6 +374,8 @@ def _build_interval_rows(parser: FitParser, fit_file: Path) -> tuple[pd.DataFram
         "aerobic_training_effect": te_aerobic,
         "anaerobic_training_effect": te_anaerobic,
         "exercise_load": _safe_float(session_row.get("exercise_load") or session_row.get("training_load")),
+        "estimated_sweat_loss_ml": sweat_loss_ml,
+        "estimated_sweat_loss_l": round(sweat_loss_ml / 1000.0, 3) if sweat_loss_ml is not None else np.nan,
         "recovery_recommendation_h": _safe_float(session_row.get("recovery_time")),
         "vo2max_estimate": _safe_float(session_row.get("enhanced_avg_respiration_rate")),
         "pace_fade_pct": pace_sustainability_pct,
@@ -459,6 +471,7 @@ def _write_markdown_report(workouts: pd.DataFrame, intervals: pd.DataFrame, long
         lines.append(f"- HR response lag: {w['hr_response_lag_s'] if pd.notna(w['hr_response_lag_s']) else 'n/a'} s")
         lines.append(f"- HR recovery between reps: {w['hr_recovery_between_reps_bpm'] if pd.notna(w['hr_recovery_between_reps_bpm']) else 'n/a'} bpm")
         lines.append(f"- Cardiac drift: {w['cardiac_drift_bpm'] if pd.notna(w['cardiac_drift_bpm']) else 'n/a'} bpm")
+        lines.append(f"- Estimated sweat loss: {w['estimated_sweat_loss_ml'] if pd.notna(w['estimated_sweat_loss_ml']) else 'n/a'} mL ({w['estimated_sweat_loss_l'] if pd.notna(w['estimated_sweat_loss_l']) else 'n/a'} L)")
         lines.append(f"- Environment impact flag: {w['environment_flag']}")
         lines.append("")
 

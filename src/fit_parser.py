@@ -58,6 +58,30 @@ _RUNNING_SPORTS = {"running", "treadmill"}
 _STRENGTH_SPORTS = {"strength_training", "training"}
 
 
+def _extract_estimated_sweat_loss_ml(session_row) -> float | None:
+    """Return estimated sweat loss in milliliters from known or fallback FIT fields."""
+    if session_row is None:
+        return None
+
+    for key in ("estimated_sweat_loss", "total_sweat_loss", "sweat_loss", "unknown_178"):
+        try:
+            value = session_row.get(key)
+        except Exception:
+            value = None
+        if value is None:
+            continue
+        try:
+            if pd.isna(value):
+                continue
+        except Exception:
+            pass
+        try:
+            return float(value)
+        except Exception:
+            continue
+    return None
+
+
 def _convert_value(name: str, value):
     """Apply any necessary unit conversions to a raw field value."""
     if name in _SEMICIRCLE_FIELDS and value is not None:
@@ -275,6 +299,11 @@ class FitParser:
             summary["sport"] = row.get("sport")
         if "sub_sport" in session_df.columns:
             summary["sub_sport"] = row.get("sub_sport")
+
+        sweat_loss_ml = _extract_estimated_sweat_loss_ml(row)
+        if sweat_loss_ml is not None:
+            summary["estimated_sweat_loss_ml"] = round(sweat_loss_ml, 1)
+            summary["estimated_sweat_loss_l"] = round(sweat_loss_ml / 1000.0, 3)
 
         # Session window (prefer end timestamp + elapsed duration)
         end_time = row.get("timestamp") if "timestamp" in session_df.columns else None

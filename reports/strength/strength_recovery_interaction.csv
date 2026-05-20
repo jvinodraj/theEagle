@@ -8,3 +8,4 @@ date,strength_file,run_before_date,run_after_date,days_to_before_run,days_to_aft
 2026-05-06 00:09:35,2026-05-06_strength.fit,2026-05-02 05:25:54,2026-05-07 05:37:49,3.0,1.0,3.3,0.0,-1.36,-1.36,potential_positive_transfer
 2026-05-12 23:55:16,2026-05-13_strength.fit,2026-05-09 06:07:28,2026-05-14 05:26:26,3.0,1.0,4.0,1.63,1.93,-1.94,neutral_or_inconclusive
 2026-05-17 10:33:11,2026-05-17_strength.fit,2026-05-14 05:26:26,,3.0,,,,,,insufficient_data
+2026-05-19 23:52:30,2026-05-20_strength.fit,,,,,,,,,insufficient_data

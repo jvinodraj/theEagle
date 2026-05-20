@@ -58,6 +58,10 @@ def _first_existing(row: pd.Series, keys: list[str]) -> float | None:
     return None
 
 
+def _extract_estimated_sweat_loss_ml(row: pd.Series) -> float | None:
+    return _first_existing(row, ["estimated_sweat_loss", "total_sweat_loss", "sweat_loss", "unknown_178"])
+
+
 def _compute_hr_zone_distribution(record_df: pd.DataFrame, max_hr_setting: float | None) -> dict[str, float]:
     if record_df.empty or max_hr_setting is None or max_hr_setting <= 0:
         return {
@@ -464,6 +468,10 @@ def _write_markdown_report(
         )
         lines.append(f"- Training Effect: aerobic {row['training_effect']}, anaerobic {row['anaerobic_training_effect']}")
         lines.append(f"- Exercise load field: {row['exercise_load'] if pd.notna(row['exercise_load']) else 'not recorded'}")
+        lines.append(
+            f"- Estimated sweat loss: {row['estimated_sweat_loss_ml'] if pd.notna(row['estimated_sweat_loss_ml']) else 'not available'} mL "
+            f"({row['estimated_sweat_loss_l'] if pd.notna(row['estimated_sweat_loss_l']) else 'n/a'} L)"
+        )
         lines.append("")
 
         lines.append("### 4. Recovery Impact")
@@ -573,6 +581,7 @@ def analyze_strength_endurance(
         training_effect = _first_existing(session, ["total_training_effect", "training_effect"])
         anaerobic_training_effect = _first_existing(session, ["total_anaerobic_training_effect", "anaerobic_training_effect"])
         exercise_load = _first_existing(session, ["exercise_load", "training_load"])
+        estimated_sweat_loss_ml = _extract_estimated_sweat_loss_ml(session)
         max_hr_setting = _first_existing(zones_row, ["max_heart_rate"])
 
         zone_distribution = _compute_hr_zone_distribution(record_df, max_hr_setting)
@@ -619,6 +628,8 @@ def analyze_strength_endurance(
             "training_effect": training_effect,
             "anaerobic_training_effect": anaerobic_training_effect,
             "exercise_load": exercise_load,
+            "estimated_sweat_loss_ml": round(estimated_sweat_loss_ml, 1) if estimated_sweat_loss_ml is not None else np.nan,
+            "estimated_sweat_loss_l": round(estimated_sweat_loss_ml / 1000.0, 3) if estimated_sweat_loss_ml is not None else np.nan,
             "max_hr_setting": max_hr_setting,
             "recovery_recommendation_h": np.nan,
             "body_battery": np.nan,

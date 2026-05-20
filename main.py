@@ -137,6 +137,10 @@ def parse_file(fit_path: Path, out_root: Path):
             resting = session_info.get("resting_calories", 0)
             total = session_info["total_calories"]
             print(f"  Calories burned : {active} kcal active + {resting} kcal resting = {total} kcal total")
+        if session_info.get("estimated_sweat_loss_ml") is not None:
+            sweat_ml = session_info.get("estimated_sweat_loss_ml")
+            sweat_l = session_info.get("estimated_sweat_loss_l")
+            print(f"  Est. sweat loss : {sweat_ml} mL ({sweat_l} L)")
         if session_info.get("avg_heart_rate"):
             hr_info = f"{session_info['avg_heart_rate']} bpm avg"
             if session_info.get("min_heart_rate"):
