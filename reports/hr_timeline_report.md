@@ -70,9 +70,7 @@ Overall status: **steady**
 | Environment | Average / max temperature | unavailable / unavailable | unavailable |
 | Heart rate | Average / max HR | 148 / 158 bpm | measured |
 | Heart rate | HR zone distribution | Z1 1.6%, Z2 8.5%, Z3 89.9%, Z4 0.0%, Z5 0.0% | measured |
-| Heart rate | Recovery HR at 120 s | 29.0 bpm | measured |
-| Heart rate | Settled HR at 120 s (post-stop) | 126.0 bpm | measured |
-| Heart rate | Resting HR (profile) | 74.0 bpm | measured |
+| Heart rate | Recovery HR at 60 s | 29.0 bpm | measured |
 | Power | Average / max / normalized power | 230.0 W / 273.0 W / 231.0 W | measured |
 | Power | Power zones | Z1 0.6%, Z2 97.8%, Z3 1.5%, Z4 0.0%, Z5 0.0% | measured |
 | Power | W/kg / stability | 3.19 W/kg / 7.3% CV | measured |
@@ -135,9 +133,7 @@ Overall status: **steady**
 | Environment | Average / max temperature | 31.0 C / 32.0 C | measured |
 | Heart rate | Average / max HR | 155 / 167 bpm | measured |
 | Heart rate | HR zone distribution | Z1 0.6%, Z2 4.2%, Z3 61.0%, Z4 34.2%, Z5 0.0% | measured |
-| Heart rate | Recovery HR at 120 s | 29.0 bpm | measured |
-| Heart rate | Settled HR at 120 s (post-stop) | 130.0 bpm | measured |
-| Heart rate | Resting HR (profile) | 73.0 bpm | measured |
+| Heart rate | Recovery HR at 60 s | 29.0 bpm | measured |
 | Power | Average / max / normalized power | 228.0 W / 324.0 W / 232.0 W | measured |
 | Power | Power zones | Z1 1.6%, Z2 24.7%, Z3 73.6%, Z4 0.1%, Z5 0.0% | measured |
 | Power | W/kg / stability | 3.17 W/kg / 10.2% CV | measured |
@@ -203,9 +199,7 @@ Overall status: **steady**
 | Environment | Average / max temperature | 30.0 C / 31.0 C | measured |
 | Heart rate | Average / max HR | 149 / 157 bpm | measured |
 | Heart rate | HR zone distribution | Z1 1.1%, Z2 7.0%, Z3 91.9%, Z4 0.0%, Z5 0.0% | measured |
-| Heart rate | Recovery HR at 120 s | 31.0 bpm | measured |
-| Heart rate | Settled HR at 120 s (post-stop) | 124.0 bpm | measured |
-| Heart rate | Resting HR (profile) | 66.0 bpm | measured |
+| Heart rate | Recovery HR at 60 s | 31.0 bpm | measured |
 | Power | Average / max / normalized power | 236.0 W / 271.0 W / 237.0 W | measured |
 | Power | Power zones | Z1 0.1%, Z2 64.5%, Z3 35.4%, Z4 0.0%, Z5 0.0% | measured |
 | Power | W/kg / stability | 3.26 W/kg / 5.7% CV | measured |
@@ -270,9 +264,7 @@ Overall status: **steady**
 | Environment | Average / max temperature | 31.0 C / 32.0 C | measured |
 | Heart rate | Average / max HR | 152 / 161 bpm | measured |
 | Heart rate | HR zone distribution | Z1 1.8%, Z2 1.8%, Z3 90.0%, Z4 6.4%, Z5 0.0% | measured |
-| Heart rate | Recovery HR at 120 s | 28.0 bpm | measured |
-| Heart rate | Settled HR at 120 s (post-stop) | 132.0 bpm | measured |
-| Heart rate | Resting HR (profile) | 64.0 bpm | measured |
+| Heart rate | Recovery HR at 60 s | 28.0 bpm | measured |
 | Power | Average / max / normalized power | 235.0 W / 261.0 W / 237.0 W | measured |
 | Power | Power zones | Z1 0.4%, Z2 65.7%, Z3 33.9%, Z4 0.0%, Z5 0.0% | measured |
 | Power | W/kg / stability | 3.25 W/kg / 6.4% CV | measured |
@@ -336,9 +328,7 @@ Overall status: **steady**
 | Environment | Average / max temperature | 30.0 C / 31.0 C | measured |
 | Heart rate | Average / max HR | 152 / 165 bpm | measured |
 | Heart rate | HR zone distribution | Z1 1.6%, Z2 5.0%, Z3 68.4%, Z4 24.9%, Z5 0.0% | measured |
-| Heart rate | Recovery HR at 120 s | 35.0 bpm | measured |
-| Heart rate | Settled HR at 120 s (post-stop) | 123.0 bpm | measured |
-| Heart rate | Resting HR (profile) | 63.0 bpm | measured |
+| Heart rate | Recovery HR at 60 s | 35.0 bpm | measured |
 | Power | Average / max / normalized power | 240.0 W / 338.0 W / 242.0 W | measured |
 | Power | Power zones | Z1 0.3%, Z2 46.9%, Z3 51.7%, Z4 1.1%, Z5 0.1% | measured |
 | Power | W/kg / stability | 3.31 W/kg / 8.0% CV | measured |
@@ -403,9 +393,7 @@ Overall status: **steady**
 | Environment | Average / max temperature | 32.0 C / 33.0 C | measured |
 | Heart rate | Average / max HR | 150 / 164 bpm | measured |
 | Heart rate | HR zone distribution | Z1 1.0%, Z2 10.6%, Z3 67.4%, Z4 21.0%, Z5 0.0% | measured |
-| Heart rate | Recovery HR at 120 s | 34.0 bpm | measured |
-| Heart rate | Settled HR at 120 s (post-stop) | 128.0 bpm | measured |
-| Heart rate | Resting HR (profile) | 61.0 bpm | measured |
+| Heart rate | Recovery HR at 60 s | 34.0 bpm | measured |
 | Power | Average / max / normalized power | 237.0 W / 285.0 W / 238.0 W | measured |
 | Power | Power zones | Z1 0.3%, Z2 69.0%, Z3 30.7%, Z4 0.0%, Z5 0.0% | measured |
 | Power | W/kg / stability | 3.29 W/kg / 6.6% CV | measured |
@@ -472,9 +460,7 @@ Overall status: **steady**
 | Environment | Average / max temperature | 30.0 C / 31.0 C | measured |
 | Heart rate | Average / max HR | 149 / 164 bpm | measured |
 | Heart rate | HR zone distribution | Z1 1.7%, Z2 6.8%, Z3 85.1%, Z4 6.4%, Z5 0.0% | measured |
-| Heart rate | Recovery HR at 120 s | 35.0 bpm | measured |
-| Heart rate | Settled HR at 120 s (post-stop) | 129.0 bpm | measured |
-| Heart rate | Resting HR (profile) | 63.0 bpm | measured |
+| Heart rate | Recovery HR at 60 s | 35.0 bpm | measured |
 | Power | Average / max / normalized power | 231.0 W / 267.0 W / 232.0 W | measured |
 | Power | Power zones | Z1 0.1%, Z2 84.4%, Z3 15.5%, Z4 0.0%, Z5 0.0% | measured |
 | Power | W/kg / stability | 3.25 W/kg / 5.3% CV | measured |
@@ -540,9 +526,7 @@ Overall status: **steady**
 | Environment | Average / max temperature | 29.0 C / 31.0 C | measured |
 | Heart rate | Average / max HR | 147 / 160 bpm | measured |
 | Heart rate | HR zone distribution | Z1 1.4%, Z2 17.0%, Z3 81.4%, Z4 0.2%, Z5 0.0% | measured |
-| Heart rate | Recovery HR at 120 s | 29.0 bpm | measured |
-| Heart rate | Settled HR at 120 s (post-stop) | 125.0 bpm | measured |
-| Heart rate | Resting HR (profile) | 59.0 bpm | measured |
+| Heart rate | Recovery HR at 60 s | 29.0 bpm | measured |
 | Power | Average / max / normalized power | 232.0 W / 284.0 W / 232.0 W | measured |
 | Power | Power zones | Z1 0.1%, Z2 87.9%, Z3 12.0%, Z4 0.0%, Z5 0.0% | measured |
 | Power | W/kg / stability | 3.27 W/kg / 4.6% CV | measured |
@@ -605,9 +589,7 @@ Overall status: **steady**
 | Environment | Average / max temperature | 31.0 C / 32.0 C | measured |
 | Heart rate | Average / max HR | 150 / 161 bpm | measured |
 | Heart rate | HR zone distribution | Z1 1.0%, Z2 3.8%, Z3 88.4%, Z4 6.9%, Z5 0.0% | measured |
-| Heart rate | Recovery HR at 120 s | 35.0 bpm | measured |
-| Heart rate | Settled HR at 120 s (post-stop) | 123.0 bpm | measured |
-| Heart rate | Resting HR (profile) | 55.0 bpm | measured |
+| Heart rate | Recovery HR at 60 s | 35.0 bpm | measured |
 | Power | Average / max / normalized power | 226.0 W / 270.0 W / 227.0 W | measured |
 | Power | Power zones | Z1 0.1%, Z2 97.6%, Z3 2.3%, Z4 0.0%, Z5 0.0% | measured |
 | Power | W/kg / stability | 3.18 W/kg / 4.4% CV | measured |
@@ -671,9 +653,7 @@ Overall status: **steady**
 | Environment | Average / max temperature | 31.0 C / 33.0 C | measured |
 | Heart rate | Average / max HR | 151 / 163 bpm | measured |
 | Heart rate | HR zone distribution | Z1 0.8%, Z2 4.4%, Z3 68.1%, Z4 26.7%, Z5 0.0% | measured |
-| Heart rate | Recovery HR at 120 s | 31.0 bpm | measured |
-| Heart rate | Settled HR at 120 s (post-stop) | 130.0 bpm | measured |
-| Heart rate | Resting HR (profile) | 49.0 bpm | measured |
+| Heart rate | Recovery HR at 60 s | 31.0 bpm | measured |
 | Power | Average / max / normalized power | 234.0 W / 273.0 W / 234.0 W | measured |
 | Power | Power zones | Z1 0.2%, Z2 75.1%, Z3 24.7%, Z4 0.0%, Z5 0.0% | measured |
 | Power | W/kg / stability | 3.30 W/kg / 5.2% CV | measured |

@@ -276,27 +276,42 @@ def calculate_pace_durability(records_df: pd.DataFrame) -> float | None:
     return ((last_pace / first_pace) - 1) * 100
 
 
-def calculate_recovery_hr_60s(records_df: pd.DataFrame, events_df: pd.DataFrame) -> float | None:
+def calculate_recovery_hr_120s(records_df: pd.DataFrame, events_df: pd.DataFrame) -> tuple[float | None, float | None]:
     if records_df.empty or events_df.empty or "heart_rate" not in records_df.columns or "timestamp" not in records_df.columns:
-        return None
+        return None, None
 
-    timer_events = events_df[(events_df.get("event") == "timer") & (events_df.get("event_type") == "stop")]
-    if timer_events.empty or "timestamp" not in timer_events.columns:
-        return None
-
-    stop_time = pd.to_datetime(timer_events["timestamp"].max())
     records = records_df.dropna(subset=["timestamp", "heart_rate"]).copy()
     if records.empty:
-        return None
+        return None, None
+    records["timestamp"] = pd.to_datetime(records["timestamp"])
+    records = records.sort_values("timestamp")
 
+    timer_events = events_df[(events_df.get("event") == "timer") & (events_df.get("event_type").isin(["stop", "stop_all"]))]
+    if timer_events.empty or "timestamp" not in timer_events.columns:
+        return None, None
+
+    stop_time = pd.to_datetime(timer_events["timestamp"].max())
     pre_stop = records[records["timestamp"] <= stop_time]
-    post_stop = records[records["timestamp"] >= stop_time + pd.Timedelta(seconds=55)]
-    if pre_stop.empty or post_stop.empty:
-        return None
-
+    if pre_stop.empty:
+        return None, None
     end_hr = float(pre_stop.iloc[-1]["heart_rate"])
-    hr_60s = float(post_stop.iloc[0]["heart_rate"])
-    return end_hr - hr_60s
+
+    # Garmin often provides an explicit 120 s recovery marker as event=data.
+    recovery_events = events_df[(events_df.get("event") == "recovery_hr") & (events_df.get("event_type") == "marker")]
+    if not recovery_events.empty and "data" in recovery_events.columns:
+        recovery_events = recovery_events.dropna(subset=["data"]).copy()
+        if not recovery_events.empty:
+            settled_hr_120s = float(recovery_events.iloc[0]["data"])
+            return end_hr - settled_hr_120s, settled_hr_120s
+
+    # Fallback: estimate settled HR from record nearest to 120 s after timer stop.
+    target = stop_time + pd.Timedelta(seconds=120)
+    post_stop = records[records["timestamp"] > stop_time].copy()
+    if post_stop.empty:
+        return None, None
+    nearest_idx = (post_stop["timestamp"] - target).abs().idxmin()
+    settled_hr_120s = float(post_stop.loc[nearest_idx, "heart_rate"])
+    return end_hr - settled_hr_120s, settled_hr_120s
 
 
 def build_zone_distribution(series: pd.Series, bounds: tuple[float, float, float, float], scale: float) -> dict:
@@ -445,7 +460,7 @@ def extract_hr_metrics(fit_file: Path) -> dict | None:
         pace_durability_pct = calculate_pace_durability(records_df)
         power_stability_cv_pct = calculate_variability_pct(active_records, "power")
         cadence_stability_cv_pct = calculate_variability_pct(active_records, "cadence")
-        recovery_hr_60s = calculate_recovery_hr_60s(records_df, events_df)
+        recovery_hr_120s, settled_hr_120s = calculate_recovery_hr_120s(records_df, events_df)
 
         hr_max_setting = zones_row.get("max_heart_rate") if zones_row is not None else np.nan
         ftp_setting = zones_row.get("functional_threshold_power") if zones_row is not None else np.nan
@@ -509,7 +524,10 @@ def extract_hr_metrics(fit_file: Path) -> dict | None:
             "aerobic_drift_pct": round(aerobic_drift_pct, 2) if aerobic_drift_pct is not None else np.nan,
             "power_hr_decoupling_pct": round(power_hr_decoupling_pct, 2) if power_hr_decoupling_pct is not None else np.nan,
             "pace_durability_pct": round(pace_durability_pct, 2) if pace_durability_pct is not None else np.nan,
-            "recovery_hr_60s_bpm": round_or_nan(recovery_hr_60s, 1),
+            "recovery_hr_120s_bpm": round_or_nan(recovery_hr_120s, 1),
+            "settled_hr_120s_bpm": round_or_nan(settled_hr_120s, 1),
+            # Backward-compatible alias for downstream notebooks/scripts still reading old name.
+            "recovery_hr_60s_bpm": round_or_nan(recovery_hr_120s, 1),
             "power_stability_cv_pct": round_or_nan(power_stability_cv_pct, 2),
             "cadence_stability_cv_pct": round_or_nan(cadence_stability_cv_pct, 2),
             "avg_running_cadence": round_or_nan(session_row.get("avg_running_cadence"), 1),
@@ -1175,7 +1193,9 @@ def write_timeline_report(df: pd.DataFrame, weekly: pd.DataFrame) -> Path:
         lines.append(f"| Environment | Average / max temperature | {format_metric(row.get('avg_temperature_c'), 1, ' C')} / {format_metric(row.get('max_temperature_c'), 1, ' C')} | {metric_status(row.get('avg_temperature_c'))} |")
         lines.append(f"| Heart rate | Average / max HR | {row['avg_hr']:.0f} / {row['max_hr']:.0f} bpm | measured |")
         lines.append(f"| Heart rate | HR zone distribution | Z1 {format_metric(row.get('hr_z1_pct'), 1, '%')}, Z2 {format_metric(row.get('hr_z2_pct'), 1, '%')}, Z3 {format_metric(row.get('hr_z3_pct'), 1, '%')}, Z4 {format_metric(row.get('hr_z4_pct'), 1, '%')}, Z5 {format_metric(row.get('hr_z5_pct'), 1, '%')} | {metric_status(row.get('hr_z1_pct'))} |")
-        lines.append(f"| Heart rate | Recovery HR at 60 s | {format_metric(row.get('recovery_hr_60s_bpm'), 1, ' bpm')} | {metric_status(row.get('recovery_hr_60s_bpm'))} |")
+        lines.append(f"| Heart rate | Recovery HR at 120 s | {format_metric(row.get('recovery_hr_120s_bpm'), 1, ' bpm')} | {metric_status(row.get('recovery_hr_120s_bpm'))} |")
+        lines.append(f"| Heart rate | Settled HR at 120 s (post-stop) | {format_metric(row.get('settled_hr_120s_bpm'), 1, ' bpm')} | {metric_status(row.get('settled_hr_120s_bpm'))} |")
+        lines.append(f"| Heart rate | Resting HR (profile) | {format_metric(row.get('resting_heart_rate'), 1, ' bpm')} | {metric_status(row.get('resting_heart_rate'))} |")
         lines.append(f"| Power | Average / max / normalized power | {format_metric(row.get('avg_power'), 1, ' W')} / {format_metric(row.get('max_power'), 1, ' W')} / {format_metric(row.get('normalized_power'), 1, ' W')} | measured |")
         lines.append(f"| Power | Power zones | Z1 {format_metric(row.get('power_z1_pct'), 1, '%')}, Z2 {format_metric(row.get('power_z2_pct'), 1, '%')}, Z3 {format_metric(row.get('power_z3_pct'), 1, '%')}, Z4 {format_metric(row.get('power_z4_pct'), 1, '%')}, Z5 {format_metric(row.get('power_z5_pct'), 1, '%')} | {metric_status(row.get('power_z1_pct'))} |")
         lines.append(f"| Power | W/kg / stability | {format_metric(row.get('avg_power_wkg'), 2, ' W/kg')} / {format_metric(row.get('power_stability_cv_pct'), 1, '% CV')} | {metric_status(row.get('avg_power_wkg'))} |")
