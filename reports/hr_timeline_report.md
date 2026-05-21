@@ -10,8 +10,9 @@ Overall status: **fatigue_risk**
 ## Metric Availability
 
 - Measured directly from current FIT exports: session totals, heart rate, power, cadence, stride length, stance time, vertical oscillation/ratio, Garmin training effect, Garmin zone target settings, and profile weight/resting HR.
+- Measured from session metadata (mapped field): estimated sweat loss in mL/L.
 - Estimated in this report: load focus category only. It is inferred from Garmin aerobic and anaerobic training effect, not read directly from the FIT file.
-- Unavailable in the current FIT exports: Body Battery before run, HRV status, stress level, recovery-time recommendation, per-run sleep metrics, VO2 max, direct exercise load, and left/right balance.
+- Unavailable in the current FIT exports: Body Battery before run, HRV status, stress level, recovery-time recommendation, per-run sleep metrics, VO2 max, and direct exercise load. Left/right weakness can be inferred when balance fields exist; otherwise it remains unavailable.
 
 ## Longitudinal Tracking
 
@@ -74,9 +75,12 @@ Overall status: **fatigue_risk**
 | Power | W/kg / stability | 3.19 W/kg / 7.3% CV | measured |
 | Dynamics | Cadence / stride length | 83.0 spm / 0.797 m | measured |
 | Dynamics | Ground contact / vertical oscillation / vertical ratio | 280.8 ms / 78.6 mm / 9.88% | measured |
+| Dynamics | Left-right balance / stance balance | unavailable / unavailable | unavailable |
+| Dynamics | Leg asymmetry / weak-leg assessment | unavailable / insufficient_leg_balance_data (low) | estimated |
 | Aerobic | Training effect / anaerobic TE | 3.0 / 0.0 | measured |
 | Aerobic | Load focus | low_aerobic_estimated | estimated |
 | Recovery | Body Battery / HRV / stress / recovery time | unavailable / unavailable / unavailable / unavailable | unavailable |
+| Recovery | Estimated sweat loss | 750.0 mL (0.750 L) | measured |
 | Recovery | Sleep profile window | 21:30:00 to 04:30:00 | measured |
 
 #### 3. Physiological Interpretation
@@ -136,9 +140,12 @@ Overall status: **fatigue_risk**
 | Power | W/kg / stability | 3.17 W/kg / 10.2% CV | measured |
 | Dynamics | Cadence / stride length | 81.0 spm / 0.809 m | measured |
 | Dynamics | Ground contact / vertical oscillation / vertical ratio | 281.4 ms / 79.4 mm / 9.85% | measured |
+| Dynamics | Left-right balance / stance balance | unavailable / unavailable | unavailable |
+| Dynamics | Leg asymmetry / weak-leg assessment | unavailable / insufficient_leg_balance_data (low) | estimated |
 | Aerobic | Training effect / anaerobic TE | 3.1 / 0.0 | measured |
 | Aerobic | Load focus | low_aerobic_estimated | estimated |
 | Recovery | Body Battery / HRV / stress / recovery time | unavailable / unavailable / unavailable / unavailable | unavailable |
+| Recovery | Estimated sweat loss | 879.0 mL (0.879 L) | measured |
 | Recovery | Sleep profile window | 21:30:00 to 04:30:00 | measured |
 
 #### 3. Physiological Interpretation
@@ -201,9 +208,12 @@ Overall status: **fatigue_risk**
 | Power | W/kg / stability | 3.26 W/kg / 5.7% CV | measured |
 | Dynamics | Cadence / stride length | 82.0 spm / 0.821 m | measured |
 | Dynamics | Ground contact / vertical oscillation / vertical ratio | 284.2 ms / 81.0 mm / 9.87% | measured |
+| Dynamics | Left-right balance / stance balance | unavailable / unavailable | unavailable |
+| Dynamics | Leg asymmetry / weak-leg assessment | unavailable / insufficient_leg_balance_data (low) | estimated |
 | Aerobic | Training effect / anaerobic TE | 3.0 / 0.0 | measured |
 | Aerobic | Load focus | low_aerobic_estimated | estimated |
 | Recovery | Body Battery / HRV / stress / recovery time | unavailable / unavailable / unavailable / unavailable | unavailable |
+| Recovery | Estimated sweat loss | 750.0 mL (0.750 L) | measured |
 | Recovery | Sleep profile window | 21:30:00 to 04:30:00 | measured |
 
 #### 3. Physiological Interpretation
@@ -265,9 +275,12 @@ Overall status: **fatigue_risk**
 | Power | W/kg / stability | 3.25 W/kg / 6.4% CV | measured |
 | Dynamics | Cadence / stride length | 81.0 spm / 0.830 m | measured |
 | Dynamics | Ground contact / vertical oscillation / vertical ratio | 286.5 ms / 82.1 mm / 9.89% | measured |
+| Dynamics | Left-right balance / stance balance | unavailable / unavailable | unavailable |
+| Dynamics | Leg asymmetry / weak-leg assessment | unavailable / insufficient_leg_balance_data (low) | estimated |
 | Aerobic | Training effect / anaerobic TE | 2.8 / 0.0 | measured |
 | Aerobic | Load focus | low_aerobic_estimated | estimated |
 | Recovery | Body Battery / HRV / stress / recovery time | unavailable / unavailable / unavailable / unavailable | unavailable |
+| Recovery | Estimated sweat loss | 612.0 mL (0.612 L) | measured |
 | Recovery | Sleep profile window | 21:30:00 to 04:30:00 | measured |
 
 #### 3. Physiological Interpretation
@@ -328,9 +341,12 @@ Overall status: **fatigue_risk**
 | Power | W/kg / stability | 3.31 W/kg / 8.0% CV | measured |
 | Dynamics | Cadence / stride length | 82.0 spm / 0.828 m | measured |
 | Dynamics | Ground contact / vertical oscillation / vertical ratio | 284.3 ms / 81.5 mm / 9.85% | measured |
+| Dynamics | Left-right balance / stance balance | unavailable / unavailable | unavailable |
+| Dynamics | Leg asymmetry / weak-leg assessment | unavailable / insufficient_leg_balance_data (low) | estimated |
 | Aerobic | Training effect / anaerobic TE | 3.2 / 0.0 | measured |
 | Aerobic | Load focus | low_aerobic_estimated | estimated |
 | Recovery | Body Battery / HRV / stress / recovery time | unavailable / unavailable / unavailable / unavailable | unavailable |
+| Recovery | Estimated sweat loss | 1001.0 mL (1.001 L) | measured |
 | Recovery | Sleep profile window | 21:30:00 to 04:30:00 | measured |
 
 #### 3. Physiological Interpretation
@@ -392,9 +408,12 @@ Overall status: **fatigue_risk**
 | Power | W/kg / stability | 3.29 W/kg / 6.6% CV | measured |
 | Dynamics | Cadence / stride length | 83.0 spm / 0.817 m | measured |
 | Dynamics | Ground contact / vertical oscillation / vertical ratio | 282.5 ms / 80.3 mm / 9.83% | measured |
+| Dynamics | Left-right balance / stance balance | unavailable / unavailable | unavailable |
+| Dynamics | Leg asymmetry / weak-leg assessment | unavailable / insufficient_leg_balance_data (low) | estimated |
 | Aerobic | Training effect / anaerobic TE | 3.2 / 0.0 | measured |
 | Aerobic | Load focus | low_aerobic_estimated | estimated |
 | Recovery | Body Battery / HRV / stress / recovery time | unavailable / unavailable / unavailable / unavailable | unavailable |
+| Recovery | Estimated sweat loss | 1221.0 mL (1.221 L) | measured |
 | Recovery | Sleep profile window | 21:30:00 to 04:30:00 | measured |
 
 #### 3. Physiological Interpretation
@@ -458,9 +477,12 @@ Overall status: **fatigue_risk**
 | Power | W/kg / stability | 3.25 W/kg / 5.3% CV | measured |
 | Dynamics | Cadence / stride length | 83.0 spm / 0.818 m | measured |
 | Dynamics | Ground contact / vertical oscillation / vertical ratio | 282.9 ms / 80.6 mm / 9.86% | measured |
+| Dynamics | Left-right balance / stance balance | unavailable / unavailable | unavailable |
+| Dynamics | Leg asymmetry / weak-leg assessment | unavailable / insufficient_leg_balance_data (low) | estimated |
 | Aerobic | Training effect / anaerobic TE | 3.1 / 0.0 | measured |
 | Aerobic | Load focus | low_aerobic_estimated | estimated |
 | Recovery | Body Battery / HRV / stress / recovery time | unavailable / unavailable / unavailable / unavailable | unavailable |
+| Recovery | Estimated sweat loss | 1001.0 mL (1.001 L) | measured |
 | Recovery | Sleep profile window | 21:30:00 to 04:30:00 | measured |
 
 #### 3. Physiological Interpretation
@@ -523,9 +545,12 @@ Overall status: **fatigue_risk**
 | Power | W/kg / stability | 3.27 W/kg / 4.6% CV | measured |
 | Dynamics | Cadence / stride length | 83.0 spm / 0.812 m | measured |
 | Dynamics | Ground contact / vertical oscillation / vertical ratio | 281.9 ms / 80.0 mm / 9.85% | measured |
+| Dynamics | Left-right balance / stance balance | unavailable / unavailable | unavailable |
+| Dynamics | Leg asymmetry / weak-leg assessment | unavailable / insufficient_leg_balance_data (low) | estimated |
 | Aerobic | Training effect / anaerobic TE | 3.2 / 0.0 | measured |
 | Aerobic | Load focus | low_aerobic_estimated | estimated |
 | Recovery | Body Battery / HRV / stress / recovery time | unavailable / unavailable / unavailable / unavailable | unavailable |
+| Recovery | Estimated sweat loss | 1250.0 mL (1.250 L) | measured |
 | Recovery | Sleep profile window | 21:30:00 to 04:30:00 | measured |
 
 #### 3. Physiological Interpretation
@@ -585,9 +610,12 @@ Overall status: **fatigue_risk**
 | Power | W/kg / stability | 3.18 W/kg / 4.4% CV | measured |
 | Dynamics | Cadence / stride length | 83.0 spm / 0.796 m | measured |
 | Dynamics | Ground contact / vertical oscillation / vertical ratio | 282.6 ms / 79.0 mm / 9.93% | measured |
+| Dynamics | Left-right balance / stance balance | unavailable / unavailable | unavailable |
+| Dynamics | Leg asymmetry / weak-leg assessment | unavailable / insufficient_leg_balance_data (low) | estimated |
 | Aerobic | Training effect / anaerobic TE | 3.1 / 0.0 | measured |
 | Aerobic | Load focus | low_aerobic_estimated | estimated |
 | Recovery | Body Battery / HRV / stress / recovery time | unavailable / unavailable / unavailable / unavailable | unavailable |
+| Recovery | Estimated sweat loss | 1251.0 mL (1.251 L) | measured |
 | Recovery | Sleep profile window | 21:30:00 to 04:30:00 | measured |
 
 #### 3. Physiological Interpretation
