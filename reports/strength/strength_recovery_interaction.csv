@@ -1,11 +1,11 @@
 date,strength_file,run_before_date,run_after_date,days_to_before_run,days_to_after_run,easy_score_change_after_vs_before,steady_pace_change_after_vs_before_pct,steady_hr_change_after_vs_before_pct,drift_change_after_vs_before_pct_pts,interaction_signal
-2026-04-15 00:00:49,2026-04-15_strength.fit,,2026-04-16 05:27:56,,1.0,,,,,insufficient_data
-2026-04-19 13:40:47,2026-04-19_strength.fit,2026-04-18 05:53:31,2026-04-23 05:32:50,1.0,3.0,0.3,-0.67,-3.8,2.44,neutral_or_inconclusive
-2026-04-22 00:18:15,2026-04-22_strength.fit,2026-04-18 05:53:31,2026-04-23 05:32:50,3.0,1.0,0.3,-0.67,-3.8,2.44,neutral_or_inconclusive
-2026-04-26 10:32:08,2026-04-26_strength.fit,2026-04-25 05:58:04,2026-04-30 05:26:03,1.0,3.0,-5.8,-1.35,0.45,1.72,possible_interference
-2026-04-29 00:06:04,2026-04-29_strength.fit,2026-04-25 05:58:04,2026-04-30 05:26:03,3.0,1.0,-5.8,-1.35,0.45,1.72,possible_interference
-2026-05-03 10:36:18,2026-05-03_strength.fit,2026-05-02 05:25:54,2026-05-07 05:37:49,1.0,3.0,3.3,0.0,-1.36,-1.36,potential_positive_transfer
-2026-05-06 00:09:35,2026-05-06_strength.fit,2026-05-02 05:25:54,2026-05-07 05:37:49,3.0,1.0,3.3,0.0,-1.36,-1.36,potential_positive_transfer
-2026-05-12 23:55:16,2026-05-13_strength.fit,2026-05-09 06:07:28,2026-05-14 05:26:26,3.0,1.0,4.0,1.63,1.93,-1.94,neutral_or_inconclusive
-2026-05-17 10:33:11,2026-05-17_strength.fit,2026-05-14 05:26:26,,3.0,,,,,,insufficient_data
-2026-05-19 23:52:30,2026-05-20_strength.fit,,,,,,,,,insufficient_data
+2026-04-15 00:00:49,2026-04-15_strength.fit,,2026-04-16 05:27:56,,1,,,,,insufficient_data
+2026-04-19 13:40:47,2026-04-19_strength.fit,2026-04-18 05:53:31,2026-04-23 05:32:50,1.0,3,0.3,-0.67,-3.8,2.44,neutral_or_inconclusive
+2026-04-22 00:18:15,2026-04-22_strength.fit,2026-04-18 05:53:31,2026-04-23 05:32:50,3.0,1,0.3,-0.67,-3.8,2.44,neutral_or_inconclusive
+2026-04-26 10:32:08,2026-04-26_strength.fit,2026-04-25 05:58:04,2026-04-30 05:26:03,1.0,3,-5.8,-1.35,0.45,1.72,possible_interference
+2026-04-29 00:06:04,2026-04-29_strength.fit,2026-04-25 05:58:04,2026-04-30 05:26:03,3.0,1,-5.8,-1.35,0.45,1.72,possible_interference
+2026-05-03 10:36:18,2026-05-03_strength.fit,2026-05-02 05:25:54,2026-05-07 05:37:49,1.0,3,3.3,0.0,-1.36,-1.36,potential_positive_transfer
+2026-05-06 00:09:35,2026-05-06_strength.fit,2026-05-02 05:25:54,2026-05-07 05:37:49,3.0,1,3.3,0.0,-1.36,-1.36,potential_positive_transfer
+2026-05-12 23:55:16,2026-05-13_strength.fit,2026-05-09 06:07:28,2026-05-14 05:26:26,3.0,1,4.0,1.63,1.93,-1.94,neutral_or_inconclusive
+2026-05-17 10:33:11,2026-05-17_strength.fit,2026-05-14 05:26:26,2026-05-21 05:28:37,3.0,3,-1.5,-1.87,0.2,0.86,potential_positive_transfer
+2026-05-19 23:52:30,2026-05-20_strength.fit,,2026-05-21 05:28:37,,1,,,,,insufficient_data

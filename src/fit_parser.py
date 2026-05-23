@@ -110,6 +110,21 @@ def _needs_localisation(field_name: str, msg_name: str = None) -> bool:
     return False
 
 
+def _normalize_running_cadence_series(series: pd.Series) -> pd.Series:
+    """Normalize Garmin running cadence to total steps/min when exported as per-leg cadence."""
+    numeric = pd.to_numeric(series, errors="coerce")
+    valid = numeric.dropna()
+    if valid.empty:
+        return numeric
+
+    # Garmin exports can represent running cadence as per-leg spm (~70-95).
+    # Convert to total steps/min only when distribution strongly indicates per-leg values.
+    median_spm = float(valid.median())
+    if 50.0 <= median_spm < 120.0:
+        return numeric * 2.0
+    return numeric
+
+
 class FitParser:
     """Parse every message in a .fit file and expose results as DataFrames."""
 
@@ -567,6 +582,25 @@ class FitParser:
         # Stride length (m) from step_length (mm)
         if "step_length" in df.columns:
             df["stride_length_m"] = df["step_length"] / 1000.0
+
+        # Normalize cadence fields to total steps/min for running activities.
+        if self._activity_type == "running" and "cadence" in df.columns:
+            df["cadence"] = _normalize_running_cadence_series(df["cadence"])
+
+        if self._activity_type == "running":
+            session_df = self._dfs.get("session")
+            if session_df is not None and not session_df.empty:
+                for col in ("avg_running_cadence", "max_running_cadence", "avg_cadence"):
+                    if col in session_df.columns:
+                        session_df[col] = _normalize_running_cadence_series(session_df[col])
+                self._dfs["session"] = session_df
+
+            lap_df = self._dfs.get("lap")
+            if lap_df is not None and not lap_df.empty:
+                for col in ("avg_running_cadence", "max_running_cadence", "avg_cadence"):
+                    if col in lap_df.columns:
+                        lap_df[col] = _normalize_running_cadence_series(lap_df[col])
+                self._dfs["lap"] = lap_df
 
         self._dfs["record"] = df
 

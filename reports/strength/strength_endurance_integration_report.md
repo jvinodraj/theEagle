@@ -377,7 +377,7 @@
 ### 1. Executive Summary
 - Strength load: 128 sets, 794 reps, estimated load 0.0 kg
 - Session stress: recovery cost score 70.2/100, fatigue risk moderate
-- Transfer signal: insufficient_data
+- Transfer signal: potential_positive_transfer
 
 ### 2. Workout Breakdown
 - Duration: 85.9 min
@@ -403,11 +403,11 @@
 
 ### 5. Interaction With Running
 - Before run date: 2026-05-14 05:26:26
-- After run date: n/a
-- Easy score change after vs before: n/a
-- Pace change after vs before (%): n/a
-- HR change after vs before (%): n/a
-- Interaction signal: insufficient_data
+- After run date: 2026-05-21 05:28:37
+- Easy score change after vs before: -1.5
+- Pace change after vs before (%): -1.87
+- HR change after vs before (%): 0.2
+- Interaction signal: potential_positive_transfer
 
 ### 6. Fatigue Risk
 - Neuromuscular fatigue proxy (HR drift): 5.2 bpm
@@ -416,7 +416,7 @@
 - Final fatigue risk: moderate
 
 ### 7. Recommendations
-- Keep next day run easy and monitor HR response
+- Keep next day run easy and monitor HR response; Current sequencing may support transfer; maintain and monitor trend
 
 ## Session: 2026-05-20_strength.fit (2026-05-19)
 
@@ -449,7 +449,7 @@
 
 ### 5. Interaction With Running
 - Before run date: n/a
-- After run date: n/a
+- After run date: 2026-05-21 05:28:37
 - Easy score change after vs before: n/a
 - Pace change after vs before (%): n/a
 - HR change after vs before (%): n/a
@@ -474,16 +474,16 @@
 - Week 2026-05-18: sessions 1, duration 97.3 min, recovery cost 68.0, sustainability watch_load
 
 ### Recovery Interaction Analysis
-- insufficient_data: 3 session(s)
 - neutral_or_inconclusive: 3 session(s)
+- potential_positive_transfer: 3 session(s)
+- insufficient_data: 2 session(s)
 - possible_interference: 2 session(s)
-- potential_positive_transfer: 2 session(s)
 
 ### Running-Performance Transfer Observations
 - strength_session_count: 10.0 (Total strength sessions analyzed)
 - avg_recovery_cost_score: 59.84 (Lower is easier to absorb into endurance plan)
 - high_fatigue_share_pct: 0.0 (Share of sessions classified as high fatigue risk)
-- interaction_insufficient_data: 3.0 (Count of strength sessions with this running interaction signal)
 - interaction_neutral_or_inconclusive: 3.0 (Count of strength sessions with this running interaction signal)
+- interaction_potential_positive_transfer: 3.0 (Count of strength sessions with this running interaction signal)
+- interaction_insufficient_data: 2.0 (Count of strength sessions with this running interaction signal)
 - interaction_possible_interference: 2.0 (Count of strength sessions with this running interaction signal)
-- interaction_potential_positive_transfer: 2.0 (Count of strength sessions with this running interaction signal)

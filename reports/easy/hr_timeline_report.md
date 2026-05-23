@@ -1,10 +1,10 @@
 # Easy Run Endurance Analysis
 
-Overall status: **steady**
+Overall status: **improving**
 
-- Efficiency Factor (EF, W/bpm — Joe Friel / TrainingPeaks standard): first run 1.536 W/bpm -> last run 1.525 W/bpm (-0.7%). Reference: <1.4 beginner, 1.4–1.8 recreational, 1.8+ trained.
-- Aerobic Decoupling (Garmin / Joe Friel standard — <5% = aerobically fit run): median 7.2%, 2/10 runs below the 5% threshold. This metric is load-independent — valid for comparing 5 km and 10 km easy runs.
-- Latest run score 54.3/100 (EF 56.8, decoupling 41.5, stability 76.0).
+- Efficiency Factor (EF, W/bpm — Joe Friel / TrainingPeaks standard): first run 1.536 W/bpm -> last run 1.564 W/bpm (+1.8%). Reference: <1.4 beginner, 1.4–1.8 recreational, 1.8+ trained.
+- Aerobic Decoupling (Garmin / Joe Friel standard — <5% = aerobically fit run): median 7.1%, 3/11 runs below the 5% threshold. This metric is load-independent — valid for comparing 5 km and 10 km easy runs.
+- Latest run score 65.1/100 (EF 60.4, decoupling 63.0, stability 86.0).
 
 ## Metric Availability
 
@@ -27,6 +27,7 @@ Overall status: **steady**
 | 2026-05-09 | 75min Easy | 10.22 | 7.37 | 150 | 1.538 | 8.4 | -0.3% | 1.1% | 2919.4 | fatigue_risk |
 | 2026-05-14 | 75min Easy | 10.03 | 7.49 | 153 | 1.484 | 6.5 | -1.6% | -3.5% | 2897.8 | steady |
 | 2026-05-21 | 90min Easy | 12.28 | 7.35 | 154 | 1.525 | 7.3 | 1.9% | 1.6% | 3325.2 | steady |
+| 2026-05-23 | 12K Run | 12.01 | 6.95 | 156 | 1.564 | 4.6 | 5.8% | 4.6% | 3517.6 | improving |
 
 ## Weekly Summary
 
@@ -37,15 +38,15 @@ Overall status: **steady**
 | 17 | 2026-04-30 to 2026-05-02 | 2 | 51.7 | 1.550 | 8.5 | fatigue_risk |
 | 18 | 2026-05-07 to 2026-05-09 | 2 | 51.0 | 1.529 | 8.4 | fatigue_risk |
 | 19 | 2026-05-14 to 2026-05-14 | 1 | 55.8 | 1.484 | 6.5 | fatigue_risk |
-| 20 | 2026-05-21 to 2026-05-21 | 1 | 54.3 | 1.525 | 7.3 | steady |
+| 20 | 2026-05-21 to 2026-05-23 | 2 | 59.7 | 1.544 | 6.0 | improving |
 
 ## Overall Observations Worth Tracking
 
-- Steady-state easy pace changed +1.6% from the first comparable run to the latest run.
-- Steady power-per-heartbeat changed -0.7% across the timeline, which is the cleanest aerobic-efficiency signal in this dataset.
-- Aerobic decoupling moved +0.1 percentage points from the opening run to the latest run.
-- 8 runs were recorded at 30 C or hotter; heat is a plausible confounder for drift and HR cost in this sample.
-- 3/10 runs crossed the 8% decoupling line, which is the strongest within-run fatigue signal in these easy sessions.
+- Steady-state easy pace changed +7.5% from the first comparable run to the latest run.
+- Steady power-per-heartbeat changed +1.8% across the timeline, which is the cleanest aerobic-efficiency signal in this dataset.
+- Aerobic decoupling moved -2.6 percentage points from the opening run to the latest run.
+- 9 runs were recorded at 30 C or hotter; heat is a plausible confounder for drift and HR cost in this sample.
+- 3/11 runs crossed the 8% decoupling line, which is the strongest within-run fatigue signal in these easy sessions.
 
 ## Per-Run Summaries
 
@@ -76,7 +77,7 @@ Overall status: **steady**
 | Power | Average / max / normalized power | 230.0 W / 273.0 W / 231.0 W | measured |
 | Power | Power zones | Z1 0.6%, Z2 97.8%, Z3 1.5%, Z4 0.0%, Z5 0.0% | measured |
 | Power | W/kg / stability | 3.19 W/kg / 7.3% CV | measured |
-| Dynamics | Cadence / stride length | 83.0 spm / 0.797 m | measured |
+| Dynamics | Cadence / stride length | 166 spm / 0.797 m | measured |
 | Dynamics | Ground contact / vertical oscillation / vertical ratio | 280.8 ms / 78.6 mm / 9.88% | measured |
 | Aerobic | Training effect / anaerobic TE | 3.0 / 0.0 | measured |
 | Aerobic | Load focus | low_aerobic_estimated | estimated |
@@ -141,7 +142,7 @@ Overall status: **steady**
 | Power | Average / max / normalized power | 228.0 W / 324.0 W / 232.0 W | measured |
 | Power | Power zones | Z1 1.6%, Z2 24.7%, Z3 73.6%, Z4 0.1%, Z5 0.0% | measured |
 | Power | W/kg / stability | 3.17 W/kg / 10.2% CV | measured |
-| Dynamics | Cadence / stride length | 81.0 spm / 0.809 m | measured |
+| Dynamics | Cadence / stride length | 162 spm / 0.809 m | measured |
 | Dynamics | Ground contact / vertical oscillation / vertical ratio | 281.4 ms / 79.4 mm / 9.85% | measured |
 | Aerobic | Training effect / anaerobic TE | 3.1 / 0.0 | measured |
 | Aerobic | Load focus | low_aerobic_estimated | estimated |
@@ -209,7 +210,7 @@ Overall status: **steady**
 | Power | Average / max / normalized power | 236.0 W / 271.0 W / 237.0 W | measured |
 | Power | Power zones | Z1 0.1%, Z2 64.5%, Z3 35.4%, Z4 0.0%, Z5 0.0% | measured |
 | Power | W/kg / stability | 3.26 W/kg / 5.7% CV | measured |
-| Dynamics | Cadence / stride length | 82.0 spm / 0.821 m | measured |
+| Dynamics | Cadence / stride length | 164 spm / 0.821 m | measured |
 | Dynamics | Ground contact / vertical oscillation / vertical ratio | 284.2 ms / 81.0 mm / 9.87% | measured |
 | Aerobic | Training effect / anaerobic TE | 3.0 / 0.0 | measured |
 | Aerobic | Load focus | low_aerobic_estimated | estimated |
@@ -276,7 +277,7 @@ Overall status: **steady**
 | Power | Average / max / normalized power | 235.0 W / 261.0 W / 237.0 W | measured |
 | Power | Power zones | Z1 0.4%, Z2 65.7%, Z3 33.9%, Z4 0.0%, Z5 0.0% | measured |
 | Power | W/kg / stability | 3.25 W/kg / 6.4% CV | measured |
-| Dynamics | Cadence / stride length | 81.0 spm / 0.830 m | measured |
+| Dynamics | Cadence / stride length | 162 spm / 0.830 m | measured |
 | Dynamics | Ground contact / vertical oscillation / vertical ratio | 286.5 ms / 82.1 mm / 9.89% | measured |
 | Aerobic | Training effect / anaerobic TE | 2.8 / 0.0 | measured |
 | Aerobic | Load focus | low_aerobic_estimated | estimated |
@@ -342,7 +343,7 @@ Overall status: **steady**
 | Power | Average / max / normalized power | 240.0 W / 338.0 W / 242.0 W | measured |
 | Power | Power zones | Z1 0.3%, Z2 46.9%, Z3 51.7%, Z4 1.1%, Z5 0.1% | measured |
 | Power | W/kg / stability | 3.31 W/kg / 8.0% CV | measured |
-| Dynamics | Cadence / stride length | 82.0 spm / 0.828 m | measured |
+| Dynamics | Cadence / stride length | 164 spm / 0.828 m | measured |
 | Dynamics | Ground contact / vertical oscillation / vertical ratio | 284.3 ms / 81.5 mm / 9.85% | measured |
 | Aerobic | Training effect / anaerobic TE | 3.2 / 0.0 | measured |
 | Aerobic | Load focus | low_aerobic_estimated | estimated |
@@ -409,7 +410,7 @@ Overall status: **steady**
 | Power | Average / max / normalized power | 237.0 W / 285.0 W / 238.0 W | measured |
 | Power | Power zones | Z1 0.3%, Z2 69.0%, Z3 30.7%, Z4 0.0%, Z5 0.0% | measured |
 | Power | W/kg / stability | 3.29 W/kg / 6.6% CV | measured |
-| Dynamics | Cadence / stride length | 83.0 spm / 0.817 m | measured |
+| Dynamics | Cadence / stride length | 166 spm / 0.817 m | measured |
 | Dynamics | Ground contact / vertical oscillation / vertical ratio | 282.5 ms / 80.3 mm / 9.83% | measured |
 | Aerobic | Training effect / anaerobic TE | 3.2 / 0.0 | measured |
 | Aerobic | Load focus | low_aerobic_estimated | estimated |
@@ -478,7 +479,7 @@ Overall status: **steady**
 | Power | Average / max / normalized power | 231.0 W / 267.0 W / 232.0 W | measured |
 | Power | Power zones | Z1 0.1%, Z2 84.4%, Z3 15.5%, Z4 0.0%, Z5 0.0% | measured |
 | Power | W/kg / stability | 3.25 W/kg / 5.3% CV | measured |
-| Dynamics | Cadence / stride length | 83.0 spm / 0.818 m | measured |
+| Dynamics | Cadence / stride length | 166 spm / 0.818 m | measured |
 | Dynamics | Ground contact / vertical oscillation / vertical ratio | 282.9 ms / 80.6 mm / 9.86% | measured |
 | Aerobic | Training effect / anaerobic TE | 3.1 / 0.0 | measured |
 | Aerobic | Load focus | low_aerobic_estimated | estimated |
@@ -546,7 +547,7 @@ Overall status: **steady**
 | Power | Average / max / normalized power | 232.0 W / 284.0 W / 232.0 W | measured |
 | Power | Power zones | Z1 0.1%, Z2 87.9%, Z3 12.0%, Z4 0.0%, Z5 0.0% | measured |
 | Power | W/kg / stability | 3.27 W/kg / 4.6% CV | measured |
-| Dynamics | Cadence / stride length | 83.0 spm / 0.812 m | measured |
+| Dynamics | Cadence / stride length | 166 spm / 0.812 m | measured |
 | Dynamics | Ground contact / vertical oscillation / vertical ratio | 281.9 ms / 80.0 mm / 9.85% | measured |
 | Aerobic | Training effect / anaerobic TE | 3.2 / 0.0 | measured |
 | Aerobic | Load focus | low_aerobic_estimated | estimated |
@@ -611,7 +612,7 @@ Overall status: **steady**
 | Power | Average / max / normalized power | 226.0 W / 270.0 W / 227.0 W | measured |
 | Power | Power zones | Z1 0.1%, Z2 97.6%, Z3 2.3%, Z4 0.0%, Z5 0.0% | measured |
 | Power | W/kg / stability | 3.18 W/kg / 4.4% CV | measured |
-| Dynamics | Cadence / stride length | 83.0 spm / 0.796 m | measured |
+| Dynamics | Cadence / stride length | 166 spm / 0.796 m | measured |
 | Dynamics | Ground contact / vertical oscillation / vertical ratio | 282.6 ms / 79.0 mm / 9.93% | measured |
 | Aerobic | Training effect / anaerobic TE | 3.1 / 0.0 | measured |
 | Aerobic | Load focus | low_aerobic_estimated | estimated |
@@ -677,7 +678,7 @@ Overall status: **steady**
 | Power | Average / max / normalized power | 234.0 W / 273.0 W / 234.0 W | measured |
 | Power | Power zones | Z1 0.2%, Z2 75.1%, Z3 24.7%, Z4 0.0%, Z5 0.0% | measured |
 | Power | W/kg / stability | 3.30 W/kg / 5.2% CV | measured |
-| Dynamics | Cadence / stride length | 84.0 spm / 0.808 m | measured |
+| Dynamics | Cadence / stride length | 168 spm / 0.808 m | measured |
 | Dynamics | Ground contact / vertical oscillation / vertical ratio | 280.1 ms / 79.1 mm / 9.80% | measured |
 | Aerobic | Training effect / anaerobic TE | 3.4 / 0.0 | measured |
 | Aerobic | Load focus | low_aerobic_estimated | estimated |
@@ -716,6 +717,74 @@ Overall status: **steady**
 
 - If the goal is true zone-2 development, reduce pace until more of the run stays inside Garmin zone 2 instead of zone 3-4.
 - Treat this run as heat-adjusted data: compare it mainly against other warm runs and prioritize hydration/cooling over pace targets.
+
+### 2026-05-23 - 12K Run
+
+#### 1. Executive Summary
+
+- 12.01 km in 83.5 min, average pace 6.96 min/km, steady pace 6.95 min/km.
+- Average HR 153 bpm, steady HR 156 bpm, EF 1.564 W/bpm, aerobic decoupling 4.6%.
+- Reference comparison (2026-05-21): pace 5.8% better/worse depending on sign, EF 2.6%, drift delta -2.7 pts.
+
+#### 2. Key Metrics Table
+
+| Category | Metric | Value | Status |
+| --- | --- | --- | --- |
+| Basic | Duration | 83.5 min | measured |
+| Basic | Distance | 12.01 km | measured |
+| Basic | Average pace | 6.96 min/km | measured |
+| Basic | Moving pace | 6.96 min/km | measured |
+| Basic | Best pace | 5.25 min/km | measured |
+| Basic | Elevation gain/loss | 8.0 m / 10.0 m | measured |
+| Environment | Average / max temperature | 31.0 C / 33.0 C | measured |
+| Heart rate | Average / max HR | 153 / 169 bpm | measured |
+| Heart rate | HR zone distribution | Z1 0.8%, Z2 1.2%, Z3 69.3%, Z4 28.6%, Z5 0.0% | measured |
+| Heart rate | Recovery HR at 120 s | 30.0 bpm | measured |
+| Heart rate | Settled HR at 120 s (post-stop) | 131.0 bpm | measured |
+| Heart rate | Resting HR (profile) | 51.0 bpm | measured |
+| Power | Average / max / normalized power | 246.0 W / 341.0 W / 248.0 W | measured |
+| Power | Power zones | Z1 0.7%, Z2 41.5%, Z3 57.1%, Z4 0.7%, Z5 0.0% | measured |
+| Power | W/kg / stability | 3.46 W/kg / 8.7% CV | measured |
+| Dynamics | Cadence / stride length | 168 spm / 0.854 m | measured |
+| Dynamics | Ground contact / vertical oscillation / vertical ratio | 277.4 ms / 81.4 mm / 9.55% | measured |
+| Aerobic | Training effect / anaerobic TE | 3.7 / 0.0 | measured |
+| Aerobic | Load focus | high_aerobic_estimated | estimated |
+| Recovery | Body Battery / HRV / stress / recovery time | unavailable / unavailable / unavailable / unavailable | unavailable |
+| Recovery | Estimated sweat loss | 1392.0 mL (1.392 L) | measured |
+| Recovery | Sleep profile window | 21:30:00 to 04:30:00 | measured |
+
+#### 3. Physiological Interpretation
+
+- The steady section stayed inside the usual aerobic-decoupling target, which supports durable easy-run metabolism for this duration.
+- At roughly the same steady HR as the reference run, pace changed +5.8%, which is direct evidence about aerobic development.
+
+#### 4. Aerobic Efficiency Analysis
+
+- Steady-state EF was 1.564 W/bpm and steady speed per HR was 0.01542 m/s/bpm.
+- Aerobic decoupling was 4.6% and power-HR decoupling was 11.6%.
+- Time spent in Garmin HR zone 2 was 1.0 min; pace inside that zone was 7.48 min/km.
+
+#### 5. Fatigue/Recovery Assessment
+
+- Fatigue resilience score: 82.0/100 with steady HR rise 3.1 bpm. 
+- Rolling 3-run load proxy: 3517.6 kJ mechanical work and 10.2 summed aerobic training effect.
+- Recovery-specific Garmin wellness metrics were not embedded in these FIT files, so under-recovery can only be inferred indirectly from drift, HR cost, and temperature context.
+
+#### 6. Running Economy Notes
+
+- Mechanical energy cost was 102.7 J/m and average running economy was 102.7 W per m/s.
+- Cadence stability was 6.7% CV and pace durability changed -0.5% from early to late thirds.
+
+#### 7. Concerns or Risks
+
+- Average temperature was 31.0 C, so heat strain is a realistic contributor to elevated HR and drift.
+- 28.6% of the run sat in HR zone 4 by Garmin max-HR zones, which is high for a nominal easy run.
+
+#### 8. Recommendations
+
+- If the goal is true zone-2 development, reduce pace until more of the run stays inside Garmin zone 2 instead of zone 3-4.
+- Treat this run as heat-adjusted data: compare it mainly against other warm runs and prioritize hydration/cooling over pace targets.
+- This is a good candidate benchmark run; keep conditions similar and use it to judge whether aerobic efficiency is actually improving.
 
 ## Suggested Visualization Ideas
 

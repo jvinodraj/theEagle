@@ -29,6 +29,13 @@ def _safe_float(value: Any) -> float | None:
         return None
 
 
+def _normalize_running_cadence(value: float | None) -> float | None:
+    """Normalize running cadence to total steps/min when provided as per-leg cadence."""
+    if value is None:
+        return None
+    return value * 2.0 if 50.0 <= value < 120.0 else value
+
+
 def _safe_timestamp(value: Any) -> pd.Timestamp | None:
     if value is None:
         return None
@@ -258,7 +265,7 @@ def _build_interval_rows(parser: FitParser, fit_file: Path) -> tuple[pd.DataFram
             avg_hr_i = _safe_float(lap.get("avg_heart_rate"))
             max_hr_i = _safe_float(lap.get("max_heart_rate"))
             avg_power_i = _safe_float(lap.get("avg_power"))
-            cadence_i = _safe_float(lap.get("avg_running_cadence") or lap.get("avg_cadence"))
+            cadence_i = _normalize_running_cadence(_safe_float(lap.get("avg_running_cadence") or lap.get("avg_cadence")))
             stride_i = _safe_float(lap.get("avg_step_length"))
             if stride_i is not None:
                 stride_i = stride_i / 1000.0
@@ -405,6 +412,12 @@ def _compute_longitudinal(workouts: pd.DataFrame) -> pd.DataFrame:
 
 
 def _write_markdown_report(workouts: pd.DataFrame, intervals: pd.DataFrame, longitudinal: pd.DataFrame, out_file: Path) -> None:
+    def _fmt_num(value: Any, digits: int = 1, missing: str = "n/a") -> str:
+        val = _safe_float(value)
+        if val is None:
+            return missing
+        return f"{val:.{digits}f}"
+
     lines: list[str] = []
     lines.append("# Interval / Threshold / Speed Adaptation Report")
     lines.append("")
@@ -440,9 +453,9 @@ def _write_markdown_report(workouts: pd.DataFrame, intervals: pd.DataFrame, long
         else:
             for _, r in sub.iterrows():
                 lines.append(
-                    f"- Rep {int(r['interval_index'])}: pace {round(r['pace_min_per_km'], 2) if pd.notna(r['pace_min_per_km']) else 'n/a'} min/km, "
-                    f"HR {r['avg_hr']}/{r['max_hr']}, power {r['avg_power']}, cadence {r['cadence_spm']}, "
-                    f"stride {r['stride_length_m']}, GCT {r['ground_contact_time_ms']}, VO {r['vertical_oscillation_mm']}"
+                    f"- Rep {int(r['interval_index'])}: pace {_fmt_num(r.get('pace_min_per_km'), 2)} min/km, "
+                    f"HR {_fmt_num(r.get('avg_hr'), 0)}/{_fmt_num(r.get('max_hr'), 0)}, power {_fmt_num(r.get('avg_power'), 0)}, cadence {_fmt_num(r.get('cadence_spm'), 0)}, "
+                    f"stride {_fmt_num(r.get('stride_length_m'), 3)}, GCT {_fmt_num(r.get('ground_contact_time_ms'), 1)}, VO {_fmt_num(r.get('vertical_oscillation_mm'), 1)}"
                 )
         lines.append("")
 

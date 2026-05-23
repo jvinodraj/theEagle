@@ -17,12 +17,12 @@ This report separates direct measurements from Garmin estimates and emphasizes t
 - Mean recovery duration: 211.19225000000003 s
 
 ### 3. Interval-by-Interval Analysis
-- Rep 1: pace 7.5 min/km, HR 126.0/136.0, power 227.0, cadence 80.0, stride 0.8208, GCT 289.3, VO 82.1
-- Rep 2: pace 5.47 min/km, HR 155.0/168.0, power 303.0, cadence 82.0, stride 1.118, GCT 265.5, VO 94.4
-- Rep 3: pace 5.49 min/km, HR 159.0/172.0, power 307.0, cadence 81.0, stride 1.1056, GCT 270.7, VO 95.6
-- Rep 4: pace 5.47 min/km, HR 167.0/177.0, power 313.0, cadence 79.0, stride 1.1191, GCT 273.0, VO 97.2
-- Rep 5: pace 5.46 min/km, HR 170.0/180.0, power 346.0, cadence 81.0, stride 1.116, GCT 270.3, VO 95.9
-- Rep 6: pace 5.42 min/km, HR 173.0/185.0, power 302.0, cadence 81.0, stride 1.1148, GCT 267.5, VO 95.0
+- Rep 1: pace 7.50 min/km, HR 126/136, power 227, cadence 160, stride 0.821, GCT 289.3, VO 82.1
+- Rep 2: pace 5.47 min/km, HR 155/168, power 303, cadence 164, stride 1.118, GCT 265.5, VO 94.4
+- Rep 3: pace 5.49 min/km, HR 159/172, power 307, cadence 162, stride 1.106, GCT 270.7, VO 95.6
+- Rep 4: pace 5.47 min/km, HR 167/177, power 313, cadence 158, stride 1.119, GCT 273.0, VO 97.2
+- Rep 5: pace 5.46 min/km, HR 170/180, power 346, cadence 162, stride 1.116, GCT 270.3, VO 95.9
+- Rep 6: pace 5.42 min/km, HR 173/185, power 302, cadence 162, stride 1.115, GCT 267.5, VO 95.0
 
 ### 4. Threshold Interpretation
 - Threshold pace: 5.564830272676683 min/km
@@ -73,14 +73,14 @@ This report separates direct measurements from Garmin estimates and emphasizes t
 - Mean recovery duration: 222.53466666666665 s
 
 ### 3. Interval-by-Interval Analysis
-- Rep 1: pace 7.26 min/km, HR 130.0/141.0, power 236.0, cadence 81.0, stride 0.8388, GCT 284.6, VO 82.3
-- Rep 2: pace 5.39 min/km, HR 157.0/166.0, power 308.0, cadence 82.0, stride 1.1012, GCT 265.1, VO 94.0
-- Rep 3: pace 5.53 min/km, HR 160.0/171.0, power 317.0, cadence 79.0, stride 1.1065999999999998, GCT 264.8, VO 92.8
-- Rep 4: pace 5.42 min/km, HR 165.0/174.0, power 299.0, cadence 81.0, stride 1.0985999999999998, GCT 265.0, VO 93.8
-- Rep 5: pace 5.49 min/km, HR 166.0/176.0, power 326.0, cadence 82.0, stride 1.096, GCT 268.1, VO 94.5
-- Rep 6: pace 13.07 min/km, HR 149.0/176.0, power 104.0, cadence 51.0, stride 0.9517, GCT 266.4, VO 60.2
-- Rep 7: pace 5.44 min/km, HR 168.0/174.0, power 301.0, cadence 82.0, stride 1.0867, GCT 267.7, VO 93.6
-- Rep 8: pace 14.71 min/km, HR 149.0/175.0, power 88.0, cadence 43.0, stride 1.075, GCT 259.4, VO 60.3
+- Rep 1: pace 7.26 min/km, HR 130/141, power 236, cadence 162, stride 0.839, GCT 284.6, VO 82.3
+- Rep 2: pace 5.39 min/km, HR 157/166, power 308, cadence 164, stride 1.101, GCT 265.1, VO 94.0
+- Rep 3: pace 5.53 min/km, HR 160/171, power 317, cadence 158, stride 1.107, GCT 264.8, VO 92.8
+- Rep 4: pace 5.42 min/km, HR 165/174, power 299, cadence 162, stride 1.099, GCT 265.0, VO 93.8
+- Rep 5: pace 5.49 min/km, HR 166/176, power 326, cadence 164, stride 1.096, GCT 268.1, VO 94.5
+- Rep 6: pace 13.07 min/km, HR 149/176, power 104, cadence 204, stride 0.952, GCT 266.4, VO 60.2
+- Rep 7: pace 5.44 min/km, HR 168/174, power 301, cadence 164, stride 1.087, GCT 267.7, VO 93.6
+- Rep 8: pace 14.71 min/km, HR 149/175, power 88, cadence 172, stride 1.075, GCT 259.4, VO 60.3
 
 ### 4. Threshold Interpretation
 - Threshold pace: 5.548158011540169 min/km
@@ -97,7 +97,7 @@ This report separates direct measurements from Garmin estimates and emphasizes t
 
 ### 6. Fatigue Analysis
 - Power fade: -62.71186440677966%
-- Cadence collapse: -46.913580246913575%
+- Cadence collapse: 6.172839506172845%
 - Form deterioration (vertical oscillation shift): -26.731470230862698%
 
 ### 7. Recovery Assessment
@@ -131,14 +131,14 @@ This report separates direct measurements from Garmin estimates and emphasizes t
 - Mean recovery duration: 212.05963636363637 s
 
 ### 3. Interval-by-Interval Analysis
-- Rep 1: pace 5.46 min/km, HR 163.0/176.0, power 310.0, cadence 84.0, stride 1.0928, GCT 262.5, VO 92.8
-- Rep 2: pace 5.48 min/km, HR 159.0/171.0, power 304.0, cadence 84.0, stride 1.0725, GCT 264.4, VO 92.1
-- Rep 3: pace 5.48 min/km, HR 160.0/171.0, power 304.0, cadence 83.0, stride 1.0894000000000001, GCT 264.5, VO 93.1
-- Rep 4: pace 5.48 min/km, HR 163.0/172.0, power 301.0, cadence 83.0, stride 1.0706, GCT 264.5, VO 91.6
-- Rep 5: pace 5.51 min/km, HR 164.0/174.0, power 301.0, cadence 83.0, stride 1.0820999999999998, GCT 265.0, VO 92.5
-- Rep 6: pace 5.49 min/km, HR 168.0/175.0, power 304.0, cadence 83.0, stride 1.0822, GCT 262.6, VO 92.1
-- Rep 7: pace 5.46 min/km, HR 169.0/175.0, power 304.0, cadence 83.0, stride 1.0825, GCT 263.0, VO 92.2
-- Rep 8: pace 5.49 min/km, HR 173.0/184.0, power 301.0, cadence 83.0, stride 1.0683, GCT 264.2, VO 91.6
+- Rep 1: pace 5.46 min/km, HR 163/176, power 310, cadence 168, stride 1.093, GCT 262.5, VO 92.8
+- Rep 2: pace 5.48 min/km, HR 159/171, power 304, cadence 168, stride 1.073, GCT 264.4, VO 92.1
+- Rep 3: pace 5.48 min/km, HR 160/171, power 304, cadence 166, stride 1.089, GCT 264.5, VO 93.1
+- Rep 4: pace 5.48 min/km, HR 163/172, power 301, cadence 166, stride 1.071, GCT 264.5, VO 91.6
+- Rep 5: pace 5.51 min/km, HR 164/174, power 301, cadence 166, stride 1.082, GCT 265.0, VO 92.5
+- Rep 6: pace 5.49 min/km, HR 168/175, power 304, cadence 166, stride 1.082, GCT 262.6, VO 92.1
+- Rep 7: pace 5.46 min/km, HR 169/175, power 304, cadence 166, stride 1.083, GCT 263.0, VO 92.2
+- Rep 8: pace 5.49 min/km, HR 173/184, power 301, cadence 166, stride 1.068, GCT 264.2, VO 91.6
 
 ### 4. Threshold Interpretation
 - Threshold pace: 5.513287021722351 min/km
@@ -189,13 +189,13 @@ This report separates direct measurements from Garmin estimates and emphasizes t
 - Mean recovery duration: 294.80675 s
 
 ### 3. Interval-by-Interval Analysis
-- Rep 1: pace 6.48 min/km, HR 146.0/154.0, power 253.0, cadence 83.0, stride 0.9098999999999999, GCT 271.6, VO 83.6
-- Rep 2: pace 6.45 min/km, HR 156.0/159.0, power 260.0, cadence 84.0, stride 0.9207000000000001, GCT 272.3, VO 84.5
-- Rep 3: pace 6.48 min/km, HR 166.0/172.0, power 264.0, cadence 83.0, stride 0.927, GCT 276.9, VO 86.3
-- Rep 4: pace 6.48 min/km, HR 168.0/173.0, power 265.0, cadence 83.0, stride 0.9251, GCT 275.9, VO 85.9
-- Rep 5: pace 6.48 min/km, HR 170.0/172.0, power 264.0, cadence 83.0, stride 0.9262, GCT 276.3, VO 86.1
-- Rep 6: pace 6.5 min/km, HR 172.0/176.0, power 263.0, cadence 83.0, stride 0.9182, GCT 276.5, VO 85.6
-- Rep 7: pace 6.52 min/km, HR 173.0/176.0, power 259.0, cadence 83.0, stride 0.9086000000000001, GCT 277.7, VO 85.3
+- Rep 1: pace 6.48 min/km, HR 146/154, power 253, cadence 166, stride 0.910, GCT 271.6, VO 83.6
+- Rep 2: pace 6.45 min/km, HR 156/159, power 260, cadence 168, stride 0.921, GCT 272.3, VO 84.5
+- Rep 3: pace 6.48 min/km, HR 166/172, power 264, cadence 166, stride 0.927, GCT 276.9, VO 86.3
+- Rep 4: pace 6.48 min/km, HR 168/173, power 265, cadence 166, stride 0.925, GCT 275.9, VO 85.9
+- Rep 5: pace 6.48 min/km, HR 170/172, power 264, cadence 166, stride 0.926, GCT 276.3, VO 86.1
+- Rep 6: pace 6.50 min/km, HR 172/176, power 263, cadence 166, stride 0.918, GCT 276.5, VO 85.6
+- Rep 7: pace 6.52 min/km, HR 173/176, power 259, cadence 166, stride 0.909, GCT 277.7, VO 85.3
 
 ### 4. Threshold Interpretation
 - Threshold pace: 6.518055012384305 min/km
@@ -246,14 +246,14 @@ This report separates direct measurements from Garmin estimates and emphasizes t
 - Mean recovery duration: 242.26216666666664 s
 
 ### 3. Interval-by-Interval Analysis
-- Rep 1: pace 5.71 min/km, HR 151.0/164.0, power 289.0, cadence 82.0, stride 1.0595, GCT 268.5, VO 91.9
-- Rep 2: pace 5.74 min/km, HR 156.0/165.0, power 315.0, cadence 81.0, stride 1.0553, GCT 271.2, VO 93.1
-- Rep 3: pace 5.68 min/km, HR 159.0/167.0, power 289.0, cadence 82.0, stride 1.0520999999999998, GCT 267.7, VO 91.7
-- Rep 4: pace 5.72 min/km, HR 160.0/171.0, power 312.0, cadence 82.0, stride 1.0358, GCT 268.3, VO 90.8
-- Rep 5: pace 5.69 min/km, HR 160.0/167.0, power 287.0, cadence 83.0, stride 1.0374, GCT 266.9, VO 90.6
-- Rep 6: pace 5.73 min/km, HR 163.0/172.0, power 314.0, cadence 84.0, stride 1.0359, GCT 265.9, VO 89.9
-- Rep 7: pace 5.72 min/km, HR 165.0/173.0, power 287.0, cadence 83.0, stride 1.0420999999999998, GCT 268.1, VO 91.2
-- Rep 8: pace 5.71 min/km, HR 163.0/170.0, power 320.0, cadence 84.0, stride 1.0339, GCT 264.3, VO 89.5
+- Rep 1: pace 5.71 min/km, HR 151/164, power 289, cadence 164, stride 1.060, GCT 268.5, VO 91.9
+- Rep 2: pace 5.74 min/km, HR 156/165, power 315, cadence 162, stride 1.055, GCT 271.2, VO 93.1
+- Rep 3: pace 5.68 min/km, HR 159/167, power 289, cadence 164, stride 1.052, GCT 267.7, VO 91.7
+- Rep 4: pace 5.72 min/km, HR 160/171, power 312, cadence 164, stride 1.036, GCT 268.3, VO 90.8
+- Rep 5: pace 5.69 min/km, HR 160/167, power 287, cadence 166, stride 1.037, GCT 266.9, VO 90.6
+- Rep 6: pace 5.73 min/km, HR 163/172, power 314, cadence 168, stride 1.036, GCT 265.9, VO 89.9
+- Rep 7: pace 5.72 min/km, HR 165/173, power 287, cadence 166, stride 1.042, GCT 268.1, VO 91.2
+- Rep 8: pace 5.71 min/km, HR 163/170, power 320, cadence 168, stride 1.034, GCT 264.3, VO 89.5
 
 ### 4. Threshold Interpretation
 - Threshold pace: 5.76103237700196 min/km

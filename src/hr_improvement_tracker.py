@@ -482,6 +482,10 @@ def extract_hr_metrics(fit_file: Path) -> dict | None:
         elif not active_records.empty and "stride_length_m" in active_records.columns:
             avg_stride_length_m = float(active_records["stride_length_m"].mean())
 
+        avg_running_cadence = session_row.get("avg_running_cadence")
+        if pd.isna(avg_running_cadence) and not active_records.empty and "cadence" in active_records.columns:
+            avg_running_cadence = active_records["cadence"].mean()
+
         running_economy = float(avg_power / avg_speed) if pd.notna(avg_power) and avg_speed > 0 else np.nan
         energy_cost_j_per_m = float(avg_power / avg_speed) if pd.notna(avg_power) and avg_speed > 0 else np.nan
         total_work_kj = float(session_row.get("total_work", np.nan)) / 1000 if pd.notna(session_row.get("total_work", np.nan)) else np.nan
@@ -530,7 +534,7 @@ def extract_hr_metrics(fit_file: Path) -> dict | None:
             "recovery_hr_60s_bpm": round_or_nan(recovery_hr_120s, 1),
             "power_stability_cv_pct": round_or_nan(power_stability_cv_pct, 2),
             "cadence_stability_cv_pct": round_or_nan(cadence_stability_cv_pct, 2),
-            "avg_running_cadence": round_or_nan(session_row.get("avg_running_cadence"), 1),
+            "avg_running_cadence": round_or_nan(avg_running_cadence, 1),
             "max_running_cadence": round_or_nan(session_row.get("max_running_cadence"), 1),
             "avg_stride_length_m": round_or_nan(avg_stride_length_m, 3),
             "avg_stance_time_ms": round_or_nan(session_row.get("avg_stance_time"), 1),
@@ -1199,7 +1203,7 @@ def write_timeline_report(df: pd.DataFrame, weekly: pd.DataFrame) -> Path:
         lines.append(f"| Power | Average / max / normalized power | {format_metric(row.get('avg_power'), 1, ' W')} / {format_metric(row.get('max_power'), 1, ' W')} / {format_metric(row.get('normalized_power'), 1, ' W')} | measured |")
         lines.append(f"| Power | Power zones | Z1 {format_metric(row.get('power_z1_pct'), 1, '%')}, Z2 {format_metric(row.get('power_z2_pct'), 1, '%')}, Z3 {format_metric(row.get('power_z3_pct'), 1, '%')}, Z4 {format_metric(row.get('power_z4_pct'), 1, '%')}, Z5 {format_metric(row.get('power_z5_pct'), 1, '%')} | {metric_status(row.get('power_z1_pct'))} |")
         lines.append(f"| Power | W/kg / stability | {format_metric(row.get('avg_power_wkg'), 2, ' W/kg')} / {format_metric(row.get('power_stability_cv_pct'), 1, '% CV')} | {metric_status(row.get('avg_power_wkg'))} |")
-        lines.append(f"| Dynamics | Cadence / stride length | {format_metric(row.get('avg_running_cadence'), 1, ' spm')} / {format_metric(row.get('avg_stride_length_m'), 3, ' m')} | measured |")
+        lines.append(f"| Dynamics | Cadence / stride length | {format_metric(row.get('avg_running_cadence'), 0, ' spm')} / {format_metric(row.get('avg_stride_length_m'), 3, ' m')} | measured |")
         lines.append(f"| Dynamics | Ground contact / vertical oscillation / vertical ratio | {format_metric(row.get('avg_stance_time_ms'), 1, ' ms')} / {format_metric(row.get('avg_vertical_oscillation_mm'), 1, ' mm')} / {format_metric(row.get('avg_vertical_ratio_pct'), 2, '%')} | measured |")
         lines.append(f"| Aerobic | Training effect / anaerobic TE | {format_metric(row.get('aerobic_training_effect'), 1)} / {format_metric(row.get('anaerobic_training_effect'), 1)} | measured |")
         lines.append(f"| Aerobic | Load focus | {format_metric(row.get('estimated_load_focus_category'))} | estimated |")
