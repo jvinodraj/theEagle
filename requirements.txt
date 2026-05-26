@@ -1,3 +1,4 @@
+garth>=0.5.15
 fitparse==1.2.0
 matplotlib==3.10.0
 numpy==2.2.3

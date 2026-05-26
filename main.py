@@ -25,6 +25,13 @@ from textwrap import dedent
 import pandas as pd
 from src.fit_parser import FitParser
 from src import hr_improvement_tracker as easy_tracker
+from src.garmin_connect_downloader import (
+    DEFAULT_PASSWORD_ENV,
+    GarminDownloadError,
+    authenticate,
+    download_activity_fit,
+    download_recent_fits,
+)
 from strength_endurance_integration import analyze_strength_endurance
 from interval_high_intensity_analysis import analyze_interval_workouts
 from interval_visualization import create_interval_plots, load_interval_dataframe
@@ -324,6 +331,73 @@ def run_interval_report(report_dir: Path, interval_dir: Path | None = None) -> i
         return 1
 
 
+def run_download_fit(
+    *,
+    category: str,
+    activity_id: int | None,
+    days: int,
+    limit: int,
+    output_dir: Path | None,
+    overwrite: bool,
+    email: str | None,
+    password: str | None,
+    password_env: str,
+    force_login: bool,
+) -> int:
+    target_dir = output_dir or _category_raw_dir(category)
+    target_dir.mkdir(parents=True, exist_ok=True)
+
+    try:
+        authenticate(
+            email=email,
+            password=password,
+            password_env=password_env,
+            force_login=force_login,
+            session_root=Path("."),
+        )
+
+        if activity_id is not None:
+            saved = download_activity_fit(
+                activity_id=activity_id,
+                output_dir=target_dir,
+                overwrite=overwrite,
+                filename=f"{activity_id}.fit",
+            )
+            if saved is None:
+                print(f"Skipped existing FIT (use --overwrite): {target_dir / f'{activity_id}.fit'}")
+            else:
+                print(f"Downloaded FIT: {saved}")
+            return 0
+
+        summary = download_recent_fits(
+            category=category,
+            output_dir=target_dir,
+            days=days,
+            limit=limit,
+            overwrite=overwrite,
+        )
+
+        print(f"Scanned Garmin activities: {summary.scanned}")
+        print(f"Downloaded FIT files: {len(summary.downloaded)}")
+        if summary.downloaded:
+            for path in summary.downloaded:
+                print(f"- {path}")
+
+        if summary.skipped_existing:
+            print(f"Skipped existing FIT files: {len(summary.skipped_existing)}")
+
+        if not summary.downloaded and not summary.skipped_existing:
+            print("No matching activities found for the selected parameters.")
+
+        return 0
+    except GarminDownloadError as exc:
+        print(f"[ERROR] download-fit: {exc}")
+        return 1
+    except Exception as exc:
+        print(f"[ERROR] download-fit: {exc}")
+        return 1
+
+
 def build_cli() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         description="theEagle unified CLI for Garmin FIT parsing and training reports",
@@ -336,6 +410,7 @@ def build_cli() -> argparse.ArgumentParser:
               uv run python main.py easy-report
 
             Common commands:
+                            uv run python main.py download-fit --category easy --days 14 --limit 20
               uv run python main.py parse --category easy
               uv run python main.py interval-report
               uv run python main.py strength-report
@@ -360,6 +435,62 @@ def build_cli() -> argparse.ArgumentParser:
         type=Path,
         default=None,
         help="Parse one FIT file into the category's processed directory",
+    )
+
+    download_cmd = sub.add_parser("download-fit", help="Download FIT files from Garmin Connect")
+    download_cmd.add_argument(
+        "--category",
+        default="general",
+        help="Destination category under data/activities/<category>/raw",
+    )
+    download_cmd.add_argument(
+        "--activity-id",
+        type=int,
+        default=None,
+        help="Download one Garmin activity by ID",
+    )
+    download_cmd.add_argument(
+        "--days",
+        type=int,
+        default=14,
+        help="Lookback window in days for bulk download (ignored with --activity-id)",
+    )
+    download_cmd.add_argument(
+        "--limit",
+        type=int,
+        default=20,
+        help="Maximum FIT files to download for bulk mode",
+    )
+    download_cmd.add_argument(
+        "--output-dir",
+        type=Path,
+        default=None,
+        help="Override destination folder (default: data/activities/<category>/raw)",
+    )
+    download_cmd.add_argument(
+        "--overwrite",
+        action="store_true",
+        help="Overwrite existing local FIT files when names collide",
+    )
+    download_cmd.add_argument(
+        "--email",
+        default=None,
+        help="Garmin account email (or set GARMIN_EMAIL)",
+    )
+    download_cmd.add_argument(
+        "--password",
+        default=None,
+        help="Garmin account password (prefer env var; not recommended in shell history)",
+    )
+    download_cmd.add_argument(
+        "--password-env",
+        default=DEFAULT_PASSWORD_ENV,
+        help=f"Environment variable name containing password (default: {DEFAULT_PASSWORD_ENV})",
+    )
+    download_cmd.add_argument(
+        "--force-login",
+        action="store_true",
+        help="Ignore cached Garmin session and perform fresh login",
     )
 
     easy_cmd = sub.add_parser("easy-report", aliases=["easy-score"], help="Run easy-run HR scorecard")
@@ -429,6 +560,20 @@ def main() -> int:
 
     if args.command == "interval-report":
         return run_interval_report(args.report_dir, args.interval_dir)
+
+    if args.command == "download-fit":
+        return run_download_fit(
+            category=args.category,
+            activity_id=args.activity_id,
+            days=args.days,
+            limit=args.limit,
+            output_dir=args.output_dir,
+            overwrite=args.overwrite,
+            email=args.email,
+            password=args.password,
+            password_env=args.password_env,
+            force_login=args.force_login,
+        )
 
     if args.command == "run-all":
         categories = _discover_categories()

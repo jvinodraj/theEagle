@@ -43,6 +43,33 @@ Legacy fallbacks still supported:
 
 ## 4. Parse FIT Files
 
+Optional: download directly from Garmin Connect first.
+
+Set credentials:
+
+```powershell
+$env:GARMIN_EMAIL="you@example.com"
+$env:GARMIN_PASSWORD="your_password"
+```
+
+Download one activity by Garmin ID:
+
+```powershell
+uv run python main.py download-fit --category easy --activity-id 123456789
+```
+
+Download recent activities (bulk):
+
+```powershell
+uv run python main.py download-fit --category interval --days 14 --limit 30
+```
+
+Advanced options:
+
+```powershell
+uv run python main.py download-fit --category strength --days 21 --limit 50 --overwrite --force-login
+```
+
 Parse all categories:
 
 ```powershell
@@ -194,6 +221,9 @@ uv run python main.py init
 # Parse
 uv run python main.py parse --category all
 
+# Download from Garmin Connect
+uv run python main.py download-fit --category easy --days 14 --limit 20
+
 # Reports
 uv run python main.py easy-report
 uv run python main.py interval-report
@@ -203,6 +233,18 @@ uv run python main.py strength-report
 ## 8. Troubleshooting
 
 ### No FIT files found
+
+Use Garmin Connect download command first:
+
+```powershell
+uv run python main.py download-fit --category easy --days 14 --limit 20
+```
+
+Then parse:
+
+```powershell
+uv run python main.py parse --category easy
+```
 
 ### UnicodeEncodeError on Windows
 

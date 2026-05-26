@@ -2,6 +2,29 @@
 
 This guide explains how to export FIT files from Garmin Connect and place them into the correct project folders.
 
+## 0. Optional CLI Download (Garmin Connect)
+
+You can download FIT files directly via CLI.
+
+Set credentials:
+
+```powershell
+$env:GARMIN_EMAIL="you@example.com"
+$env:GARMIN_PASSWORD="your_password"
+```
+
+Download one activity:
+
+```powershell
+uv run python main.py download-fit --category easy --activity-id 123456789
+```
+
+Download recent activities:
+
+```powershell
+uv run python main.py download-fit --category interval --days 14 --limit 30
+```
+
 ## 1. Download FIT Files from Garmin Connect (Web)
 
 1. Sign in to Garmin Connect: https://connect.garmin.com
