@@ -264,7 +264,7 @@ def draw_pyramid(
 
     # ── Right-side tick marks for wide bands only ─────────────────────────────
     zone_meta = [
-        ("Zone 1–2", "#43A047"),
+        ("Base-focused", "#43A047"),
         ("Strength", "#1E88E5"),
         ("Zone 3–4", "#FB8C00"),
     ]
