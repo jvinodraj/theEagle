@@ -23,9 +23,11 @@ STRENGTH_CSV = REPORTS_DIR / "strength" / "strength_endurance_sessions.csv"
 DEFAULT_OUTPUT = REPORTS_DIR / "training_pyramid.png"
 
 
-def load_metrics(weeks: int | None = None) -> dict:
+def load_metrics(weeks: int | None = None) -> tuple[dict, pd.Timestamp | None, pd.Timestamp | None]:
     """Load and aggregate training metrics from each category's CSV."""
     metrics = {}
+    date_bounds = []
+    period_end = pd.Timestamp.now(tz=None).normalize()
     cutoff = None
     if weeks:
         cutoff = pd.Timestamp.now(tz=None) - pd.Timedelta(weeks=weeks)
@@ -36,6 +38,8 @@ def load_metrics(weeks: int | None = None) -> dict:
         df["date"] = pd.to_datetime(df["date"]).dt.tz_localize(None)
         if cutoff is not None:
             df = df[df["date"] >= cutoff]
+        if not df.empty:
+            date_bounds.append((df["date"].min(), df["date"].max()))
         metrics["easy"] = {
             "sessions": len(df),
             "total_duration_min": float(df["duration_min"].sum()),
@@ -59,6 +63,8 @@ def load_metrics(weeks: int | None = None) -> dict:
         df["date"] = pd.to_datetime(df["date"]).dt.tz_localize(None)
         if cutoff is not None:
             df = df[df["date"] >= cutoff]
+        if not df.empty:
+            date_bounds.append((df["date"].min(), df["date"].max()))
         metrics["interval"] = {
             "sessions": len(df),
             "total_duration_min": float(df["total_workout_duration_min"].sum()),
@@ -82,6 +88,8 @@ def load_metrics(weeks: int | None = None) -> dict:
         df["date"] = pd.to_datetime(df["date"]).dt.tz_localize(None)
         if cutoff is not None:
             df = df[df["date"] >= cutoff]
+        if not df.empty:
+            date_bounds.append((df["date"].min(), df["date"].max()))
         metrics["strength"] = {
             "sessions": len(df),
             "total_duration_min": float(df["duration_min"].sum()),
@@ -99,10 +107,25 @@ def load_metrics(weeks: int | None = None) -> dict:
             "color": "#1E88E5",
         }
 
-    return metrics
+    if cutoff is not None:
+        start_date = cutoff.normalize()
+    else:
+        start_date = min((b[0] for b in date_bounds), default=None)
+        if start_date is not None:
+            start_date = start_date.normalize()
+
+    end_date = period_end if date_bounds else None
+
+    return metrics, start_date, end_date
 
 
-def draw_pyramid(metrics: dict, output_path: Path = DEFAULT_OUTPUT, weeks: int | None = None) -> None:
+def draw_pyramid(
+    metrics: dict,
+    output_path: Path = DEFAULT_OUTPUT,
+    weeks: int | None = None,
+    start_date: pd.Timestamp | None = None,
+    end_date: pd.Timestamp | None = None,
+) -> None:
     """Render and save the training pyramid PNG."""
 
     # Order: bottom = easy (base), middle = strength, top = interval
@@ -277,7 +300,17 @@ def draw_pyramid(metrics: dict, output_path: Path = DEFAULT_OUTPUT, weeks: int |
     footer = f"Total: {total_min / 60:.1f} hrs  ·  {sum(t['sessions'] for t in tiers)} sessions"
     if total_min == 0:
         footer = "No data found — check reports/ directory"
-    ax.text(apex_x, 0.5, footer, ha="center", va="top", fontsize=10, color="#757575")
+        period_line = ""
+    else:
+        period_line = (
+            f"Period: {start_date:%Y-%m-%d} to {end_date:%Y-%m-%d}"
+            if start_date is not None and end_date is not None
+            else "Period: n/a"
+        )
+
+    ax.text(apex_x, 0.60, footer, ha="center", va="top", fontsize=10, color="#757575")
+    if period_line:
+        ax.text(apex_x, 0.34, period_line, ha="center", va="top", fontsize=9, color="#9E9E9E")
 
     # ── Save ──────────────────────────────────────────────────────────────────
     output_path = Path(output_path)
@@ -307,7 +340,7 @@ def main():
     )
     args = parser.parse_args()
 
-    metrics = load_metrics(weeks=args.weeks)
+    metrics, start_date, end_date = load_metrics(weeks=args.weeks)
 
     print("\nTraining Load Summary:")
     print(f"  {'Category':<12} {'Sessions':>8} {'Hours':>8} {'Share':>7}")
@@ -319,7 +352,13 @@ def main():
     print(f"  {'-'*40}")
     print(f"  {'TOTAL':<12} {sum(m['sessions'] for m in metrics.values()):>8d} {total_min/60:>8.1f}\n")
 
-    draw_pyramid(metrics, output_path=args.output, weeks=args.weeks)
+    draw_pyramid(
+        metrics,
+        output_path=args.output,
+        weeks=args.weeks,
+        start_date=start_date,
+        end_date=end_date,
+    )
 
 
 if __name__ == "__main__":
