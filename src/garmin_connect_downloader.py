@@ -11,9 +11,9 @@ from pathlib import Path
 from typing import Any
 
 
-SESSION_FILE = ".garth"
 DEFAULT_EMAIL_ENV = "GARMIN_EMAIL"
 DEFAULT_PASSWORD_ENV = "GARMIN_PASSWORD"
+_GARMIN_CLIENT: Any | None = None
 
 
 class GarminDownloadError(RuntimeError):
@@ -27,14 +27,14 @@ class DownloadSummary:
     scanned: int
 
 
-def _import_garth():
+def _import_garminconnect():
     try:
-        import garth  # type: ignore
+        from garminconnect import Garmin  # type: ignore
     except Exception as exc:  # pragma: no cover
         raise GarminDownloadError(
-            "Missing optional dependency 'garth'. Install dependencies and retry."
+            "Missing optional dependency 'garminconnect'. Install dependencies and retry."
         ) from exc
-    return garth
+    return Garmin
 
 
 def _parse_timestamp(value: str | None) -> datetime | None:
@@ -55,6 +55,30 @@ def _parse_timestamp(value: str | None) -> datetime | None:
             continue
 
     return None
+
+
+def _activity_datetime(activity: dict[str, Any]) -> datetime:
+    # Prefer Garmin local start time so weekday matches the run context.
+    summary = activity.get("summaryDTO") if isinstance(activity.get("summaryDTO"), dict) else {}
+    metadata = activity.get("metadataDTO") if isinstance(activity.get("metadataDTO"), dict) else {}
+
+    candidates = (
+        summary.get("startTimeLocal"),
+        activity.get("startTimeLocal"),
+        metadata.get("startTimeLocal"),
+        summary.get("startTimeGMT"),
+        activity.get("startTimeGMT"),
+        metadata.get("startTimeGMT"),
+        summary.get("startTime"),
+        activity.get("startTime"),
+        metadata.get("startTime"),
+    )
+
+    for value in candidates:
+        dt = _parse_timestamp(value)
+        if dt:
+            return dt
+    return datetime.now(timezone.utc)
 
 
 def _activity_type_key(activity: dict[str, Any]) -> str:
@@ -92,11 +116,11 @@ def _safe_slug(value: str, fallback: str = "activity") -> str:
 
 
 def _date_stamp(activity: dict[str, Any]) -> str:
-    for key in ("startTimeLocal", "startTimeGMT", "startTime"):
-        dt = _parse_timestamp(activity.get(key))
-        if dt:
-            return dt.astimezone(timezone.utc).strftime("%Y-%m-%d")
-    return datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    return _activity_datetime(activity).strftime("%Y-%m-%d")
+
+
+def _day_of_run(activity: dict[str, Any]) -> str:
+    return _activity_datetime(activity).strftime("%A").lower()
 
 
 def _extract_fit_payload(payload: bytes) -> bytes:
@@ -115,14 +139,17 @@ def _extract_fit_payload(payload: bytes) -> bytes:
         return payload
 
 
-def _build_filename(activity: dict[str, Any], activity_id: int) -> str:
+def _build_filename(activity: dict[str, Any], category: str) -> str:
     date_part = _date_stamp(activity)
-    type_part = _safe_slug(_activity_type_key(activity), fallback="unknown")
-    return f"{date_part}_{type_part}_{activity_id}.fit"
+    day_part = _day_of_run(activity)
+    category_part = _safe_slug(category.lower(), fallback="general")
+    return f"{date_part}_{day_part}_{category_part}.fit"
 
 
-def _session_path(root: Path) -> Path:
-    return root / SESSION_FILE
+def _require_client() -> Any:
+    if _GARMIN_CLIENT is None:
+        raise GarminDownloadError("Garmin client is not authenticated.")
+    return _GARMIN_CLIENT
 
 
 def authenticate(
@@ -133,15 +160,8 @@ def authenticate(
     force_login: bool = False,
     session_root: Path = Path("."),
 ) -> None:
-    garth = _import_garth()
-    session_path = _session_path(session_root)
-
-    if not force_login and session_path.exists():
-        try:
-            garth.resume(str(session_path))
-            return
-        except Exception:
-            pass
+    del force_login
+    del session_root
 
     resolved_email = email or os.getenv(DEFAULT_EMAIL_ENV)
     resolved_password = password or os.getenv(password_env)
@@ -162,17 +182,17 @@ def authenticate(
     if not resolved_password:
         raise GarminDownloadError("Garmin password is empty.")
 
-    garth.login(resolved_email, resolved_password)
-    # Persist session for future non-interactive downloads.
-    garth.save(str(session_path))
+    Garmin = _import_garminconnect()
+    client = Garmin(resolved_email, resolved_password)
+    client.login()
+
+    global _GARMIN_CLIENT
+    _GARMIN_CLIENT = client
 
 
 def _fetch_activities_page(start: int, limit: int) -> list[dict[str, Any]]:
-    garth = _import_garth()
-    response = garth.connectapi(
-        "/activitylist-service/activities/search/activities",
-        params={"start": start, "limit": limit},
-    )
+    client = _require_client()
+    response = client.get_activities(start=start, limit=limit)
 
     if isinstance(response, list):
         return [item for item in response if isinstance(item, dict)]
@@ -185,45 +205,51 @@ def _fetch_activities_page(start: int, limit: int) -> list[dict[str, Any]]:
     return []
 
 
+def _fetch_activity(activity_id: int) -> dict[str, Any]:
+    client = _require_client()
+    response = client.get_activity(str(activity_id))
+    if isinstance(response, dict):
+        return response
+    raise GarminDownloadError(f"Unable to fetch metadata for activity {activity_id}")
+
+
 def _download_fit_bytes(activity_id: int) -> bytes:
-    garth = _import_garth()
+    client = _require_client()
 
-    endpoints = (
-        f"/download-service/files/activity/{activity_id}",
-        f"/download-service/export/original-activity/{activity_id}",
-    )
+    try:
+        payload = client.download_activity(
+            str(activity_id),
+            client.ActivityDownloadFormat.ORIGINAL,
+        )
+    except Exception as exc:
+        raise GarminDownloadError(f"Unable to download activity {activity_id}") from exc
 
-    last_error: Exception | None = None
-    for endpoint in endpoints:
-        try:
-            payload = garth.download(endpoint)
-            if isinstance(payload, bytes):
-                return _extract_fit_payload(payload)
-            if hasattr(payload, "content"):
-                return _extract_fit_payload(bytes(payload.content))
-            raise GarminDownloadError(f"Unexpected download response type for {endpoint}")
-        except Exception as exc:
-            last_error = exc
+    if isinstance(payload, bytes):
+        return _extract_fit_payload(payload)
+    if hasattr(payload, "content"):
+        return _extract_fit_payload(bytes(payload.content))
 
-    raise GarminDownloadError(f"Unable to download activity {activity_id}") from last_error
+    raise GarminDownloadError(f"Unexpected download response type for activity {activity_id}")
 
 
 def download_activity_fit(
     *,
     activity_id: int,
+    category: str,
     output_dir: Path,
     overwrite: bool,
-    filename: str | None = None,
-) -> Path | None:
+) -> tuple[Path, bool]:
     output_dir.mkdir(parents=True, exist_ok=True)
-    out_path = output_dir / (filename or f"{activity_id}.fit")
+    activity = _fetch_activity(activity_id)
+    filename = _build_filename(activity, category)
+    out_path = output_dir / filename
 
     if out_path.exists() and not overwrite:
-        return None
+        return out_path, False
 
     fit_payload = _download_fit_bytes(activity_id)
     out_path.write_bytes(fit_payload)
-    return out_path
+    return out_path, True
 
 
 def download_recent_fits(
@@ -275,7 +301,7 @@ def download_recent_fits(
             if not isinstance(activity_id, int):
                 continue
 
-            filename = _build_filename(activity, activity_id)
+            filename = _build_filename(activity, category)
             path = output_dir / filename
 
             if path.exists() and not overwrite:

@@ -19,6 +19,12 @@ Download one activity:
 uv run python main.py download-fit --category easy --activity-id 123456789
 ```
 
+CLI downloaded FIT naming standard:
+
+- `yyyy-mm-dd_dayoftherun_category.fit`
+- Example: `2026-05-28_thursday_easy.fit`
+- Date and weekday are derived from the activity local start timestamp metadata, not download time.
+
 Download recent activities:
 
 ```powershell
@@ -65,15 +71,17 @@ Recommended mapping:
 
 ## 4. Suggested Naming Convention
 
-Use a consistent filename format:
+If you use `download-fit`, filenames are generated automatically as:
 
-`YYYY-MM-DD_<session-type>.fit`
+`yyyy-mm-dd_dayoftherun_category.fit`
+
+If you place files manually, follow the same format.
 
 Examples:
 
-- `2026-05-18_easy.fit`
-- `2026-05-19_interval.fit`
-- `2026-05-20_strength.fit`
+- `2026-05-18_sunday_easy.fit`
+- `2026-05-19_monday_interval.fit`
+- `2026-05-20_tuesday_strength.fit`
 
 ## 5. Validate Before Parsing
 

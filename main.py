@@ -357,16 +357,16 @@ def run_download_fit(
         )
 
         if activity_id is not None:
-            saved = download_activity_fit(
+            saved_path, downloaded = download_activity_fit(
                 activity_id=activity_id,
+                category=category,
                 output_dir=target_dir,
                 overwrite=overwrite,
-                filename=f"{activity_id}.fit",
             )
-            if saved is None:
-                print(f"Skipped existing FIT (use --overwrite): {target_dir / f'{activity_id}.fit'}")
+            if not downloaded:
+                print(f"Skipped existing FIT (use --overwrite): {saved_path}")
             else:
-                print(f"Downloaded FIT: {saved}")
+                print(f"Downloaded FIT: {saved_path}")
             return 0
 
         summary = download_recent_fits(

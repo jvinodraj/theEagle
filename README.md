@@ -67,6 +67,18 @@ uv run python main.py interval-report
 uv run python main.py strength-report
 ```
 
+Download FIT files from Garmin Connect:
+
+```powershell
+uv run python main.py download-fit --category easy --activity-id 23038610778
+```
+
+Downloaded FIT naming standard:
+
+- `yyyy-mm-dd_dayoftherun_category.fit`
+- Example: `2026-05-28_thursday_easy.fit`
+- Date and weekday are derived from the activity's local start timestamp metadata, not local download time.
+
 ## Help
 
 If you are unsure what to run, start with:
