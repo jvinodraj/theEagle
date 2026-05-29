@@ -2,6 +2,8 @@
 
 Python tools for Garmin FIT analysis for half-marathon training, with separate workflows for easy runs, interval/high-intensity sessions, and strength sessions.
 
+Compatibility note: This workflow has been fully tested only with Garmin Forerunner 255 FIT exports. Other devices may work but are not yet fully validated.
+
 Full operational guide: [docs/guides/how-to-run.md](docs/guides/how-to-run.md)
 
 Download and place FIT files: [docs/guides/download-fit-files.md](docs/guides/download-fit-files.md)
