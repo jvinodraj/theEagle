@@ -184,6 +184,7 @@ theEagle/
 
 - Legacy fallback folders still work (data/easy_runs and data/raw), but standardized paths above are recommended.
 - Garmin-derived values (for example training effect and threshold settings) should be interpreted as device estimates, not laboratory measurements.
+- This workflow has been fully tested only with Garmin Forerunner 255 FIT exports. Other devices may work but are not yet fully validated.
 - Existing root-level analysis scripts are kept for compatibility. New scripts should be added under `scripts/`.
 
 
