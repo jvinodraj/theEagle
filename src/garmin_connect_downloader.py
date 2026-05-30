@@ -115,6 +115,84 @@ def _safe_slug(value: str, fallback: str = "activity") -> str:
     return cleaned or fallback
 
 
+def _walk_items(value: Any) -> list[tuple[str, Any]]:
+    items: list[tuple[str, Any]] = []
+    if isinstance(value, dict):
+        for key, child in value.items():
+            if isinstance(key, str):
+                items.append((key, child))
+            items.extend(_walk_items(child))
+    elif isinstance(value, list):
+        for child in value:
+            items.extend(_walk_items(child))
+    return items
+
+
+def _find_text_field(activity: dict[str, Any], key_tokens: tuple[str, ...]) -> str | None:
+    for key, value in _walk_items(activity):
+        lowered_key = key.lower()
+        if any(token in lowered_key for token in key_tokens) and isinstance(value, str):
+            text = value.strip()
+            if text:
+                return text
+    return None
+
+
+def _find_float_field(activity: dict[str, Any], key_tokens: tuple[str, ...]) -> float | None:
+    for key, value in _walk_items(activity):
+        lowered_key = key.lower()
+        if any(token in lowered_key for token in key_tokens):
+            if isinstance(value, bool):
+                continue
+            if isinstance(value, (int, float)):
+                return float(value)
+            if isinstance(value, str):
+                try:
+                    return float(value)
+                except ValueError:
+                    continue
+    return None
+
+
+def _interval_category_from_benefit(activity: dict[str, Any]) -> str:
+    # Prefer Garmin's benefit/adaptation labels when present.
+    benefit_text = _find_text_field(
+        activity,
+        (
+            "primarybenefit",
+            "benefit",
+            "trainingeffect",
+            "adaptation",
+            "trainingfocus",
+        ),
+    )
+    if benefit_text:
+        benefit = benefit_text.lower()
+        if "tempo" in benefit or "high aerobic" in benefit:
+            return "tempo"
+        if "threshold" in benefit or "lactate" in benefit:
+            return "threshold"
+        if "vo2" in benefit:
+            return "vo2max"
+        if "anaerobic" in benefit:
+            return "anaerobic"
+        if "sprint" in benefit:
+            return "sprint"
+
+    # Fallback for payloads that only expose numeric training effects.
+    aerobic_te = _find_float_field(activity, ("total_training_effect", "aerobic_training_effect"))
+    anaerobic_te = _find_float_field(activity, ("total_anaerobic_training_effect", "anaerobic_training_effect"))
+
+    if anaerobic_te is not None and anaerobic_te >= 2.0:
+        return "anaerobic"
+    if aerobic_te is not None and aerobic_te >= 4.0 and (anaerobic_te is None or anaerobic_te < 1.0):
+        return "tempo"
+    if aerobic_te is not None and aerobic_te >= 3.0 and (anaerobic_te is None or anaerobic_te < 1.0):
+        return "threshold"
+
+    return "interval"
+
+
 def _date_stamp(activity: dict[str, Any]) -> str:
     return _activity_datetime(activity).strftime("%Y-%m-%d")
 
@@ -142,7 +220,11 @@ def _extract_fit_payload(payload: bytes) -> bytes:
 def _build_filename(activity: dict[str, Any], category: str) -> str:
     date_part = _date_stamp(activity)
     day_part = _day_of_run(activity)
-    category_part = _safe_slug(category.lower(), fallback="general")
+    category_key = category.lower()
+    if category_key == "interval":
+        category_part = _interval_category_from_benefit(activity)
+    else:
+        category_part = _safe_slug(category_key, fallback="general")
     return f"{date_part}_{day_part}_{category_part}.fit"
 
 
