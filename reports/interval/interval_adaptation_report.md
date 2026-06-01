@@ -349,10 +349,10 @@ This report separates direct measurements from Garmin estimates and emphasizes t
 - Garmin-derived metrics are estimates and should not be treated as direct lab measurements
 - Missing running-dynamics fields lower certainty for neuromuscular conclusions
 
-## Workout: 2026-05-30_saturday_interval.fit (2026-05-30)
+## Workout: 2026-05-30_saturday_tempo.fit (2026-05-30)
 
 ### 1. Executive Summary
-- Session type: interval
+- Session type: tempo
 - Total duration: 63.1 min, distance: 10.02 km
 - Primary adaptation signal: Aerobic TE 4.3, Anaerobic TE 0.0
 - Fatigue signal: Pace fade -2.3624953857511954%, HR escalation 13.77824709609294 bpm
