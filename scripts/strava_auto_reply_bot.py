@@ -18,7 +18,7 @@ from urllib import error, parse, request
 
 
 STRAVA_BASE = "https://www.strava.com/api/v3"
-TOKEN_URL = "https://www.strava.com/oauth/token"
+TOKEN_URL = "https://www.strava.com/api/v3/oauth/token"
 
 
 @dataclass

@@ -15,7 +15,7 @@ from urllib import error, parse, request
 
 
 AUTHORIZE_URL = "https://www.strava.com/oauth/authorize"
-TOKEN_URL = "https://www.strava.com/oauth/token"
+TOKEN_URL = "https://www.strava.com/api/v3/oauth/token"
 DEFAULT_SCOPES = "activity:read,activity:write"
 
 
