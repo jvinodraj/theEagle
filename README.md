@@ -201,4 +201,59 @@ theEagle/
 - This workflow has been fully tested only with Garmin Forerunner 255 FIT exports. Other devices may work but are not yet fully validated.
 - Existing root-level analysis scripts are kept for compatibility. New scripts should be added under `scripts/`.
 
+## Strava Auto-Reply Bot (Free Setup)
+
+For learning purposes, this repo now includes a polling-based Strava comment auto-reply bot:
+
+- Bot script: `scripts/strava_auto_reply_bot.py`
+- GitHub Action: `.github/workflows/strava-auto-reply.yml`
+
+This avoids paid cloud resources:
+
+- Option A: run on GitHub Actions schedule (every 10 minutes).
+- Option B: run locally with Windows Task Scheduler.
+
+### 1) Create Strava API App
+
+Create an app in your Strava settings and collect:
+
+- Client ID
+- Client Secret
+- Refresh Token (from OAuth flow)
+- Your athlete ID
+
+### 2) Configure GitHub Secrets and Variables
+
+In your GitHub repo settings:
+
+- Secrets:
+	- `STRAVA_CLIENT_ID`
+	- `STRAVA_CLIENT_SECRET`
+	- `STRAVA_REFRESH_TOKEN`
+	- `STRAVA_ATHLETE_ID`
+- Variables (optional):
+	- `STRAVA_REPLY_TEMPLATE` (default: `Thanks for the comment! Ref:{comment_id}`)
+	- `STRAVA_ACTIVITY_LIMIT` (default: `8`)
+	- `STRAVA_DRY_RUN` (`true` or `false`)
+
+### 3) Run Bot Manually (Local)
+
+```powershell
+$env:STRAVA_CLIENT_ID="..."
+$env:STRAVA_CLIENT_SECRET="..."
+$env:STRAVA_REFRESH_TOKEN="..."
+$env:STRAVA_ATHLETE_ID="..."
+$env:STRAVA_DRY_RUN="true"
+python scripts/strava_auto_reply_bot.py
+```
+
+### 4) Duplicate Protection
+
+The bot avoids duplicate replies by adding a marker to each response (`Ref:<comment_id>`) and skipping if it already replied for that specific comment.
+
+### 5) Important Limits
+
+- This bot responds to comments on your activities, not a generic profile comment board.
+- GitHub Actions schedule is polling-based, so responses are near-real-time, not instant webhook real-time.
+
 

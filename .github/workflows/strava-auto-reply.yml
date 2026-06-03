@@ -1,0 +1,32 @@
+name: Strava Auto Reply
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "*/10 * * * *"
+
+jobs:
+  reply-bot:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Run Strava auto-reply bot
+        env:
+          STRAVA_CLIENT_ID: ${{ secrets.STRAVA_CLIENT_ID }}
+          STRAVA_CLIENT_SECRET: ${{ secrets.STRAVA_CLIENT_SECRET }}
+          STRAVA_REFRESH_TOKEN: ${{ secrets.STRAVA_REFRESH_TOKEN }}
+          STRAVA_ATHLETE_ID: ${{ secrets.STRAVA_ATHLETE_ID }}
+          STRAVA_REPLY_TEMPLATE: ${{ vars.STRAVA_REPLY_TEMPLATE }}
+          STRAVA_ACTIVITY_LIMIT: ${{ vars.STRAVA_ACTIVITY_LIMIT }}
+          STRAVA_DRY_RUN: ${{ vars.STRAVA_DRY_RUN }}
+        run: python scripts/strava_auto_reply_bot.py
