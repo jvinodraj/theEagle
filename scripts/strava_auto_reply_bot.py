@@ -31,6 +31,13 @@ class Config:
     dry_run: bool
 
 
+@dataclass
+class TokenInfo:
+    access_token: str
+    scopes: set[str]
+    athlete_id: int | None
+
+
 def _read_env(name: str, default: str | None = None, required: bool = False) -> str:
     value = os.getenv(name)
     if value is not None:
@@ -86,7 +93,7 @@ def _http_json(method: str, url: str, token: str | None = None, form_data: dict[
         raise RuntimeError(f"Network error calling {url}: {exc}") from exc
 
 
-def refresh_access_token(cfg: Config) -> str:
+def refresh_access_token(cfg: Config) -> TokenInfo:
     payload = {
         "client_id": cfg.client_id,
         "client_secret": cfg.client_secret,
@@ -97,7 +104,19 @@ def refresh_access_token(cfg: Config) -> str:
     token = data.get("access_token")
     if not token:
         raise RuntimeError("Strava token refresh did not return access_token.")
-    return str(token)
+
+    raw_scope = str(data.get("scope", ""))
+    scopes = {scope.strip() for scope in raw_scope.split(",") if scope.strip()}
+
+    athlete_id: int | None = None
+    athlete = data.get("athlete")
+    if isinstance(athlete, dict) and athlete.get("id") is not None:
+        try:
+            athlete_id = int(athlete["id"])
+        except (TypeError, ValueError):
+            athlete_id = None
+
+    return TokenInfo(access_token=str(token), scopes=scopes, athlete_id=athlete_id)
 
 
 def list_recent_activities(access_token: str, limit: int) -> list[dict[str, Any]]:
@@ -134,6 +153,21 @@ def post_comment(access_token: str, activity_id: int, text: str) -> dict[str, An
     return data
 
 
+def validate_token_permissions(cfg: Config, token_info: TokenInfo) -> None:
+    if token_info.athlete_id is not None and token_info.athlete_id != cfg.athlete_id:
+        raise RuntimeError(
+            "STRAVA_ATHLETE_ID does not match the athlete tied to the refresh token. "
+            f"Expected {cfg.athlete_id}, got {token_info.athlete_id}."
+        )
+
+    if "activity:write" not in token_info.scopes:
+        scope_text = ", ".join(sorted(token_info.scopes)) or "<none returned>"
+        raise RuntimeError(
+            "The refreshed Strava token does not include activity:write, so comment posting will fail. "
+            f"Current scopes: {scope_text}. Re-authorize your Strava app and grant activity:write."
+        )
+
+
 def already_replied(comments: list[dict[str, Any]], athlete_id: int, source_comment_id: int) -> bool:
     marker = f"Ref:{source_comment_id}"
     for c in comments:
@@ -147,7 +181,9 @@ def already_replied(comments: list[dict[str, Any]], athlete_id: int, source_comm
 
 def main() -> int:
     cfg = load_config()
-    token = refresh_access_token(cfg)
+    token_info = refresh_access_token(cfg)
+    validate_token_permissions(cfg, token_info)
+    token = token_info.access_token
     activities = list_recent_activities(token, cfg.activity_limit)
 
     total_seen = 0
@@ -187,7 +223,17 @@ def main() -> int:
                 total_replies += 1
                 continue
 
-            post_comment(token, activity_id, reply_text)
+            try:
+                post_comment(token, activity_id, reply_text)
+            except RuntimeError as exc:
+                message = str(exc)
+                if "HTTP 401 POST" in message and "/comments" in message:
+                    raise RuntimeError(
+                        "Strava rejected comment creation with HTTP 401. This usually means the token was not "
+                        "authorized with activity:write or the API/app is not permitted to create comments for this athlete. "
+                        "Re-authorize the app with activity:write and test again in dry-run first."
+                    ) from exc
+                raise
             print(f"Replied to activity={activity_id} comment={comment_id}")
             total_replies += 1
             time.sleep(0.3)
