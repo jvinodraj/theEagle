@@ -30,6 +30,7 @@ class Config:
     reply_template: str
     activity_limit: int
     dry_run: bool
+    fail_on_reply_unauthorized: bool
 
 
 @dataclass
@@ -69,6 +70,8 @@ def load_config() -> Config:
         reply_template=_read_env("STRAVA_REPLY_TEMPLATE", "Thanks for the comment! Ref:{comment_id}"),
         activity_limit=max(1, int(_read_env("STRAVA_ACTIVITY_LIMIT", "8"))),
         dry_run=dry_run,
+        fail_on_reply_unauthorized=_read_env("STRAVA_FAIL_ON_REPLY_UNAUTHORIZED", "false").strip().lower()
+        in {"1", "true", "yes", "y"},
     )
 
 
@@ -189,6 +192,8 @@ def main() -> int:
 
     total_seen = 0
     total_replies = 0
+    total_pending = 0
+    reply_blocked = False
 
     for activity in activities:
         activity_id_raw = activity.get("id")
@@ -219,6 +224,14 @@ def main() -> int:
                 continue
 
             reply_text = cfg.reply_template.format(comment_id=comment_id, activity_id=activity_id)
+            if reply_blocked:
+                print(
+                    f"[PENDING] activity={activity_id} comment={comment_id} reply={reply_text} "
+                    "(Strava API rejected earlier comment creation)"
+                )
+                total_pending += 1
+                continue
+
             if cfg.dry_run:
                 print(f"[DRY-RUN] activity={activity_id} comment={comment_id} reply={reply_text}")
                 total_replies += 1
@@ -229,17 +242,30 @@ def main() -> int:
             except RuntimeError as exc:
                 message = str(exc)
                 if "HTTP 401 POST" in message and "/comments" in message:
-                    raise RuntimeError(
-                        "Strava rejected comment creation with HTTP 401. This usually means the token was not "
-                        "authorized with activity:write or the API/app is not permitted to create comments for this athlete. "
-                        "Re-authorize the app with activity:write and test again in dry-run first."
-                    ) from exc
+                    if cfg.fail_on_reply_unauthorized:
+                        raise RuntimeError(
+                            "Strava rejected comment creation with HTTP 401. This usually means the token was not "
+                            "authorized with activity:write or the API/app is not permitted to create comments for this athlete. "
+                            "Re-authorize the app with activity:write and test again in dry-run first."
+                        ) from exc
+
+                    reply_blocked = True
+                    total_pending += 1
+                    print(
+                        f"[NOTICE] Strava API rejected comment creation for activity={activity_id} comment={comment_id}. "
+                        "Switching to monitor-only mode for the rest of this run."
+                    )
+                    print(f"[PENDING] activity={activity_id} comment={comment_id} reply={reply_text}")
+                    continue
                 raise
             print(f"Replied to activity={activity_id} comment={comment_id}")
             total_replies += 1
             time.sleep(0.3)
 
-    print(f"Done. scanned_comments={total_seen} replies={total_replies} activities={len(activities)}")
+    print(
+        f"Done. scanned_comments={total_seen} replies={total_replies} "
+        f"pending={total_pending} activities={len(activities)} reply_blocked={reply_blocked}"
+    )
     return 0
 
 
