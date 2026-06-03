@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import json
 import os
+import re
 import sys
 import time
 from dataclasses import dataclass
@@ -106,7 +107,7 @@ def refresh_access_token(cfg: Config) -> TokenInfo:
         raise RuntimeError("Strava token refresh did not return access_token.")
 
     raw_scope = str(data.get("scope", ""))
-    scopes = {scope.strip() for scope in raw_scope.split(",") if scope.strip()}
+    scopes = {scope.strip() for scope in re.split(r"[\s,]+", raw_scope) if scope.strip()}
 
     athlete_id: int | None = None
     athlete = data.get("athlete")

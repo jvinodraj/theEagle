@@ -222,6 +222,20 @@ Create an app in your Strava settings and collect:
 - Refresh Token (from OAuth flow)
 - Your athlete ID
 
+If you need to re-authorize and generate a new refresh token, use:
+
+```powershell
+python scripts/strava_oauth_helper.py authorize-url --client-id <your_client_id>
+```
+
+Open the printed URL in your browser, sign in to Strava, approve access, and copy the `code` parameter from the redirect URL. Then exchange it:
+
+```powershell
+python scripts/strava_oauth_helper.py exchange-code --client-id <your_client_id> --client-secret <your_client_secret> --code <returned_code>
+```
+
+That prints a JSON payload including the new `refresh_token`, `access_token`, granted `scope`, and `athlete_id`.
+
 ### 2) Configure GitHub Secrets and Variables
 
 In your GitHub repo settings:
