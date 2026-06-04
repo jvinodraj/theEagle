@@ -19,6 +19,7 @@ from urllib import error, parse, request
 
 STRAVA_BASE = "https://www.strava.com/api/v3"
 TOKEN_URL = "https://www.strava.com/api/v3/oauth/token"
+DEFAULT_USER_AGENT = "theEagle-strava-bot/1.0"
 
 
 @dataclass
@@ -75,9 +76,15 @@ def load_config() -> Config:
     )
 
 
-def _http_json(method: str, url: str, token: str | None = None, form_data: dict[str, Any] | None = None) -> Any:
+def _http_json(
+    method: str,
+    url: str,
+    token: str | None = None,
+    form_data: dict[str, Any] | None = None,
+    max_attempts: int = 1,
+) -> Any:
     data: bytes | None = None
-    headers = {"Accept": "application/json"}
+    headers = {"Accept": "application/json", "User-Agent": DEFAULT_USER_AGENT}
     if form_data is not None:
         encoded = parse.urlencode(form_data).encode("utf-8")
         data = encoded
@@ -86,15 +93,43 @@ def _http_json(method: str, url: str, token: str | None = None, form_data: dict[
         headers["Authorization"] = f"Bearer {token}"
 
     req = request.Request(url=url, data=data, method=method, headers=headers)
-    try:
-        with request.urlopen(req, timeout=30) as resp:
-            payload = resp.read().decode("utf-8")
-            return json.loads(payload) if payload else {}
-    except error.HTTPError as exc:
-        body = exc.read().decode("utf-8", errors="replace")
-        raise RuntimeError(f"HTTP {exc.code} {method} {url} failed: {body}") from exc
-    except error.URLError as exc:
-        raise RuntimeError(f"Network error calling {url}: {exc}") from exc
+    last_error: Exception | None = None
+    for attempt in range(1, max_attempts + 1):
+        try:
+            with request.urlopen(req, timeout=30) as resp:
+                payload = resp.read().decode("utf-8")
+                return json.loads(payload) if payload else {}
+        except error.HTTPError as exc:
+            body = exc.read().decode("utf-8", errors="replace")
+            is_token_call = method.upper() == "POST" and url == TOKEN_URL
+            retryable = is_token_call and exc.code in {403, 429, 500, 502, 503, 504} and "cloudfront" in body.lower()
+            if retryable and attempt < max_attempts:
+                wait_seconds = attempt * 2
+                print(
+                    f"OAuth refresh temporarily blocked (HTTP {exc.code}, attempt {attempt}/{max_attempts}). "
+                    f"Retrying in {wait_seconds}s...",
+                    file=sys.stderr,
+                )
+                time.sleep(wait_seconds)
+                continue
+            last_error = RuntimeError(f"HTTP {exc.code} {method} {url} failed: {body}")
+            break
+        except error.URLError as exc:
+            if attempt < max_attempts:
+                wait_seconds = attempt * 2
+                print(
+                    f"Network error calling {url} (attempt {attempt}/{max_attempts}): {exc}. "
+                    f"Retrying in {wait_seconds}s...",
+                    file=sys.stderr,
+                )
+                time.sleep(wait_seconds)
+                continue
+            last_error = RuntimeError(f"Network error calling {url}: {exc}")
+            break
+
+    if last_error is not None:
+        raise last_error
+    raise RuntimeError(f"HTTP request failed for an unknown reason: {method} {url}")
 
 
 def refresh_access_token(cfg: Config) -> TokenInfo:
@@ -104,7 +139,7 @@ def refresh_access_token(cfg: Config) -> TokenInfo:
         "grant_type": "refresh_token",
         "refresh_token": cfg.refresh_token,
     }
-    data = _http_json("POST", TOKEN_URL, form_data=payload)
+    data = _http_json("POST", TOKEN_URL, form_data=payload, max_attempts=4)
     token = data.get("access_token")
     if not token:
         raise RuntimeError("Strava token refresh did not return access_token.")

@@ -12,12 +12,14 @@ import argparse
 import json
 import os
 import sys
+import time
 from urllib import error, parse, request
 
 
 AUTHORIZE_URL = "https://www.strava.com/oauth/authorize"
 TOKEN_URL = "https://www.strava.com/api/v3/oauth/token"
 DEFAULT_SCOPES = "activity:read,activity:write"
+DEFAULT_USER_AGENT = "theEagle-strava-helper/1.0"
 
 
 def http_post_form(url: str, payload: dict[str, str]) -> dict:
@@ -29,14 +31,44 @@ def http_post_form(url: str, payload: dict[str, str]) -> dict:
         headers={
             "Accept": "application/json",
             "Content-Type": "application/x-www-form-urlencoded",
+            "User-Agent": DEFAULT_USER_AGENT,
         },
     )
-    try:
-        with request.urlopen(req, timeout=30) as response:
-            return json.loads(response.read().decode("utf-8"))
-    except error.HTTPError as exc:
-        body = exc.read().decode("utf-8", errors="replace")
-        raise RuntimeError(f"HTTP {exc.code} POST {url} failed: {body}") from exc
+    last_error: Exception | None = None
+    for attempt in range(1, 5):
+        try:
+            with request.urlopen(req, timeout=30) as response:
+                return json.loads(response.read().decode("utf-8"))
+        except error.HTTPError as exc:
+            body = exc.read().decode("utf-8", errors="replace")
+            retryable = exc.code in {403, 429, 500, 502, 503, 504} and "cloudfront" in body.lower()
+            if retryable and attempt < 4:
+                wait_seconds = attempt * 2
+                print(
+                    f"OAuth token endpoint temporary failure (HTTP {exc.code}, attempt {attempt}/4). "
+                    f"Retrying in {wait_seconds}s...",
+                    file=sys.stderr,
+                )
+                time.sleep(wait_seconds)
+                continue
+            last_error = RuntimeError(f"HTTP {exc.code} POST {url} failed: {body}")
+            break
+        except error.URLError as exc:
+            if attempt < 4:
+                wait_seconds = attempt * 2
+                print(
+                    f"Network error contacting token endpoint (attempt {attempt}/4): {exc}. "
+                    f"Retrying in {wait_seconds}s...",
+                    file=sys.stderr,
+                )
+                time.sleep(wait_seconds)
+                continue
+            last_error = RuntimeError(f"Network error calling {url}: {exc}")
+            break
+
+    if last_error is not None:
+        raise last_error
+    raise RuntimeError("OAuth token request failed for an unknown reason.")
 
 
 def build_authorize_url(args: argparse.Namespace) -> str:
