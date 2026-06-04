@@ -254,6 +254,7 @@ In your GitHub repo settings:
 	- `STRAVA_REPLY_TEMPLATE` (default: `Thanks for the comment! Ref:{comment_id}`)
 	- `STRAVA_ACTIVITY_LIMIT` (default: `8`)
 	- `STRAVA_DRY_RUN` (`true` or `false`)
+	- `STRAVA_FAIL_ON_REPLY_UNAUTHORIZED` (`true` to fail the workflow on comment-post 401, otherwise fallback to monitor-only)
 
 ### 3) Run Bot Manually (Local)
 

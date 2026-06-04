@@ -68,7 +68,7 @@ def load_config() -> Config:
         client_secret=_read_env("STRAVA_CLIENT_SECRET", required=True),
         refresh_token=_read_env("STRAVA_REFRESH_TOKEN", required=True),
         athlete_id=athlete_id,
-        reply_template=_read_env("STRAVA_REPLY_TEMPLATE", "Thanks for the comment! Ref:{comment_id}"),
+        reply_template=_read_env("STRAVA_REPLY_TEMPLATE", "Thanks for the comment - Testing the bot! Ref:{comment_id}"),
         activity_limit=max(1, int(_read_env("STRAVA_ACTIVITY_LIMIT", "8"))),
         dry_run=dry_run,
         fail_on_reply_unauthorized=_read_env("STRAVA_FAIL_ON_REPLY_UNAUTHORIZED", "false").strip().lower()
