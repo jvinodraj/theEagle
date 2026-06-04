@@ -210,7 +210,7 @@ For learning purposes, this repo now includes a polling-based Strava comment aut
 
 This avoids paid cloud resources:
 
-- Option A: run on GitHub Actions schedule (every 10 minutes).
+- Option A: run on GitHub Actions schedule (every 5 minutes).
 - Option B: run locally with Windows Task Scheduler.
 
 ### 1) Create Strava API App
@@ -225,8 +225,13 @@ Create an app in your Strava settings and collect:
 If you need to re-authorize and generate a new refresh token, use:
 
 ```powershell
-python scripts/strava_oauth_helper.py authorize-url --client-id <your_client_id>
+python scripts/strava_oauth_helper.py authorize-url --client-id <your_client_id> --redirect-uri http://localhost:8000/exchange_token
 ```
+
+Your Strava app must match this exactly:
+
+- Authorization Callback Domain: `localhost:8000`
+- OAuth redirect URI used in authorize-url: `http://localhost:8000/exchange_token`
 
 Open the printed URL in your browser, sign in to Strava, approve access, and copy the `code` parameter from the redirect URL. Then exchange it:
 
@@ -258,6 +263,7 @@ $env:STRAVA_CLIENT_SECRET="..."
 $env:STRAVA_REFRESH_TOKEN="..."
 $env:STRAVA_ATHLETE_ID="..."
 $env:STRAVA_DRY_RUN="true"
+python scripts/strava_oauth_helper.py validate-env --require-write-scope
 python scripts/strava_auto_reply_bot.py
 ```
 
@@ -269,5 +275,6 @@ The bot avoids duplicate replies by adding a marker to each response (`Ref:<comm
 
 - This bot responds to comments on your activities, not a generic profile comment board.
 - GitHub Actions schedule is polling-based, so responses are near-real-time, not instant webhook real-time.
+- The workflow runs every 5 minutes, so new comments are usually handled within that window.
 
 
