@@ -407,11 +407,72 @@ This report separates direct measurements from Garmin estimates and emphasizes t
 - Garmin-derived metrics are estimates and should not be treated as direct lab measurements
 - Missing running-dynamics fields lower certainty for neuromuscular conclusions
 
+## Workout: 2026-06-06_saturday_threshold.fit (2026-06-06)
+
+### 1. Executive Summary
+- Session type: threshold
+- Total duration: 103.0 min, distance: 14.92 km
+- Primary adaptation signal: Aerobic TE 4.6, Anaerobic TE 0.8
+- Fatigue signal: Pace fade -0.037383177570093906%, HR escalation 19.56411917098447 bpm
+
+### 2. Workout Structure Breakdown
+- Warmup duration: 34.3 min
+- Interval count: 11
+- Mean interval duration: 374.56018181818183 s
+- Mean recovery duration: 205.87220000000005 s
+
+### 3. Interval-by-Interval Analysis
+- Rep 1: pace 6.23 min/km, HR 145/156, power 274, cadence 168, stride 0.934, GCT 271.0, VO 84.3
+- Rep 2: pace 6.24 min/km, HR 154/158, power 300, cadence 168, stride 0.953, GCT 271.6, VO 86.0
+- Rep 3: pace 6.29 min/km, HR 161/168, power 286, cadence 166, stride 0.951, GCT 273.5, VO 86.5
+- Rep 4: pace 6.25 min/km, HR 155/165, power 274, cadence 166, stride 0.942, GCT 271.6, VO 85.3
+- Rep 5: pace 6.29 min/km, HR 165/170, power 294, cadence 164, stride 0.950, GCT 274.3, VO 86.6
+- Rep 6: pace 6.15 min/km, HR 162/170, power 282, cadence 166, stride 0.966, GCT 271.3, VO 86.6
+- Rep 7: pace 6.25 min/km, HR 166/174, power 275, cadence 166, stride 0.958, GCT 275.1, VO 87.3
+- Rep 8: pace 6.22 min/km, HR 164/170, power 298, cadence 168, stride 0.945, GCT 272.2, VO 85.7
+- Rep 9: pace 6.25 min/km, HR 169/175, power 287, cadence 166, stride 0.964, GCT 274.1, VO 87.5
+- Rep 10: pace 6.26 min/km, HR 167/175, power 273, cadence 164, stride 0.966, GCT 276.6, VO 86.7
+- Rep 11: pace 6.23 min/km, HR 172/179, power 288, cadence 164, stride 0.968, GCT 277.0, VO 88.5
+
+### 4. Threshold Interpretation
+- Threshold pace: 6.17970584600173 min/km
+- Threshold HR: 176.0 bpm (Garmin estimate)
+- Threshold power: 290.0 W (Garmin estimate or proxy)
+- Time near threshold: 444.0 s
+- Pace sustainability: -0.037383177570093906%
+
+### 5. VO2/Speed Adaptation Analysis
+- Avg power: 252.0, peak power: 398.0
+- Power consistency CV: 3.4824584460551025%
+- W/kg: 3.391655450874832
+- VO2 conclusion: use trend context only; single-session certainty is low
+
+### 6. Fatigue Analysis
+- Power fade: 5.109489051094895%
+- Cadence collapse: -2.3809523809523836%
+- Form deterioration (vertical oscillation shift): 4.982206405693956%
+
+### 7. Recovery Assessment
+- HR response lag: n/a s
+- HR recovery between reps: 98.1 bpm
+- Cardiac drift: 20.350607287449407 bpm
+- Estimated sweat loss: 1704.0 mL (1.704 L)
+- Environment impact flag: heat_stress_possible
+
+### 8. Training Recommendations
+- Keep one clear objective per workout: threshold durability or VO2 repeatability
+- If pace fade >3% or power fade >3%, reduce next session intensity or volume
+- If HR recovery between reps declines across weeks, extend recovery intervals
+
+### 9. Risks/Warnings
+- Garmin-derived metrics are estimates and should not be treated as direct lab measurements
+- Missing running-dynamics fields lower certainty for neuromuscular conclusions
+
 ## Longitudinal Tracking
 - Latest threshold pace trend: n/a%
 - Latest threshold HR trend: 0.0%
-- Latest threshold power trend: 1.8927444794952786%
-- Latest repeatability trend: 23.984127337925866%
+- Latest threshold power trend: -10.216718266253865%
+- Latest repeatability trend: -23.766928035116376%
 
 ## Suggested Graphs/Charts
 - Threshold pace and threshold HR over time
