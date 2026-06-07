@@ -407,10 +407,10 @@ This report separates direct measurements from Garmin estimates and emphasizes t
 - Garmin-derived metrics are estimates and should not be treated as direct lab measurements
 - Missing running-dynamics fields lower certainty for neuromuscular conclusions
 
-## Workout: 2026-06-06_saturday_threshold.fit (2026-06-06)
+## Workout: 2026-06-06_saturday_interval.fit (2026-06-06)
 
 ### 1. Executive Summary
-- Session type: threshold
+- Session type: interval
 - Total duration: 103.0 min, distance: 14.92 km
 - Primary adaptation signal: Aerobic TE 4.6, Anaerobic TE 0.8
 - Fatigue signal: Pace fade -0.037383177570093906%, HR escalation 19.56411917098447 bpm
