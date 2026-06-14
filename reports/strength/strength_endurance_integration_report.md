@@ -2,7 +2,7 @@
 
 ## Scope
 - Objective: evaluate strength-load stress, recovery cost, fatigue risk, and transfer signals to running
-- Sessions analyzed: 15
+- Sessions analyzed: 16
 
 ## Session: 2026-04-15_strength.fit (2026-04-15)
 
@@ -694,6 +694,52 @@
 ### 7. Recommendations
 - Keep next day run easy and monitor HR response
 
+## Session: 2026-06-14_sunday_strength.fit (2026-06-14)
+
+### 1. Executive Summary
+- Strength load: 116 sets, 562 reps, estimated load 0.0 kg
+- Session stress: recovery cost score 74.0/100, fatigue risk moderate
+- Transfer signal: insufficient_data
+
+### 2. Workout Breakdown
+- Duration: 97.0 min
+- Exercise list: Back Extension with Opposite Arm and Leg Reach, Bench Dip, Body-weight Wall Squat, Child's Pose Stretch, Dead Bug, Hip Raise, Jump Squat, Lying Reverse Plank, Pistol Squat, Plank, Push-up, Reverse Lunge with Reach Back, Romanian Deadlift, Side Plank, Side-lying Leg Raise, Squat, Superman from Floor, Tabletop Dip, Warm-up
+- Sets/Reps: 116/562
+- Rest intervals total: 1338.1 s
+- Total load availability: available
+
+### 3. Physiological Stress Analysis
+- Average HR: 120.0 bpm
+- Max HR: 151.0 bpm
+- HR zones: Z1 41.0%, Z2 50.8%, Z3 8.2%, Z4 0.0%, Z5 0.0%
+- Training Effect: aerobic 2.1, anaerobic 0.7
+- Exercise load field: not recorded
+- Estimated sweat loss: 1487.0 mL (1.487 L)
+
+### 4. Recovery Impact
+- Recovery recommendation field: not available
+- Body Battery field: not available
+- HRV status field: not available
+- Stress field: not available
+- Recovery cost interpretation: moderate recovery demand
+
+### 5. Interaction With Running
+- Before run date: 2026-06-13 05:05:59
+- After run date: n/a
+- Easy score change after vs before: n/a
+- Pace change after vs before (%): n/a
+- HR change after vs before (%): n/a
+- Interaction signal: insufficient_data
+
+### 6. Fatigue Risk
+- Neuromuscular fatigue proxy (HR drift): 6.5 bpm
+- Time in high HR zones (Z4+Z5): 0.0%
+- Elevated HR flag: False
+- Final fatigue risk: moderate
+
+### 7. Recommendations
+- Keep next day run easy and monitor HR response
+
 ## Final Output Tables
 ### Weekly Strength-Load Summary
 - Week 2026-04-13: sessions 2, duration 130.3 min, recovery cost 52.6, sustainability sustainable
@@ -704,18 +750,19 @@
 - Week 2026-05-18: sessions 2, duration 111.7 min, recovery cost 46.05, sustainability sustainable
 - Week 2026-05-25: sessions 2, duration 153.2 min, recovery cost 66.1, sustainability watch_load
 - Week 2026-06-01: sessions 2, duration 157.0 min, recovery cost 61.5, sustainability sustainable
+- Week 2026-06-08: sessions 1, duration 97.0 min, recovery cost 74.0, sustainability watch_load
 
 ### Recovery Interaction Analysis
 - potential_positive_transfer: 5 session(s)
+- insufficient_data: 4 session(s)
 - possible_interference: 4 session(s)
 - neutral_or_inconclusive: 3 session(s)
-- insufficient_data: 3 session(s)
 
 ### Running-Performance Transfer Observations
-- strength_session_count: 15.0 (Total strength sessions analyzed)
-- avg_recovery_cost_score: 58.51 (Lower is easier to absorb into endurance plan)
+- strength_session_count: 16.0 (Total strength sessions analyzed)
+- avg_recovery_cost_score: 59.48 (Lower is easier to absorb into endurance plan)
 - high_fatigue_share_pct: 0.0 (Share of sessions classified as high fatigue risk)
 - interaction_potential_positive_transfer: 5.0 (Count of strength sessions with this running interaction signal)
+- interaction_insufficient_data: 4.0 (Count of strength sessions with this running interaction signal)
 - interaction_possible_interference: 4.0 (Count of strength sessions with this running interaction signal)
 - interaction_neutral_or_inconclusive: 3.0 (Count of strength sessions with this running interaction signal)
-- interaction_insufficient_data: 3.0 (Count of strength sessions with this running interaction signal)
