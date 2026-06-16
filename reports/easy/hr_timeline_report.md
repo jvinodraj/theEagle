@@ -1,10 +1,11 @@
 # Easy Run Endurance Analysis
 
-Overall status: **improving**
+Overall status: **improving_with_fatigue_risk**
 
-- Efficiency Factor (EF, W/bpm — Joe Friel / TrainingPeaks standard): first run 1.536 W/bpm -> last run 1.623 W/bpm (+5.7%). Reference: <1.4 beginner, 1.4–1.8 recreational, 1.8+ trained.
-- Aerobic Decoupling (Garmin / Joe Friel standard — <5% = aerobically fit run): median 6.8%, 3/15 runs below the 5% threshold. This metric is load-independent — valid for comparing 5 km and 10 km easy runs.
-- Latest run score 64.1/100 (EF 65.7, decoupling 54.6, stability 81.0).
+- Efficiency Factor (EF, W/bpm — Joe Friel / TrainingPeaks standard): first run 1.536 W/bpm -> last run 1.602 W/bpm (+4.3%). Reference: <1.4 beginner, 1.4–1.8 recreational, 1.8+ trained.
+- Aerobic Decoupling (Garmin / Joe Friel standard — <5% = aerobically fit run): median 7.0%, 3/16 runs below the 5% threshold. This metric is load-independent — valid for comparing 5 km and 10 km easy runs.
+- Latest run score 46.8/100 (EF 63.8, decoupling 18.1, stability 57.0).
+- Latest week shows fatigue risk: aerobic decoupling 10.2%, score 46.8.
 
 ## Metric Availability
 
@@ -32,6 +33,7 @@ Overall status: **improving**
 | 2026-06-02 | 75min Easy | 10.26 | 7.32 | 152 | 1.607 | 6.4 | 0.7% | 3.3% | 3639.4 | improving |
 | 2026-06-04 | 90min Easy | 12.23 | 7.38 | 146 | 1.657 | 6.8 | -0.8% | 2.6% | 3715.3 | improving |
 | 2026-06-13 | 10K Easy | 10.02 | 7.32 | 148 | 1.623 | 5.7 | 0.8% | -0.3% | 3481.3 | steady |
+| 2026-06-16 | 90min Easy | 12.28 | 7.36 | 150 | 1.602 | 10.2 | -0.5% | -2.1% | 3687.5 | fatigue_risk |
 
 ## Weekly Summary
 
@@ -46,14 +48,15 @@ Overall status: **improving**
 | 21 | 2026-05-28 to 2026-05-28 | 1 | 51.9 | 1.543 | 7.9 | fatigue_risk |
 | 22 | 2026-06-02 to 2026-06-04 | 2 | 62.2 | 1.632 | 6.6 | improving |
 | 23 | 2026-06-13 to 2026-06-13 | 1 | 64.1 | 1.623 | 5.7 | steady |
+| 24 | 2026-06-16 to 2026-06-16 | 1 | 46.8 | 1.602 | 10.2 | fatigue_risk |
 
 ## Overall Observations Worth Tracking
 
-- Steady-state easy pace changed +2.0% from the first comparable run to the latest run.
-- Steady power-per-heartbeat changed +5.7% across the timeline, which is the cleanest aerobic-efficiency signal in this dataset.
-- Aerobic decoupling moved -1.5 percentage points from the opening run to the latest run.
-- 12 runs were recorded at 30 C or hotter; heat is a plausible confounder for drift and HR cost in this sample.
-- 3/15 runs crossed the 8% decoupling line, which is the strongest within-run fatigue signal in these easy sessions.
+- Steady-state easy pace changed +1.5% from the first comparable run to the latest run.
+- Steady power-per-heartbeat changed +4.3% across the timeline, which is the cleanest aerobic-efficiency signal in this dataset.
+- Aerobic decoupling moved +3.0 percentage points from the opening run to the latest run.
+- 13 runs were recorded at 30 C or hotter; heat is a plausible confounder for drift and HR cost in this sample.
+- 4/16 runs crossed the 8% decoupling line, which is the strongest within-run fatigue signal in these easy sessions.
 
 ## Per-Run Summaries
 
@@ -1055,6 +1058,73 @@ Overall status: **improving**
 #### 8. Recommendations
 
 - If the goal is true zone-2 development, reduce pace until more of the run stays inside Garmin zone 2 instead of zone 3-4.
+
+### 2026-06-16 - 90min Easy
+
+#### 1. Executive Summary
+
+- 12.28 km in 90.1 min, average pace 7.33 min/km, steady pace 7.36 min/km.
+- Average HR 147 bpm, steady HR 150 bpm, EF 1.602 W/bpm, aerobic decoupling 10.2%.
+- Reference comparison (2026-06-13): pace -0.5% better/worse depending on sign, EF -1.3%, drift delta 4.6 pts.
+
+#### 2. Key Metrics Table
+
+| Category | Metric | Value | Status |
+| --- | --- | --- | --- |
+| Basic | Duration | 90.1 min | measured |
+| Basic | Distance | 12.28 km | measured |
+| Basic | Average pace | 7.33 min/km | measured |
+| Basic | Moving pace | 7.34 min/km | measured |
+| Basic | Best pace | 5.99 min/km | measured |
+| Basic | Elevation gain/loss | 8.0 m / 11.0 m | measured |
+| Environment | Average / max temperature | 31.0 C / 33.0 C | measured |
+| Heart rate | Average / max HR | 147 / 164 bpm | measured |
+| Heart rate | HR zone distribution | Z1 1.4%, Z2 14.6%, Z3 68.3%, Z4 15.8%, Z5 0.0% | measured |
+| Heart rate | Recovery HR at 120 s | 30.0 bpm | measured |
+| Heart rate | Settled HR at 120 s (post-stop) | 131.0 bpm | measured |
+| Heart rate | Resting HR (profile) | 63.0 bpm | measured |
+| Power | Average / max / normalized power | 242.0 W / 308.0 W / 243.0 W | measured |
+| Power | Power zones | Z1 0.1%, Z2 54.0%, Z3 45.8%, Z4 0.1%, Z5 0.0% | measured |
+| Power | W/kg / stability | 3.29 W/kg / 6.2% CV | measured |
+| Dynamics | Cadence / stride length | 164 spm / 0.828 m | measured |
+| Dynamics | Ground contact / vertical oscillation / vertical ratio | 286.0 ms / 81.7 mm / 9.87% | measured |
+| Aerobic | Training effect / anaerobic TE | 3.3 / 0.0 | measured |
+| Aerobic | Load focus | low_aerobic_estimated | estimated |
+| Recovery | Body Battery / HRV / stress / recovery time | unavailable / unavailable / unavailable / unavailable | unavailable |
+| Recovery | Estimated sweat loss | 1501.0 mL (1.501 L) | measured |
+| Recovery | Sleep profile window | 21:30:00 to 04:30:00 | measured |
+
+#### 3. Physiological Interpretation
+
+- Cardiac drift rose above the ideal easy-run range, suggesting either excessive intensity for the day, heat strain, or incomplete recovery.
+- At roughly the same steady HR as the reference run, pace changed -0.5%, which is direct evidence about aerobic development.
+
+#### 4. Aerobic Efficiency Analysis
+
+- Steady-state EF was 1.602 W/bpm and steady speed per HR was 0.01505 m/s/bpm.
+- Aerobic decoupling was 10.2% and power-HR decoupling was 10.2%.
+- Time spent in Garmin HR zone 2 was 13.1 min; pace inside that zone was 7.30 min/km.
+
+#### 5. Fatigue/Recovery Assessment
+
+- Fatigue resilience score: 0.0/100 with steady HR rise 8.8 bpm. 
+- Rolling 3-run load proxy: 3687.5 kJ mechanical work and 9.7 summed aerobic training effect.
+- Recovery-specific Garmin wellness metrics were not embedded in these FIT files, so under-recovery can only be inferred indirectly from drift, HR cost, and temperature context.
+
+#### 6. Running Economy Notes
+
+- Mechanical energy cost was 106.5 J/m and average running economy was 106.5 W per m/s.
+- Cadence stability was 3.4% CV and pace durability changed 0.8% from early to late thirds.
+
+#### 7. Concerns or Risks
+
+- High aerobic decoupling at 10.2% suggests cardiovascular drift beyond a typical easy-run target.
+- Average temperature was 31.0 C, so heat strain is a realistic contributor to elevated HR and drift.
+
+#### 8. Recommendations
+
+- Slow the first 15-20 minutes or insert brief walk resets so the steady section stays below the decoupling threshold.
+- Treat this run as heat-adjusted data: compare it mainly against other warm runs and prioritize hydration/cooling over pace targets.
 
 ## Suggested Visualization Ideas
 
