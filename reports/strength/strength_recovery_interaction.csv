@@ -14,4 +14,5 @@ date,strength_file,run_before_date,run_after_date,days_to_before_run,days_to_aft
 2026-05-31 10:48:27,2026-05-31_sunday_strength.fit,2026-05-28 05:27:02,2026-06-02 05:25:05,3.0,1.0,9.6,-0.68,-2.63,-1.53,potential_positive_transfer
 2026-06-03 00:01:08,2026-06-03_wednesday_strength.fit,2026-06-02 05:25:05,2026-06-04 05:25:25,0.0,1.0,1.4,0.82,-3.3,0.43,potential_positive_transfer
 2026-06-07 13:20:30,2026-06-07_sunday_strength.fit,2026-06-04 05:25:25,,3.0,,,,,,insufficient_data
-2026-06-14 10:32:40,2026-06-14_sunday_strength.fit,2026-06-13 05:05:59,,1.0,,,,,,insufficient_data
+2026-06-14 10:32:40,2026-06-14_sunday_strength.fit,2026-06-13 05:05:59,2026-06-16 05:23:46,1.0,1.0,-17.3,0.55,1.55,4.56,possible_interference
+2026-06-17 00:04:49,2026-06-17_wednesday_strength.fit,2026-06-16 05:23:46,,0.0,,,,,,insufficient_data
