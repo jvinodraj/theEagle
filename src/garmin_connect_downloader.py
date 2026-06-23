@@ -334,6 +334,88 @@ def download_activity_fit(
     return out_path, True
 
 
+def get_health_snapshot(date: str) -> dict[str, Any]:
+    """
+    Fetch health snapshot for a specific date.
+    
+    Args:
+        date: Date string in YYYY-MM-DD format
+        
+    Returns:
+        Dictionary containing health metrics (body battery, stress, HR, HRV, SpO2, etc.)
+    """
+    client = _require_client()
+    if hasattr(client, "get_health_snapshot"):
+        return client.get_health_snapshot(date)
+
+    snapshot: dict[str, Any] = {}
+
+    # Newer garminconnect versions expose per-domain endpoints instead of
+    # get_health_snapshot; merge what is available into one daily payload.
+    for method_name in (
+        "get_stats_and_body",
+        "get_stats",
+        "get_sleep_data",
+        "get_stress_data",
+        "get_hrv_data",
+        "get_all_day_stress",
+    ):
+        method = getattr(client, method_name, None)
+        if method is None:
+            continue
+        data = method(date)
+        if isinstance(data, dict):
+            snapshot[method_name] = data
+
+    body_battery_method = getattr(client, "get_body_battery", None)
+    if body_battery_method is not None:
+        body_battery_data = body_battery_method(date, date)
+        if body_battery_data:
+            snapshot["get_body_battery"] = body_battery_data
+
+    return snapshot
+
+
+def get_health_snapshots_range(
+    start_date: str,
+    end_date: str,
+) -> list[dict[str, Any]]:
+    """
+    Fetch health snapshots for a date range.
+    
+    The Garmin API works per-date, so this iterates through each day and fetches snapshots.
+    
+    Args:
+        start_date: Start date in YYYY-MM-DD format
+        end_date: End date in YYYY-MM-DD format
+        
+    Returns:
+        List of dictionaries containing daily health metrics
+    """
+    from datetime import datetime, timedelta
+    
+    client = _require_client()
+    current = datetime.strptime(start_date, "%Y-%m-%d")
+    end = datetime.strptime(end_date, "%Y-%m-%d")
+    
+    snapshots = []
+    while current <= end:
+        date_str = current.strftime("%Y-%m-%d")
+        try:
+            if hasattr(client, "get_health_snapshot"):
+                snapshot = client.get_health_snapshot(date_str)
+            else:
+                snapshot = get_health_snapshot(date_str)
+            if snapshot:
+                snapshots.append({"date": date_str, **snapshot})
+        except Exception as exc:
+            # Log warning but continue fetching remaining dates
+            print(f"Warning: Could not fetch snapshot for {date_str}: {exc}")
+        current += timedelta(days=1)
+    
+    return snapshots
+
+
 def download_recent_fits(
     *,
     category: str,
