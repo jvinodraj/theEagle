@@ -73,6 +73,29 @@ def _session_type_from_name(name: str) -> str:
     return "high_intensity_running"
 
 
+def _infer_session_type(fit_file: Path, workout_summary: dict[str, Any]) -> str:
+    """Infer a more specific workout label from the file name and workout summary."""
+    explicit = _session_type_from_name(fit_file.name)
+    if explicit != "interval":
+        return explicit
+
+    anaerobic_te = _safe_float(workout_summary.get("anaerobic_training_effect"))
+    mean_interval_duration_s = _safe_float(workout_summary.get("interval_duration_mean_s"))
+    power_fade_pct = _safe_float(workout_summary.get("power_fade_pct"))
+
+    # Long, steady repeats with little anaerobic contribution are usually threshold work,
+    # even when the source file name is generic or misclassified.
+    if (
+        mean_interval_duration_s is not None
+        and mean_interval_duration_s >= 340.0
+        and (anaerobic_te is None or anaerobic_te <= 0.1)
+        and (power_fade_pct is None or abs(power_fade_pct) <= 5.0)
+    ):
+        return "threshold"
+
+    return explicit
+
+
 def _get_col(df: pd.DataFrame, candidates: list[str]) -> pd.Series:
     for col in candidates:
         if col in df.columns:
@@ -280,7 +303,6 @@ def _build_interval_rows(parser: FitParser, fit_file: Path) -> tuple[pd.DataFram
                 {
                     "file": fit_file.name,
                     "date": session_ts,
-                    "session_type": _session_type_from_name(fit_file.name),
                     "interval_index": idx,
                     "interval_duration_s": _safe_float(lap.get("total_timer_time") or lap.get("total_elapsed_time")),
                     "recovery_duration_s": _safe_float(rec_laps.get("total_timer_time", pd.Series(dtype=float)).mean()) if not rec_laps.empty else np.nan,
@@ -355,7 +377,6 @@ def _build_interval_rows(parser: FitParser, fit_file: Path) -> tuple[pd.DataFram
     workout_summary = {
         "file": fit_file.name,
         "date": session_ts,
-        "session_type": _session_type_from_name(fit_file.name),
         "warmup_duration_min": warmup_min,
         "interval_count": int(len(interval_df)),
         "interval_duration_mean_s": float(interval_df["interval_duration_s"].mean()) if not interval_df.empty else np.nan,
@@ -392,6 +413,11 @@ def _build_interval_rows(parser: FitParser, fit_file: Path) -> tuple[pd.DataFram
         "environment_flag": _compute_environment_flags(session_row),
         "garmin_estimated_fields": "threshold_hr_bpm, threshold_power_w, training_effect, anaerobic_training_effect, recovery_recommendation_h, vo2max_estimate",
     }
+
+    session_type = _infer_session_type(fit_file, workout_summary)
+    workout_summary["session_type"] = session_type
+    if not interval_df.empty:
+        interval_df["session_type"] = session_type
 
     return interval_df, workout_summary
 
