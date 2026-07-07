@@ -2,7 +2,7 @@
 
 ## Scope
 - Objective: evaluate strength-load stress, recovery cost, fatigue risk, and transfer signals to running
-- Sessions analyzed: 21
+- Sessions analyzed: 22
 
 ## Session: 2026-04-15_strength.fit (2026-04-15)
 
@@ -929,7 +929,7 @@
 ### 1. Executive Summary
 - Strength load: 116 sets, 583 reps, estimated load 0.0 kg
 - Session stress: recovery cost score 63.4/100, fatigue risk moderate
-- Transfer signal: insufficient_data
+- Transfer signal: possible_interference
 
 ### 2. Workout Breakdown
 - Duration: 98.6 min
@@ -955,6 +955,52 @@
 
 ### 5. Interaction With Running
 - Before run date: 2026-06-30 05:18:09
+- After run date: 2026-07-04 05:08:15
+- Easy score change after vs before: -9.9
+- Pace change after vs before (%): -1.22
+- HR change after vs before (%): 1.65
+- Interaction signal: possible_interference
+
+### 6. Fatigue Risk
+- Neuromuscular fatigue proxy (HR drift): 3.6 bpm
+- Time in high HR zones (Z4+Z5): 0.0%
+- Elevated HR flag: False
+- Final fatigue risk: moderate
+
+### 7. Recommendations
+- Keep next day run easy and monitor HR response; Move heavy strength farther from quality run day and reassess
+
+## Session: 2026-07-06_monday_strength.fit (2026-07-06)
+
+### 1. Executive Summary
+- Strength load: 115 sets, 443 reps, estimated load 0.0 kg
+- Session stress: recovery cost score 57.5/100, fatigue risk moderate
+- Transfer signal: insufficient_data
+
+### 2. Workout Breakdown
+- Duration: 97.7 min
+- Exercise list: Back Extension with Opposite Arm and Leg Reach, Bench Dip, Body-weight Wall Squat, Child's Pose Stretch, Dead Bug, Hip Raise, Jump Squat, Lying Reverse Plank, Pistol Squat, Plank, Push-up, Reverse Lunge with Reach Back, Romanian Deadlift, Side Plank, Side-lying Leg Raise, Squat, Superman from Floor, Tabletop Dip, Warm-up
+- Sets/Reps: 115/443
+- Rest intervals total: 1528.3 s
+- Total load availability: available
+
+### 3. Physiological Stress Analysis
+- Average HR: 89.0 bpm
+- Max HR: 140.0 bpm
+- HR zones: Z1 96.5%, Z2 3.2%, Z3 0.2%, Z4 0.0%, Z5 0.0%
+- Training Effect: aerobic 0.3, anaerobic 0.0
+- Exercise load field: not recorded
+- Estimated sweat loss: 903.0 mL (0.903 L)
+
+### 4. Recovery Impact
+- Recovery recommendation field: not available
+- Body Battery field: not available
+- HRV status field: not available
+- Stress field: not available
+- Recovery cost interpretation: moderate recovery demand
+
+### 5. Interaction With Running
+- Before run date: 2026-07-04 05:08:15
 - After run date: n/a
 - Easy score change after vs before: n/a
 - Pace change after vs before (%): n/a
@@ -962,7 +1008,7 @@
 - Interaction signal: insufficient_data
 
 ### 6. Fatigue Risk
-- Neuromuscular fatigue proxy (HR drift): 3.6 bpm
+- Neuromuscular fatigue proxy (HR drift): 1.7 bpm
 - Time in high HR zones (Z4+Z5): 0.0%
 - Elevated HR flag: False
 - Final fatigue risk: moderate
@@ -984,18 +1030,19 @@
 - Week 2026-06-15: sessions 2, duration 180.6 min, recovery cost 61.1, sustainability sustainable
 - Week 2026-06-22: sessions 2, duration 156.4 min, recovery cost 59.9, sustainability sustainable
 - Week 2026-06-29: sessions 1, duration 98.6 min, recovery cost 63.4, sustainability sustainable
+- Week 2026-07-06: sessions 1, duration 97.7 min, recovery cost 57.5, sustainability sustainable
 
 ### Recovery Interaction Analysis
 - insufficient_data: 8 session(s)
-- possible_interference: 5 session(s)
+- possible_interference: 6 session(s)
 - potential_positive_transfer: 5 session(s)
 - neutral_or_inconclusive: 3 session(s)
 
 ### Running-Performance Transfer Observations
-- strength_session_count: 21.0 (Total strength sessions analyzed)
-- avg_recovery_cost_score: 59.86 (Lower is easier to absorb into endurance plan)
+- strength_session_count: 22.0 (Total strength sessions analyzed)
+- avg_recovery_cost_score: 59.75 (Lower is easier to absorb into endurance plan)
 - high_fatigue_share_pct: 0.0 (Share of sessions classified as high fatigue risk)
 - interaction_insufficient_data: 8.0 (Count of strength sessions with this running interaction signal)
-- interaction_possible_interference: 5.0 (Count of strength sessions with this running interaction signal)
+- interaction_possible_interference: 6.0 (Count of strength sessions with this running interaction signal)
 - interaction_potential_positive_transfer: 5.0 (Count of strength sessions with this running interaction signal)
 - interaction_neutral_or_inconclusive: 3.0 (Count of strength sessions with this running interaction signal)
