@@ -1,8 +1,8 @@
 observation,value,note
-strength_session_count,23.0,Total strength sessions analyzed
-avg_recovery_cost_score,59.98,Lower is easier to absorb into endurance plan
+strength_session_count,24.0,Total strength sessions analyzed
+avg_recovery_cost_score,60.32,Lower is easier to absorb into endurance plan
 high_fatigue_share_pct,0.0,Share of sessions classified as high fatigue risk
-interaction_insufficient_data,8.0,Count of strength sessions with this running interaction signal
+interaction_insufficient_data,9.0,Count of strength sessions with this running interaction signal
 interaction_possible_interference,6.0,Count of strength sessions with this running interaction signal
 interaction_potential_positive_transfer,6.0,Count of strength sessions with this running interaction signal
 interaction_neutral_or_inconclusive,3.0,Count of strength sessions with this running interaction signal

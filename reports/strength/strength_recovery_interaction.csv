@@ -22,3 +22,4 @@ date,strength_file,run_before_date,run_after_date,days_to_before_run,days_to_aft
 2026-07-01 01:10:21,2026-07-01_wednesday_strength.fit,2026-06-30 05:18:09,2026-07-04 05:08:15,0.0,3.0,-9.9,-1.22,1.65,1.83,possible_interference
 2026-07-06 01:04:58,2026-07-06_monday_strength.fit,2026-07-04 05:08:15,2026-07-07 05:20:59,1.0,1.0,9.3,0.55,-1.62,-1.97,potential_positive_transfer
 2026-07-07 23:55:17,2026-07-08_wednesday_strength.fit,2026-07-07 05:20:59,,0.0,,,,,,insufficient_data
+2026-07-12 10:28:34,2026-07-12_sunday_strength.fit,,2026-07-14 05:22:22,,1.0,,,,,insufficient_data
