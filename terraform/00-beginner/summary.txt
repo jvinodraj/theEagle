@@ -1,0 +1,3 @@
+Name    : Vinod
+Message : Hello, Vinod!
+File    : ./greeting.txt

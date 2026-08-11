@@ -1,0 +1,12 @@
+# Example only. Do not commit real backend credentials.
+# Rename to backend.tf and fill values for your platform.
+
+terraform {
+  backend "s3" {
+    bucket         = "your-terraform-state-bucket"
+    key            = "theEagle/terraform/advanced.tfstate"
+    region         = "ap-southeast-1"
+    dynamodb_table = "terraform-locks"
+    encrypt        = true
+  }
+}

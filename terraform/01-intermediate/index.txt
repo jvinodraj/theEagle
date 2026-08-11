@@ -1,0 +1,4 @@
+generated files:
+- drift: ./drift.txt
+- plan: ./plan.txt
+- state: ./state.txt
